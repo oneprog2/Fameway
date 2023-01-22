@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "splash": {
+      "image": "./src/assets/images/splash.png",
+      "backgroundColor": "#222222",
+      "resizeMode": "contain"
+    },
+    "scheme": "fameway",
+    "userInterfaceStyle": "automatic",
+    "android": {
+      "userInterfaceStyle": "automatic"
+    }
+  }
+}

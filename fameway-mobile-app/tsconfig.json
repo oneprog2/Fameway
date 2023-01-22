@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react-native",
+    "lib": ["DOM", "ESNext"],
+    "types": ["react-native", "jest"],
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "noEmit": true,
+    "strict": true,
+    "target": "ESNext",
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components": ["src/components/index"],
+      "@constants": ["src/constants/index"],
+      "@screens": ["src/screens/index"],
+      "@assets": ["src/assets"],
+      "@utils": ["src/utils/index"],
+      "@hooks": ["src/hooks/index"],
+      "@themes": ["src/themes/index"],
+      "@styles": ["src/styles/index"],
+      "@navigation": ["src/navigation/index"]
+    }
+  },
+  "extends": "expo/tsconfig.base",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "src/utils/snippets/NewComponentSnippet",
+    "tailwind.config.js"
+  ],
+  "exclude": ["node_modules", "jest.config.js"]
+}
