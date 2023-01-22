@@ -1,0 +1,2 @@
+(this["webpackJsonpfameway-admin"]=this["webpackJsonpfameway-admin"]||[]).push([[14],{291:function(a,e,n){"use strict";n.r(e);n(0);var t=n(6),s=n(7);e.default=function(){return Object(s.jsx)(s.Fragment,{children:Object(s.jsx)(t.b,{})})}}}]);
+//# sourceMappingURL=14.2fb28d07.chunk.js.map
