@@ -81,7 +81,7 @@ const CoverCard = ({ username, description }) => (
           sm={12}
           xs={12}
           sx={{
-            zIndex: 2000,
+            zIndex: 200,
             order: {
               xs: "1",
               sm: "1",
