@@ -1,7 +1,26 @@
 import React from "react";
-import { Grid, Box, Card, CardContent, Typography } from "@mui/material";
+import { Grid, Box, Card, CardContent, Typography, Link } from "@mui/material";
 import profilecover from "../../assets/images/users/user.png";
 import imageIcon from "../../assets/images/logos/Icons.png";
+import FeatherIcon from "feather-icons-react";
+
+const EditButton = ({ onClick, size }) => (
+  <Link
+    onClick={onClick}
+    sx={{
+      cursor: "pointer",
+      backgroundColor: "#ffce00",
+      height: size === "small" ? 20 : 25,
+      width: size === "small" ? 20 : 25,
+      borderRadius: "6px",
+      alignItems: "center",
+      justifyContent: "center",
+      display: "flex",
+    }}
+  >
+    <FeatherIcon size={size === "small" ? 12 : 18} icon={"edit-2"} />
+  </Link>
+);
 
 const CoverCard = ({ username, description }) => (
   <div
@@ -16,6 +35,7 @@ const CoverCard = ({ username, description }) => (
         backgroundColor: "#D5D1FF",
         alignItems: "center",
         justifyContent: "center",
+        position: "relative",
       }}
     >
       <Box
@@ -31,6 +51,19 @@ const CoverCard = ({ username, description }) => (
           backgroundImage: `url(${imageIcon})`,
         }}
       ></Box>
+
+      <Box
+        style={{
+          position: "absolute",
+          bottom: 15,
+          right: 20,
+          alignItems: "center",
+          justifyContent: "center",
+          alignSelf: "center",
+        }}
+      >
+        <EditButton></EditButton>
+      </Box>
     </Card>
 
     <CardContent
@@ -41,12 +74,14 @@ const CoverCard = ({ username, description }) => (
     >
       <Grid container spacing={0}>
         {/* about profile */}
+
         <Grid
           item
           lg={4}
           sm={12}
           xs={12}
           sx={{
+            zIndex: 2000,
             order: {
               xs: "1",
               sm: "1",
@@ -74,8 +109,22 @@ const CoverCard = ({ username, description }) => (
                   height: "162px",
                   backgroundColor: "#fff",
                   border: "3px solid #fff",
+                  position: "relative",
                 }}
-              />
+              >
+                <Box
+                  style={{
+                    position: "absolute",
+                    bottom: 10,
+                    right: 10,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    alignSelf: "center",
+                  }}
+                >
+                  <EditButton></EditButton>
+                </Box>
+              </Box>
             </Box>
             <Box
               sx={{
@@ -84,27 +133,54 @@ const CoverCard = ({ username, description }) => (
                 display: "block",
               }}
             >
-              <Typography
-                fontWeight="800"
+              <Box
                 sx={{
-                  textAlign: "start",
-                  fontWeight: "900",
-                  fontSize: 30,
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                {username}
-              </Typography>
-              <Typography
-                color="textSecondary"
-                variant="h5"
-                fontWeight="400"
+                <Typography
+                  fontWeight="800"
+                  sx={{
+                    textAlign: "start",
+                    fontWeight: "900",
+                    fontSize: 30,
+                  }}
+                >
+                  {username}
+                </Typography>
+                <Box
+                  sx={{
+                    marginLeft: "10px",
+                  }}
+                >
+                  <EditButton size={"small"}></EditButton>
+                </Box>
+              </Box>
+
+              <Box
                 sx={{
-                  marginLeft: "1px",
-                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                {description}
-              </Typography>
+                <Typography
+                  fontWeight="300"
+                  variant="subtitle2"
+                  sx={{
+                    textAlign: "start",
+                  }}
+                >
+                  {description}
+                </Typography>
+                <Box
+                  sx={{
+                    marginLeft: "10px",
+                  }}
+                >
+                  <EditButton size={"small"}></EditButton>
+                </Box>
+              </Box>
             </Box>
           </Box>
         </Grid>
