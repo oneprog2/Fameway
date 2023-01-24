@@ -23,6 +23,7 @@ import ProfileDropdown from "./ProfileDropdown";
 import CustomTextField from "../../../components/forms/custom-elements/CustomTextField";
 import userimg from "../../../assets/images/users/user2.jpg";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useGetUser } from "../../../atoms/userAtom";
 
 const Header = ({ sx, customClass, toggleSidebar, toggleMobileSidebar }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -71,6 +72,7 @@ const Header = ({ sx, customClass, toggleSidebar, toggleMobileSidebar }) => {
   };
 
   const { user, isLoading, logout } = useAuth0();
+  const currentUser = useGetUser();
 
   return (
     <AppBar sx={sx} elevation={0} className={customClass}>
@@ -321,7 +323,7 @@ const Header = ({ sx, customClass, toggleSidebar, toggleMobileSidebar }) => {
                   ml: 1,
                 }}
               >
-                {user?.username}
+                {currentUser?.username}
               </Typography>
               <FeatherIcon icon="chevron-down" width="20" height="20" />
             </Box>

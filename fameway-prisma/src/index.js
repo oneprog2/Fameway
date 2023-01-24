@@ -21,6 +21,24 @@ const resolvers = {
       return prisma.user.findMany();
     },
   },
+  Mutation: {
+    insertUserAndCreateStore: (parent, args, context, info) => {
+      const { id, email, username } = args;
+      return prisma.user.create({
+        data: {
+          id: id,
+          email: email,
+          username: username,
+          store: {
+            create: {
+              id: id,
+              name: username,
+            },
+          },
+        },
+      });
+    },
+  },
 };
 
 const server = new ApolloServer({

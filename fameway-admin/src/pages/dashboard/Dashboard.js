@@ -1,25 +1,25 @@
 import React, { useEffect } from "react";
-import {
-  Grid,
-  Button,
-  Box,
-  Card,
-  CardContent,
-  Typography,
-} from "@mui/material";
-import FeatherIcon from "feather-icons-react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import Breadcrumb from "../../layouts/full-layout/breadcrumb/Breadcrumb";
 import PageContainer from "../../components/container/PageContainer";
-import { STORES } from "../../api/queries";
+import { CURRENT_USER } from "../../api/queries";
 import { useQuery } from "@apollo/client";
+import { useGetUser, useSetUser } from "../../atoms/userAtom";
 
 const Dashboard1 = () => {
   const { user } = useAuth0();
-  const { data, error } = useQuery(STORES);
-  console.log(error);
-  console.log(data);
+  const { data, error } = useQuery(CURRENT_USER, {
+    variables: { email: user?.email },
+  });
+  const setUser = useSetUser();
+  const currentUser = useGetUser();
+
+  useEffect(() => {
+    if (data?.user?.[0]?.username) {
+      setUser({ username: data?.user?.[0].username });
+    }
+  }, [data, setUser]);
 
   return (
     <PageContainer
@@ -27,7 +27,7 @@ const Dashboard1 = () => {
       description="Main informations"
     >
       <Breadcrumb
-        title={`Hello ${user?.username}`}
+        title={`Hello ${currentUser?.username}`}
         subtitle={`C'est le come back !`}
       ></Breadcrumb>
     </PageContainer>

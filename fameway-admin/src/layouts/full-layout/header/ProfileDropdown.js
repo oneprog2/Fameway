@@ -11,9 +11,10 @@ import FeatherIcon from "feather-icons-react";
 
 import userimg from "../../../assets/images/users/user2.jpg";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useGetUser } from "../../../atoms/userAtom";
 
 const ProfileDropdown = () => {
-  const { user, isLoading, logout } = useAuth0();
+  const currentUser = useGetUser();
 
   return (
     <Box>
@@ -40,12 +41,12 @@ const ProfileDropdown = () => {
             }}
           >
             <Typography
-              variant="h4"
+              variant="h3"
               sx={{
                 lineHeight: "1.235",
               }}
             >
-              {user?.name}
+              {currentUser?.username}
             </Typography>
             <Typography color="textSecondary" variant="h6" fontWeight="400">
               Créateur
