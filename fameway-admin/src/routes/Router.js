@@ -43,7 +43,7 @@ const Router = [
   },
   {
     path: "/setup",
-    element: <BlankLayout />,
+    element: <FullLayout hideSidebar={true} />,
     children: [{ path: "store", element: <FirstOpening /> }],
   },
 ];

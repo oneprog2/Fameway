@@ -26,7 +26,13 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useGetUser, userAtom } from "../../../atoms/Atoms";
 import { useAtom } from "jotai";
 
-const Header = ({ sx, customClass, toggleSidebar, toggleMobileSidebar }) => {
+const Header = ({
+  sx,
+  customClass,
+  toggleSidebar,
+  toggleMobileSidebar,
+  hideSidebar,
+}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -78,49 +84,56 @@ const Header = ({ sx, customClass, toggleSidebar, toggleMobileSidebar }) => {
   return (
     <AppBar sx={sx} elevation={0} className={customClass}>
       <Toolbar>
-        <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          onClick={toggleSidebar}
-          size="large"
-          sx={{
-            display: {
-              lg: "flex",
-              xs: "none",
-            },
-          }}
-        >
-          <FeatherIcon icon="menu" />
-        </IconButton>
+        {hideSidebar ? null : (
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleSidebar}
+            size="large"
+            sx={{
+              display: {
+                lg: "flex",
+                xs: "none",
+              },
+            }}
+          >
+            <FeatherIcon icon="menu" />
+          </IconButton>
+        )}
 
-        <IconButton
-          size="large"
-          color="inherit"
-          aria-label="menu"
-          onClick={toggleMobileSidebar}
-          sx={{
-            display: {
-              lg: "none",
-              xs: "flex",
-            },
-          }}
-        >
-          <FeatherIcon icon="menu" width="20" height="20" />
-        </IconButton>
+        {hideSidebar ? null : (
+          <IconButton
+            size="large"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleMobileSidebar}
+            sx={{
+              display: {
+                lg: "none",
+                xs: "flex",
+              },
+            }}
+          >
+            <FeatherIcon icon="menu" width="20" height="20" />
+          </IconButton>
+        )}
+
         {/* ------------------------------------------- */}
         {/* Search Dropdown */}
         {/* ------------------------------------------- */}
-        <IconButton
-          aria-label="show 4 new mails"
-          color="inherit"
-          aria-controls="search-menu"
-          aria-haspopup="true"
-          onClick={() => setShowDrawer2(true)}
-          size="large"
-        >
-          <FeatherIcon icon="search" width="20" height="20" />
-        </IconButton>
+        {hideSidebar ? null : (
+          <IconButton
+            aria-label="show 4 new mails"
+            color="inherit"
+            aria-controls="search-menu"
+            aria-haspopup="true"
+            onClick={() => setShowDrawer2(true)}
+            size="large"
+          >
+            <FeatherIcon icon="search" width="20" height="20" />
+          </IconButton>
+        )}
         <Drawer
           anchor="top"
           open={showDrawer2}
@@ -357,7 +370,7 @@ const Header = ({ sx, customClass, toggleSidebar, toggleMobileSidebar }) => {
             variant="contained"
             color="primary"
           >
-            Logout
+            Deconnexion
           </Button>
         </Menu>
       </Toolbar>
