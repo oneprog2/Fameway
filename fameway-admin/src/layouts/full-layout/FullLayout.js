@@ -42,7 +42,12 @@ const FullLayout = ({ hideSidebar = false }) => {
     <MainWrapper className={customizer.activeMode === "dark" ? "darkbg" : ""}>
       <Header
         sx={{
-          paddingLeft: isSidebarOpen && lgUp ? "265px" : "",
+          paddingLeft:
+            isSidebarOpen && lgUp && !hideSidebar
+              ? "265px"
+              : hideSidebar
+              ? "20px"
+              : "",
           backgroundColor:
             customizer.activeMode === "dark" ? "#20232a" : "#fafbfb",
         }}

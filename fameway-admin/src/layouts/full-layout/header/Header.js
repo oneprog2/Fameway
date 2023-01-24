@@ -25,6 +25,7 @@ import userimg from "../../../assets/images/users/user2.jpg";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useGetUser, userAtom } from "../../../atoms/Atoms";
 import { useAtom } from "jotai";
+import LogoIcon from "../logo/LogoIcon";
 
 const Header = ({
   sx,
@@ -101,6 +102,14 @@ const Header = ({
             <FeatherIcon icon="menu" />
           </IconButton>
         )}
+        <Box
+          sx={{
+            alignSelf: "flex-start",
+            width: "200px",
+          }}
+        >
+          <LogoIcon />
+        </Box>
 
         {hideSidebar ? null : (
           <IconButton

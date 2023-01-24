@@ -1,29 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
   Card,
   CardContent,
   Grid,
+  Link,
   Rating,
   Typography,
 } from "@mui/material";
 import Breadcrumb from "../../layouts/full-layout/breadcrumb/Breadcrumb";
 import PageContainer from "../../components/container/PageContainer";
 import CoverCard from "../../components/profile/CoverCard";
-import IntroCard from "../../components/profile/IntroCard";
-import PhotosCard from "../../components/profile/PhotosCard";
-import NewPost from "../../components/profile/NewPost";
-import ImgPost from "../../components/profile/ImgPost";
-import TypographyPost from "../../components/profile/TypographyPost";
 import { userAtom } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
+
+const CategoryButton = ({ title, active, onClick }) => (
+  <Link
+    onClick={onClick}
+    sx={{
+      cursor: "pointer",
+      borderRadius: "0",
+      textTransform: "capitalize",
+      fontWeight: active ? "700" : "500",
+      fontSize: "14px",
+      color: "#000",
+      paddingBottom: "10px",
+      borderBottom: active ? "2px solid #000" : "none",
+      textDecoration: "none",
+      backgroundColor: "transparent",
+      "&:hover": {
+        backgroundColor: "transparent",
+      },
+    }}
+  >
+    <Typography variant="h5">{title}</Typography>
+  </Link>
+);
 
 const UserProfile = () => {
   const [currentUser] = useAtom(userAtom);
   const [storeName, setStoreName] = React.useState(
-    currentUser?.username || "@nom"
+    currentUser?.username ? `@${currentUser?.username}` : "@Nom"
   );
+  const [category, setCategory] = useState("Tout");
+
   const [storeDescription, setStoreDescription] = React.useState(
     "Ecrire une description"
   );
@@ -93,55 +114,82 @@ const UserProfile = () => {
         ></Breadcrumb>
         <Button label={"Valider les modifications"}></Button>
         <CoverCard username={storeName} description={storeDescription} />
-      </Grid>
 
-      <Grid
-        sx={{
-          margin: "auto",
-          marginTop: 20,
-        }}
-        container
-        lg={10}
-      >
-        {Shopitems.map((product) => (
-          <Grid
-            item
-            xs={12}
-            lg={3}
-            sm={4}
-            display="flex"
-            alignItems="stretch"
-            key={product.title}
+        <Grid
+          sx={{
+            margin: 5,
+            width: "100%",
+          }}
+          container
+          lg={10}
+        >
+          <CategoryButton
+            onClick={() => setCategory("Tout")}
+            title="Tout"
+            active={category === "Tout" ? true : false}
+          />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              marginLeft: 4,
+            }}
           >
-            <Card sx={{ p: 0, width: "100%" }}>
-              <Box
-                sx={{
-                  backgroundColor: "red",
-                  height: "200px",
-                  width: "100%",
-                }}
-              ></Box>
-              {/* <img src={product.photo} alt="img" width="100%" /> */}
-              <CardContent sx={{ p: 3 }}>
-                <Typography variant="caption">{product.category}</Typography>
-                <Typography variant="h5">{product.title}</Typography>
-                <Box display="flex" alignItems="center" sx={{ mt: "15px" }}>
-                  <Typography variant="h5" sx={{ mr: "auto" }}>
-                    {product.price}
-                  </Typography>
-                  <Rating
-                    size="small"
-                    name={product.rname}
-                    value={3}
-                    onChange={(event, newValue) => {
-                      // setValue(newValue);
-                    }}
-                  />
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
+            <CategoryButton
+              onClick={() => setCategory("Articles virtuels")}
+              title="Articles virtuels"
+              active={category === "Articles virtuels" ? true : false}
+            />
+          </Box>
+        </Grid>
+
+        <Grid
+          sx={{
+            width: "100%",
+          }}
+          container
+          lg={10}
+        >
+          {Shopitems.map((product) => (
+            <Grid
+              item
+              xs={12}
+              lg={3}
+              sm={4}
+              display="flex"
+              alignItems="stretch"
+              key={product.title}
+            >
+              <Card sx={{ p: 0, width: "100%" }}>
+                <Box
+                  sx={{
+                    backgroundColor: "red",
+                    height: "200px",
+                    width: "100%",
+                  }}
+                ></Box>
+                {/* <img src={product.photo} alt="img" width="100%" /> */}
+                <CardContent sx={{ p: 3 }}>
+                  <Typography variant="caption">{product.category}</Typography>
+                  <Typography variant="h5">{product.title}</Typography>
+                  <Box display="flex" alignItems="center" sx={{ mt: "15px" }}>
+                    <Typography variant="h5" sx={{ mr: "auto" }}>
+                      {product.price}
+                    </Typography>
+                    <Rating
+                      size="small"
+                      name={product.rname}
+                      value={3}
+                      onChange={(event, newValue) => {
+                        // setValue(newValue);
+                      }}
+                    />
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       </Grid>
     </PageContainer>
   );

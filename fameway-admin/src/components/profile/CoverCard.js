@@ -1,29 +1,37 @@
 import React from "react";
-import {
-  Grid,
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  Avatar,
-} from "@mui/material";
-import FeatherIcon from "feather-icons-react";
-import profilecover from "../../assets/images/backgrounds/profilebg.jpg";
-import userimg from "../../assets/images/users/user2.jpg";
+import { Grid, Box, Card, CardContent, Typography } from "@mui/material";
+import profilecover from "../../assets/images/users/user.png";
+import imageIcon from "../../assets/images/logos/Icons.png";
 
 const CoverCard = ({ username, description }) => (
-  <Card
+  <div
     sx={{
       padding: "0",
       marginTop: 5,
     }}
   >
-    <img
-      srcSet={`${profilecover} 1x, ${profilecover} 2x`}
-      alt={profilecover}
-      width="100%"
-    />
+    <Card
+      sx={{
+        height: "200px",
+        backgroundColor: "#D5D1FF",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Box
+        sx={{
+          height: "100%",
+          display: "flex",
+          alignContent: "center",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundPosition: "center",
+          backgroundSize: "100px",
+          backgroundRepeat: "no-repeat",
+          backgroundImage: `url(${imageIcon})`,
+        }}
+      ></Box>
+    </Card>
 
     <CardContent
       sx={{
@@ -52,21 +60,20 @@ const CoverCard = ({ username, description }) => (
             justifyContent="flex-start"
             sx={{
               mt: "-90px",
+              ml: "20px",
             }}
           >
             <Box>
               <Box
                 sx={{
-                  backgroundColor: "#C2F0FF",
-                  borderRadius: "50%",
+                  borderRadius: "100%",
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                  backgroundImage: `url(${profilecover})`,
                   width: "162px",
                   height: "162px",
-                  border: (theme) =>
-                    `${
-                      theme.palette.mode === "dark"
-                        ? "4px solid #3c414c"
-                        : "4px solid #fff"
-                    }`,
+                  backgroundColor: "#fff",
+                  border: "3px solid #fff",
                 }}
               />
             </Box>
@@ -89,9 +96,10 @@ const CoverCard = ({ username, description }) => (
               </Typography>
               <Typography
                 color="textSecondary"
-                variant="h6"
+                variant="h5"
                 fontWeight="400"
                 sx={{
+                  marginLeft: "1px",
                   textAlign: "center",
                 }}
               >
@@ -102,7 +110,7 @@ const CoverCard = ({ username, description }) => (
         </Grid>
       </Grid>
     </CardContent>
-  </Card>
+  </div>
 );
 
 export default CoverCard;
