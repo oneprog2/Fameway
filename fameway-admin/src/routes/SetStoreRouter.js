@@ -17,19 +17,17 @@ const BlankLayout = Loadable(
 
 const Error = Loadable(lazy(() => import("../pages/authentication/Error")));
 
+/* ****Pages***** */
 const Dashboard = Loadable(lazy(() => import("../pages/dashboard/Dashboard")));
+/* ****Routes***** */
 
-const FirstOpening = Loadable(
-  lazy(() => import("../pages/firstOpening/DefaultStore"))
-);
-
-const Router = [
+const SetStoreRouter = [
   {
     path: "/",
     element: <FullLayout />,
     children: [
-      { path: "/", element: <Navigate to="/dashboard/starter" /> },
-      { path: "/dashboard/starter", exact: true, element: <Dashboard /> },
+      { path: "/", element: <Navigate to="/dashboards/starter" /> },
+      { path: "/dashboards/starter", exact: true, element: <Dashboard /> },
       { path: "*", element: <Navigate to="/auth/404" /> },
     ],
   },
@@ -41,11 +39,6 @@ const Router = [
       { path: "*", element: <Navigate to="/auth/404" /> },
     ],
   },
-  {
-    path: "/setup",
-    element: <BlankLayout />,
-    children: [{ path: "store", element: <FirstOpening /> }],
-  },
 ];
 
-export default Router;
+export default SetStoreRouter;

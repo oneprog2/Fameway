@@ -277,8 +277,6 @@ const Header = ({ sx, customClass, toggleSidebar, toggleMobileSidebar }) => {
             </Link>
           </Button>
         </Menu>
-        {console.log(user)}
-
         <Button
           aria-label="menu"
           color="inherit"

@@ -25,23 +25,44 @@ const App = () => {
     variables: { email: user?.email },
   });
   const [currentUser, setCurrentUser] = useAtom(userAtom);
-
+  console.log(error);
   useEffect(() => {
     if (!isAuthenticated && !isLoading) {
       loginWithRedirect();
-    } else if (isAuthenticated && !isLoading && data?.user) {
-      setCurrentUser({ username: data?.user?.[0].username });
-      setNotReady(false);
-    }
+    } else if (
+      isAuthenticated &&
+      !isLoading &&
+      data?.user &&
+      currentUser === null
+    ) {
+      const userData = data?.user[0];
+      setCurrentUser({
+        username: userData.username,
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        firstOpening: userData.firstOpening,
+      });
+    } else setNotReady(false);
   }, [
+    setCurrentUser,
     data?.user,
     isAuthenticated,
     isLoading,
     loginWithRedirect,
-    setCurrentUser,
+    currentUser,
   ]);
-  if (notReady) return <div>Chargement ...</div>;
+  console.log(currentUser);
 
+  useEffect(() => {
+    if (
+      currentUser?.firstOpening &&
+      window.location.pathname !== "/setup/store"
+    ) {
+      window.location.href = "/setup/store";
+    }
+  }, [currentUser]);
+
+  if (notReady) return <div>Chargement ...</div>;
   return (
     <ThemeProvider theme={theme}>
       <RTL direction={customizer.activeDir}>
