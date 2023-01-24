@@ -51,9 +51,9 @@ const UserProfile = () => {
 
   const Shopitems = [
     {
-      title: "B Natural Mixed Fruit",
+      title: "Rencontre en visio - 30 Min",
       category: "Ice-cream shop",
-      price: "$50",
+      price: "50 €",
       colors: [
         (theme) => theme.palette.secondary.main,
         (theme) => theme.palette.primary.main,
@@ -65,7 +65,7 @@ const UserProfile = () => {
     {
       title: "Mix Strawberry Candy",
       category: "Ice-cream shop",
-      price: "$25",
+      price: "25 €",
       colors: [
         (theme) => theme.palette.success.main,
         (theme) => theme.palette.secondary.main,
@@ -77,7 +77,7 @@ const UserProfile = () => {
     {
       title: "Wafer cones",
       category: "Ice-cream shop",
-      price: "$15",
+      price: "15 €",
       colors: [
         (theme) => theme.palette.primary.main,
         (theme) => theme.palette.secondary.main,
@@ -89,7 +89,7 @@ const UserProfile = () => {
     {
       title: "Wireless Headphones",
       category: "Boat Headphones",
-      price: "$300",
+      price: "30 €",
       colors: [
         (theme) => theme.palette.error.main,
         (theme) => theme.palette.warning.main,
@@ -157,36 +157,62 @@ const UserProfile = () => {
               lg={3}
               sm={4}
               display="flex"
+              sx={{ flexDirection: "column", px: 1 }}
               alignItems="stretch"
               key={product.title}
             >
-              <Card sx={{ p: 0, width: "100%" }}>
+              <Box
+                sx={{
+                  p: 0,
+                  m: 0,
+                  mb: 1,
+                  width: "100%",
+                }}
+              >
                 <Box
                   sx={{
-                    backgroundColor: "red",
-                    height: "200px",
+                    borderRadius: "6px",
+                    backgroundColor: "#F5F5F5",
+                    height: "280px",
                     width: "100%",
                   }}
-                ></Box>
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight={700}
+                    sx={{
+                      pt: "13px",
+                      pl: "17px",
+                    }}
+                  >
+                    Suggestion
+                  </Typography>
+                </Box>
                 {/* <img src={product.photo} alt="img" width="100%" /> */}
-                <CardContent sx={{ p: 3 }}>
-                  <Typography variant="caption">{product.category}</Typography>
-                  <Typography variant="h5">{product.title}</Typography>
-                  <Box display="flex" alignItems="center" sx={{ mt: "15px" }}>
-                    <Typography variant="h5" sx={{ mr: "auto" }}>
-                      {product.price}
-                    </Typography>
-                    <Rating
-                      size="small"
-                      name={product.rname}
-                      value={3}
-                      onChange={(event, newValue) => {
-                        // setValue(newValue);
-                      }}
-                    />
-                  </Box>
-                </CardContent>
-              </Card>
+              </Box>
+              <CardContent sx={{ px: 1, pt: 0, w: "100%" }}>
+                <Typography textAlign={"center"} fontWeight={700} variant="h5">
+                  {product.title}
+                </Typography>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  sx={{
+                    justifyContent: "center",
+                    mt: "10px",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      color: "#717171",
+                    }}
+                    textAlign={"center"}
+                  >
+                    {product.price}
+                  </Typography>
+                </Box>
+              </CardContent>
             </Grid>
           ))}
         </Grid>
