@@ -107,11 +107,55 @@ const UserProfile = () => {
           margin: "auto",
         }}
       >
-        <Breadcrumb
-          title={`Ici, tu peux commencer à personnaliser ta boutique.`}
-          subtitle={`Bienvenue ${currentUser?.username} !`}
-        ></Breadcrumb>
-        <Button label={"Valider les modifications"}></Button>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: {
+              xs: "column",
+              sm: "column",
+              md: "column",
+              lg: "row",
+            },
+            alignItems: {
+              xs: "start",
+              sm: "start",
+              md: "start",
+              lg: "center",
+            },
+            mx: "15px",
+            mb: {
+              xs: "15px",
+              sm: "15px",
+              md: "15px",
+            },
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              pl: 1,
+            }}
+          >
+            <Breadcrumb
+              title={`Ici, tu peux commencer à personnaliser ta boutique.`}
+              subtitle={`Bienvenue ${currentUser?.username} !`}
+            ></Breadcrumb>
+          </Box>
+
+          <Button
+            color="primary"
+            variant="contained"
+            sx={{
+              height: "40px",
+              width: "300px",
+              fontWeight: "700",
+              borderRadius: "100px",
+            }}
+          >
+            Valider les modifications
+          </Button>
+        </Box>
+
         <CoverCard username={storeName} description={storeDescription} />
 
         <Grid
