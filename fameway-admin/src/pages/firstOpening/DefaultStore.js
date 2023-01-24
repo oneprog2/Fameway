@@ -87,9 +87,8 @@ const UserProfile = () => {
       star: [1, 2, 3, 4, 5],
     },
     {
-      title: "Wireless Headphones",
-      category: "Boat Headphones",
-      price: "30 €",
+      title: "Ajouter un produit",
+      price: "prix",
       colors: [
         (theme) => theme.palette.error.main,
         (theme) => theme.palette.warning.main,
@@ -147,8 +146,8 @@ const UserProfile = () => {
           sx={{
             width: "100%",
           }}
+          lg={12}
           container
-          lg={10}
         >
           {Shopitems.map((product) => (
             <Grid
@@ -158,7 +157,6 @@ const UserProfile = () => {
               sm={4}
               display="flex"
               sx={{ flexDirection: "column", px: 1 }}
-              alignItems="stretch"
               key={product.title}
             >
               <Box
