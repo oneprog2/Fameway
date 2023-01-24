@@ -8,6 +8,10 @@ import Router from "./routes/Router";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
+import { useQuery } from "@apollo/client";
+import { CURRENT_USER } from "./api/queries";
+import { userAtom } from "./atoms/Atoms";
+import { useAtom } from "jotai";
 
 const App = () => {
   const routing = useRoutes(Router);
@@ -16,14 +20,26 @@ const App = () => {
   const { isLoading, loginWithRedirect, isAuthenticated } = useAuth0();
   const [notReady, setNotReady] = useState(true);
 
+  const { user } = useAuth0();
+  const { data, error } = useQuery(CURRENT_USER, {
+    variables: { email: user?.email },
+  });
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
+
   useEffect(() => {
     if (!isAuthenticated && !isLoading) {
       loginWithRedirect();
-    } else if (isAuthenticated && !isLoading) {
+    } else if (isAuthenticated && !isLoading && data?.user) {
+      setCurrentUser({ username: data?.user?.[0].username });
       setNotReady(false);
     }
-  }, [isAuthenticated, isLoading, loginWithRedirect]);
-
+  }, [
+    data?.user,
+    isAuthenticated,
+    isLoading,
+    loginWithRedirect,
+    setCurrentUser,
+  ]);
   if (notReady) return <div>Chargement ...</div>;
 
   return (

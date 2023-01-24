@@ -1,20 +1,11 @@
 import React from "react";
-import {
-  Box,
-  MenuItem,
-  Typography,
-  Avatar,
-  Button,
-  Divider,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import FeatherIcon from "feather-icons-react";
-
-import userimg from "../../../assets/images/users/user2.jpg";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useGetUser } from "../../../atoms/userAtom";
+import { userAtom } from "../../../atoms/Atoms";
+import { useAtom } from "jotai";
 
 const ProfileDropdown = () => {
-  const currentUser = useGetUser();
+  const [currentUser] = useAtom(userAtom);
 
   return (
     <Box>

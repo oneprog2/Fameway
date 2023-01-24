@@ -3,23 +3,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import Breadcrumb from "../../layouts/full-layout/breadcrumb/Breadcrumb";
 import PageContainer from "../../components/container/PageContainer";
-import { CURRENT_USER } from "../../api/queries";
-import { useQuery } from "@apollo/client";
-import { useGetUser, useSetUser } from "../../atoms/userAtom";
+import { userAtom } from "../../atoms/Atoms";
+import { useAtom } from "jotai";
 
 const Dashboard1 = () => {
-  const { user } = useAuth0();
-  const { data, error } = useQuery(CURRENT_USER, {
-    variables: { email: user?.email },
-  });
-  const setUser = useSetUser();
-  const currentUser = useGetUser();
-
-  useEffect(() => {
-    if (data?.user?.[0]?.username) {
-      setUser({ username: data?.user?.[0].username });
-    }
-  }, [data, setUser]);
+  const [currentUser] = useAtom(userAtom);
 
   return (
     <PageContainer
