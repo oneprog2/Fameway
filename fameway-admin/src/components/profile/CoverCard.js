@@ -1,8 +1,18 @@
 import React from "react";
-import { Grid, Box, Card, CardContent, Typography, Link } from "@mui/material";
+import {
+  Grid,
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  Link,
+  Input,
+} from "@mui/material";
 import profilecover from "../../assets/images/users/user.png";
 import imageIcon from "../../assets/images/logos/Icons.png";
 import FeatherIcon from "feather-icons-react";
+import CustomTextField from "../forms/custom-elements/CustomTextField";
+import CustomTextEmpty from "../forms/custom-elements/CustomTextEmpty";
 
 const EditButton = ({ onClick, size }) => (
   <Link
@@ -23,8 +33,10 @@ const EditButton = ({ onClick, size }) => (
 );
 
 const CoverCard = ({
-  username,
-  description,
+  storeName,
+  setStoreName,
+  storeDescription,
+  setStoreDescription,
   bannerFile,
   setBannerFile,
   profileFile,
@@ -67,7 +79,8 @@ const CoverCard = ({
         <Card
           sx={{
             cursor: "pointer",
-            height: "200px",
+            zIndex: 200,
+            height: "300px",
             backgroundColor: previewBanner ? "transparent" : "#D5D1FF",
             alignItems: "center",
             justifyContent: "center",
@@ -125,8 +138,6 @@ const CoverCard = ({
         }}
       >
         <Grid container spacing={0}>
-          {/* about profile */}
-
           <Grid
             item
             lg={4}
@@ -146,11 +157,14 @@ const CoverCard = ({
               alignItems="flex-start"
               justifyContent="flex-start"
               sx={{
-                mt: "-90px",
                 ml: "20px",
               }}
             >
-              <Box>
+              <Box
+                sx={{
+                  mt: "-90px",
+                }}
+              >
                 <label onChange={handleProfileInput} htmlFor="profile">
                   <input name="profile" type="file" id="profile" hidden />
                   <Box
@@ -199,8 +213,8 @@ const CoverCard = ({
 
               <Box
                 sx={{
-                  mt: "70px",
                   ml: "20px",
+                  mt: "-20px",
                   display: "block",
                 }}
               >
@@ -210,22 +224,37 @@ const CoverCard = ({
                     alignItems: "center",
                   }}
                 >
-                  <Typography
-                    fontWeight="800"
-                    sx={{
-                      textAlign: "start",
-                      fontWeight: "900",
-                      fontSize: 30,
+                  <CustomTextEmpty
+                    id="storeName"
+                    value={storeName}
+                    onChange={(e) => setStoreName(e.target.value)}
+                    placeholder="@Nom"
+                    fontSize={30}
+                    inputProps={{
+                      style: {
+                        minWidth: 100,
+                        height: 40,
+                        fontSize: 30,
+                        width: storeName.length * 15 + 50,
+                        fontWeight: "900",
+                        textAlign: "start",
+                        margin: 0,
+                        padding: 0,
+                      },
                     }}
-                  >
-                    {username}
-                  </Typography>
+                  ></CustomTextEmpty>
+
                   <Box
                     sx={{
                       marginLeft: "10px",
                     }}
                   >
-                    <EditButton size={"small"}></EditButton>
+                    <EditButton
+                      onClick={() =>
+                        document.getElementById("storeName").focus()
+                      }
+                      size={"small"}
+                    ></EditButton>
                   </Box>
                 </Box>
 
@@ -235,21 +264,36 @@ const CoverCard = ({
                     alignItems: "center",
                   }}
                 >
-                  <Typography
-                    fontWeight="300"
-                    variant="subtitle2"
-                    sx={{
-                      textAlign: "start",
+                  <CustomTextEmpty
+                    id="description"
+                    value={storeDescription}
+                    onChange={(e) => setStoreDescription(e.target.value)}
+                    placeholder="Ecrivez une description"
+                    inputProps={{
+                      style: {
+                        fontSize: 14,
+                        fontWeight: "300",
+                        marginTop: 0,
+                        textAlign: "start",
+                        minWidth: "160px",
+                        width: storeDescription.length * 7,
+                        height: 30,
+                        padding: 0,
+                        marginLeft: 2,
+                      },
                     }}
-                  >
-                    {description}
-                  </Typography>
+                  ></CustomTextEmpty>
                   <Box
                     sx={{
                       marginLeft: "10px",
                     }}
                   >
-                    <EditButton size={"small"}></EditButton>
+                    <EditButton
+                      onClick={() =>
+                        document.getElementById("description").focus()
+                      }
+                      size={"small"}
+                    ></EditButton>
                   </Box>
                 </Box>
               </Box>

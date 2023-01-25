@@ -45,9 +45,7 @@ const UserProfile = () => {
   const [bannerFile, setBannerFile] = useState(null);
   const [profileFile, setProfileFile] = useState(null);
 
-  const [storeDescription, setStoreDescription] = React.useState(
-    "Ecrire une description"
-  );
+  const [storeDescription, setStoreDescription] = React.useState("");
 
   const Shopitems = [
     {
@@ -157,8 +155,10 @@ const UserProfile = () => {
         </Box>
 
         <CoverCard
-          username={storeName}
-          description={storeDescription}
+          storeName={storeName}
+          setStoreName={setStoreName}
+          storeDescription={storeDescription}
+          setStoreDescription={setStoreDescription}
           bannerFile={bannerFile}
           setBannerFile={setBannerFile}
           profileFile={profileFile}
@@ -265,6 +265,30 @@ const UserProfile = () => {
             </Grid>
           ))}
         </Grid>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "end",
+          }}
+        >
+          <Button
+            color="primary"
+            variant="contained"
+            sx={{
+              alignSelf: "self-end",
+              marginTop: 10,
+              marginBottom: 10,
+              height: "40px",
+              width: "300px",
+              fontWeight: "700",
+              borderRadius: "100px",
+            }}
+          >
+            Valider les modifications
+          </Button>
+        </Box>
       </Grid>
     </PageContainer>
   );
