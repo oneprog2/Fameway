@@ -14,6 +14,7 @@ import PageContainer from "../../components/container/PageContainer";
 import CoverCard from "../../components/profile/CoverCard";
 import { userAtom } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
+import UploadImageToS3WithReactS3 from "../../components/aws/UploadImageToS3WithReactS3";
 
 const CategoryButton = ({ title, active, onClick }) => (
   <Link
@@ -107,6 +108,7 @@ const UserProfile = () => {
           margin: "auto",
         }}
       >
+        <UploadImageToS3WithReactS3 />
         <Box
           sx={{
             display: "flex",
