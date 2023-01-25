@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { uploadFile } from "react-s3";
 
-const S3_BUCKET = process.env.AWS_S3_BUCKET_NAME;
-const REGION = process.env.AWS_REGION;
-const ACCESS_KEY = process.env.AWS_ACCESS_KEY;
-const SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
+const S3_BUCKET = "fameway-prod";
+const REGION = "eu-west-3";
+const ACCESS_KEY = "AKIA5MPU77XRUQIB3SP4";
+const SECRET_ACCESS_KEY = "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";
 
 const config = {
   bucketName: S3_BUCKET,
@@ -13,26 +13,8 @@ const config = {
   secretAccessKey: SECRET_ACCESS_KEY,
 };
 
-const UploadImageToS3WithReactS3 = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
-
-  const handleFileInput = (e) => {
-    setSelectedFile(e.target.files[0]);
-  };
-
-  const handleUpload = async (file) => {
-    uploadFile(file, config)
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err));
-  };
-
-  return (
-    <div>
-      <div>React S3 File Upload</div>
-      <input type="file" onChange={handleFileInput} />
-      <button onClick={() => handleUpload(selectedFile)}> Upload to S3</button>
-    </div>
-  );
+export const handleUpload = async (file) => {
+  uploadFile(file, config)
+    .then((data) => console.log(data))
+    .catch((err) => console.error(err));
 };
-
-export default UploadImageToS3WithReactS3;

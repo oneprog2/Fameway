@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import {
   Box,
   Button,
-  Card,
   CardContent,
   Grid,
   Link,
-  Rating,
   Typography,
 } from "@mui/material";
 import Breadcrumb from "../../layouts/full-layout/breadcrumb/Breadcrumb";
@@ -14,7 +12,6 @@ import PageContainer from "../../components/container/PageContainer";
 import CoverCard from "../../components/profile/CoverCard";
 import { userAtom } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
-import UploadImageToS3WithReactS3 from "../../components/aws/UploadImageToS3WithReactS3";
 
 const CategoryButton = ({ title, active, onClick }) => (
   <Link
@@ -45,6 +42,8 @@ const UserProfile = () => {
     currentUser?.username ? `@${currentUser?.username}` : "@Nom"
   );
   const [category, setCategory] = useState("Tout");
+  const [bannerFile, setBannerFile] = useState(null);
+  const [profileFile, setProfileFile] = useState(null);
 
   const [storeDescription, setStoreDescription] = React.useState(
     "Ecrire une description"
@@ -108,7 +107,6 @@ const UserProfile = () => {
           margin: "auto",
         }}
       >
-        <UploadImageToS3WithReactS3 />
         <Box
           sx={{
             display: "flex",
@@ -158,7 +156,14 @@ const UserProfile = () => {
           </Button>
         </Box>
 
-        <CoverCard username={storeName} description={storeDescription} />
+        <CoverCard
+          username={storeName}
+          description={storeDescription}
+          bannerFile={bannerFile}
+          setBannerFile={setBannerFile}
+          profileFile={profileFile}
+          setProfileFile={setProfileFile}
+        />
 
         <Grid
           sx={{

@@ -22,171 +22,242 @@ const EditButton = ({ onClick, size }) => (
   </Link>
 );
 
-const CoverCard = ({ username, description }) => (
-  <div
-    sx={{
-      padding: "0",
-      marginTop: 5,
-    }}
-  >
-    <Card
+const CoverCard = ({
+  username,
+  description,
+  bannerFile,
+  setBannerFile,
+  profileFile,
+  setProfileFile,
+}) => {
+  const [previewProfile, setPreviewProfile] = React.useState(profileFile);
+  const [previewBanner, setPreviewBanner] = React.useState(bannerFile);
+
+  const handleBannerInput = (e) => {
+    var file = e.target.files[0];
+    setBannerFile(file);
+    var reader = new FileReader();
+    var url = reader.readAsDataURL(file);
+
+    reader.onloadend = function (e) {
+      setPreviewBanner(reader.result);
+    };
+  };
+
+  const handleProfileInput = (e) => {
+    var file = e.target.files[0];
+    setProfileFile(file);
+    var reader = new FileReader();
+    var url = reader.readAsDataURL(file);
+
+    reader.onloadend = function (e) {
+      setPreviewProfile(reader.result);
+    };
+  };
+
+  return (
+    <div
       sx={{
-        height: "200px",
-        backgroundColor: "#D5D1FF",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative",
+        padding: "0",
+        marginTop: 5,
       }}
     >
-      <Box
-        sx={{
-          height: "100%",
-          display: "flex",
-          alignContent: "center",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundPosition: "center",
-          backgroundSize: "100px",
-          backgroundRepeat: "no-repeat",
-          backgroundImage: `url(${imageIcon})`,
-        }}
-      ></Box>
-
-      <Box
-        style={{
-          position: "absolute",
-          bottom: 15,
-          right: 20,
-          alignItems: "center",
-          justifyContent: "center",
-          alignSelf: "center",
-        }}
-      >
-        <EditButton></EditButton>
-      </Box>
-    </Card>
-
-    <CardContent
-      sx={{
-        pt: "24px",
-        pb: "28px",
-      }}
-    >
-      <Grid container spacing={0}>
-        {/* about profile */}
-
-        <Grid
-          item
-          lg={4}
-          sm={12}
-          xs={12}
+      <label onChange={handleBannerInput} htmlFor="formId">
+        <input name="" type="file" id="formId" hidden />
+        <Card
           sx={{
-            zIndex: 200,
-            order: {
-              xs: "1",
-              sm: "1",
-              lg: "2",
-            },
+            cursor: "pointer",
+            height: "200px",
+            backgroundColor: previewBanner ? "transparent" : "#D5D1FF",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            padding: 0,
+            margin: 0,
           }}
         >
           <Box
-            display="flex"
-            alignItems="flex-start"
-            justifyContent="flex-start"
             sx={{
-              mt: "-90px",
-              ml: "20px",
+              height: "100%",
+              alignContent: "center",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundPosition: "center",
+              backgroundSize: previewBanner ? 0 : "100px",
+              backgroundRepeat: "no-repeat",
+              backgroundImage: `url(${imageIcon})`,
+              margin: 0,
+              padding: 0,
             }}
           >
-            <Box>
-              <Box
-                sx={{
-                  borderRadius: "100%",
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                  backgroundImage: `url(${profilecover})`,
-                  width: "162px",
-                  height: "162px",
-                  backgroundColor: "#fff",
-                  border: "3px solid #fff",
-                  position: "relative",
+            {previewBanner ? (
+              <img
+                alt="banner"
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  objectFit: "cover",
                 }}
-              >
-                <Box
-                  style={{
-                    position: "absolute",
-                    bottom: 10,
-                    right: 10,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    alignSelf: "center",
-                  }}
-                >
-                  <EditButton></EditButton>
-                </Box>
-              </Box>
-            </Box>
+                src={previewBanner ? previewBanner : `url(${imageIcon})`}
+              />
+            ) : null}
+          </Box>
+
+          <Box
+            style={{
+              position: "absolute",
+              bottom: 15,
+              right: 20,
+              alignItems: "center",
+              justifyContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <EditButton></EditButton>
+          </Box>
+        </Card>
+      </label>
+
+      <CardContent
+        sx={{
+          pt: "24px",
+          pb: "28px",
+        }}
+      >
+        <Grid container spacing={0}>
+          {/* about profile */}
+
+          <Grid
+            item
+            lg={4}
+            sm={12}
+            xs={12}
+            sx={{
+              zIndex: 200,
+              order: {
+                xs: "1",
+                sm: "1",
+                lg: "2",
+              },
+            }}
+          >
             <Box
+              display="flex"
+              alignItems="flex-start"
+              justifyContent="flex-start"
               sx={{
-                mt: "70px",
+                mt: "-90px",
                 ml: "20px",
-                display: "block",
               }}
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <Typography
-                  fontWeight="800"
-                  sx={{
-                    textAlign: "start",
-                    fontWeight: "900",
-                    fontSize: 30,
-                  }}
-                >
-                  {username}
-                </Typography>
-                <Box
-                  sx={{
-                    marginLeft: "10px",
-                  }}
-                >
-                  <EditButton size={"small"}></EditButton>
-                </Box>
+              <Box>
+                <label onChange={handleProfileInput} htmlFor="profile">
+                  <input name="profile" type="file" id="profile" hidden />
+                  <Box
+                    sx={{
+                      cursor: "pointer",
+                      borderRadius: "100%",
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                      backgroundImage: previewProfile
+                        ? null
+                        : `url(${profilecover})`,
+                      backgroundColor: previewProfile ? "#222222" : "#FFF",
+                      width: "162px",
+                      height: "162px",
+                      border: "3px solid #fff",
+                      position: "relative",
+                    }}
+                  >
+                    {previewProfile ? (
+                      <img
+                        alt="profile"
+                        style={{
+                          height: "100%",
+                          width: "100%",
+                          objectFit: "cover",
+                          borderRadius: "100%",
+                        }}
+                        src={previewProfile}
+                      />
+                    ) : null}
+                    <Box
+                      style={{
+                        position: "absolute",
+                        bottom: 10,
+                        right: 10,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        alignSelf: "center",
+                      }}
+                    >
+                      <EditButton></EditButton>
+                    </Box>
+                  </Box>
+                </label>
               </Box>
 
               <Box
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
+                  mt: "70px",
+                  ml: "20px",
+                  display: "block",
                 }}
               >
-                <Typography
-                  fontWeight="300"
-                  variant="subtitle2"
-                  sx={{
-                    textAlign: "start",
-                  }}
-                >
-                  {description}
-                </Typography>
                 <Box
                   sx={{
-                    marginLeft: "10px",
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
-                  <EditButton size={"small"}></EditButton>
+                  <Typography
+                    fontWeight="800"
+                    sx={{
+                      textAlign: "start",
+                      fontWeight: "900",
+                      fontSize: 30,
+                    }}
+                  >
+                    {username}
+                  </Typography>
+                  <Box
+                    sx={{
+                      marginLeft: "10px",
+                    }}
+                  >
+                    <EditButton size={"small"}></EditButton>
+                  </Box>
+                </Box>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    fontWeight="300"
+                    variant="subtitle2"
+                    sx={{
+                      textAlign: "start",
+                    }}
+                  >
+                    {description}
+                  </Typography>
+                  <Box
+                    sx={{
+                      marginLeft: "10px",
+                    }}
+                  >
+                    <EditButton size={"small"}></EditButton>
+                  </Box>
                 </Box>
               </Box>
             </Box>
-          </Box>
+          </Grid>
         </Grid>
-      </Grid>
-    </CardContent>
-  </div>
-);
-
+      </CardContent>
+    </div>
+  );
+};
 export default CoverCard;
