@@ -18,7 +18,7 @@ export const handleUpload = async (file, dirname) => {
     ...config,
     dirName: dirname,
   };
-  uploadFile(file, config)
+  return uploadFile(file, config)
     .then((data) => data)
     .catch((err) => console.error(err));
 };

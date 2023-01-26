@@ -80,15 +80,33 @@ const UserProfile = () => {
 
   const handleStoreUpdate = async () => {
     setMutationLoading(true);
-    if (profileFile) await handleUpload(profileFile, currentUser?.username);
-    if (bannerFile) await handleUpload(bannerFile, currentUser?.username);
+    let profileUrl;
+    let bannerUrl;
+
+    if (profileFile)
+      await handleUpload(profileFile, currentUser?.username)
+        .then((res) => {
+          profileUrl = res?.location;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    if (bannerFile)
+      await handleUpload(bannerFile, currentUser?.username)
+        .then((res) => {
+          bannerUrl = res?.location;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
     await updateStore({
       variables: {
         storeID: currentUser?.storeID,
         status: "draft",
         name: storeName,
-        bannerPicture: bannerFile?.name,
-        profilePicture: profileFile?.name,
+        bannerPicture: bannerUrl,
+        profilePicture: profileUrl,
         description: storeDescription,
       },
     });
