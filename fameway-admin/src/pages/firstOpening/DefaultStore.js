@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -7,11 +7,14 @@ import {
   Link,
   Typography,
 } from "@mui/material";
+import FeatherIcon from "feather-icons-react";
 import Breadcrumb from "../../layouts/full-layout/breadcrumb/Breadcrumb";
 import PageContainer from "../../components/container/PageContainer";
 import CoverCard from "../../components/profile/CoverCard";
 import { userAtom } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
+import { useQuery } from "@apollo/client";
+import { STORE_DATA } from "../../api/queries";
 
 const CategoryButton = ({ title, active, onClick }) => (
   <Link
@@ -38,64 +41,34 @@ const CategoryButton = ({ title, active, onClick }) => (
 
 const UserProfile = () => {
   const [currentUser] = useAtom(userAtom);
-  const [storeName, setStoreName] = React.useState(
-    currentUser?.username ? `@${currentUser?.username}` : "@Nom"
-  );
+  const [storeName, setStoreName] = React.useState(`@${currentUser?.username}`);
   const [category, setCategory] = useState("Tout");
   const [bannerFile, setBannerFile] = useState(null);
   const [profileFile, setProfileFile] = useState(null);
 
   const [storeDescription, setStoreDescription] = React.useState("");
 
-  const Shopitems = [
-    {
-      title: "Rencontre en visio - 30 Min",
-      category: "Ice-cream shop",
-      price: "50 €",
-      colors: [
-        (theme) => theme.palette.secondary.main,
-        (theme) => theme.palette.primary.main,
-      ],
-      photo: null,
-      id: 5,
-      star: [1, 2, 3, 4, 5],
-    },
-    {
-      title: "Mix Strawberry Candy",
-      category: "Ice-cream shop",
-      price: "25 €",
-      colors: [
-        (theme) => theme.palette.success.main,
-        (theme) => theme.palette.secondary.main,
-      ],
-      photo: null,
-      id: 6,
-      star: [1, 2, 3, 4, 5],
-    },
-    {
-      title: "Wafer cones",
-      category: "Ice-cream shop",
-      price: "15 €",
-      colors: [
-        (theme) => theme.palette.primary.main,
-        (theme) => theme.palette.secondary.main,
-      ],
-      photo: null,
-      id: 7,
-      star: [1, 2, 3, 4, 5],
-    },
-    {
-      title: "Ajouter un produit",
-      price: "prix",
-      colors: [
-        (theme) => theme.palette.error.main,
-        (theme) => theme.palette.warning.main,
-      ],
-      photo: null,
-      id: 8,
-      star: [1, 2, 3, 4, 5],
-    },
-  ];
+  useEffect(() => {
+    if (currentUser?.username) {
+      setStoreName(`@${currentUser?.username}`);
+    }
+  }, [currentUser]);
+
+  const { data, error, loading } = useQuery(STORE_DATA, {
+    variables: { storeID: currentUser?.storeID },
+  });
+  const articles = data?.store_by_pk?.articles;
+  const Shopitems = articles?.map((article) => {
+    return {
+      title: article.name,
+      category: article.category,
+      price: article.price,
+      photo: article.articlePictures?.[0],
+      id: article.id,
+    };
+  });
+
+  if (loading) return <div>Chargement ...</div>;
 
   return (
     <PageContainer title="User Profile" description="this is User Profile page">
@@ -200,7 +173,7 @@ const UserProfile = () => {
           lg={12}
           container
         >
-          {Shopitems.map((product) => (
+          {Shopitems?.map((product) => (
             <Grid
               item
               xs={12}
@@ -222,7 +195,7 @@ const UserProfile = () => {
                   sx={{
                     borderRadius: "6px",
                     backgroundColor: "#F5F5F5",
-                    height: "280px",
+                    height: "320px",
                     width: "100%",
                   }}
                 >
@@ -230,14 +203,24 @@ const UserProfile = () => {
                     variant="h6"
                     fontWeight={700}
                     sx={{
+                      position: "absolute",
                       pt: "13px",
                       pl: "17px",
                     }}
                   >
                     Suggestion
                   </Typography>
+                  <img
+                    src={product.photo}
+                    srtl
+                    alt="img"
+                    height="100%"
+                    width="100%"
+                    style={{
+                      objectFit: "contain",
+                    }}
+                  />
                 </Box>
-                {/* <img src={product.photo} alt="img" width="100%" /> */}
               </Box>
               <CardContent sx={{ px: 1, pt: 0, w: "100%" }}>
                 <Typography textAlign={"center"} fontWeight={700} variant="h5">
@@ -264,6 +247,74 @@ const UserProfile = () => {
               </CardContent>
             </Grid>
           ))}
+          <Grid
+            item
+            xs={12}
+            lg={3}
+            sm={4}
+            display="flex"
+            sx={{ flexDirection: "column", px: 1 }}
+          >
+            <Box
+              sx={{
+                p: 0,
+                m: 0,
+                mb: 1,
+                width: "100%",
+              }}
+            >
+              <Box
+                sx={{
+                  borderRadius: "6px",
+                  backgroundColor: "#F5F5F5",
+                  height: "320px",
+                  width: "100%",
+                  alignContent: "center",
+                  justifyContent: "center",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Box
+                  sx={{
+                    backgroundColor: "#ffce00",
+                    borderRadius: "100px",
+                    width: "50px",
+                    height: "50px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <FeatherIcon icon="plus" width="25" height="25" />
+                </Box>
+              </Box>
+              {/* <img src={product.photo} alt="img" width="100%" /> */}
+            </Box>
+            <CardContent sx={{ px: 1, pt: 0, w: "100%" }}>
+              <Typography textAlign={"center"} fontWeight={700} variant="h5">
+                Ajouter un produit
+              </Typography>
+              <Box
+                display="flex"
+                alignItems="center"
+                sx={{
+                  justifyContent: "center",
+                  mt: "10px",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: "#717171",
+                  }}
+                  textAlign={"center"}
+                >
+                  Prix
+                </Typography>
+              </Box>
+            </CardContent>
+          </Grid>
         </Grid>
 
         <Box

@@ -25,44 +25,46 @@ const App = () => {
     variables: { email: user?.email },
   });
   const [currentUser, setCurrentUser] = useAtom(userAtom);
-  console.log(error);
-  // useEffect(() => {
-  //   if (!isAuthenticated && !isLoading) {
-  //     loginWithRedirect();
-  //   } else if (
-  //     isAuthenticated &&
-  //     !isLoading &&
-  //     data?.user &&
-  //     currentUser === null
-  //   ) {
-  //     const userData = data?.user[0];
-  //     setCurrentUser({
-  //       username: userData.username,
-  //       firstname: userData.firstname,
-  //       lastname: userData.lastname,
-  //       firstOpening: userData.firstOpening,
-  //     });
-  //   } else setNotReady(false);
-  // }, [
-  //   setCurrentUser,
-  //   data?.user,
-  //   isAuthenticated,
-  //   isLoading,
-  //   loginWithRedirect,
-  //   currentUser,
-  // ]);
-  console.log(currentUser);
 
   useEffect(() => {
-    if (
-      currentUser?.firstOpening &&
-      window.location.pathname !== "/setup/store"
+    if (!isAuthenticated && !isLoading) {
+      loginWithRedirect();
+    } else if (
+      isAuthenticated &&
+      !isLoading &&
+      data?.user &&
+      currentUser === null
     ) {
-      window.location.href = "/setup/store";
-    }
-  }, [currentUser]);
+      const userData = data?.user[0];
 
-  // if (notReady) return <div>Chargement ...</div>;
+      setCurrentUser({
+        username: userData.username,
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        firstOpening: userData.firstOpening,
+        storeID: userData.stores?.[0].id,
+      });
+    } else {
+      if (
+        currentUser?.firstOpening &&
+        window.location.pathname !== "/setup/store"
+      ) {
+        window.location.href = "/setup/store";
+      } else setNotReady(false);
+    }
+  }, [
+    setCurrentUser,
+    data?.user,
+    isAuthenticated,
+    isLoading,
+    loginWithRedirect,
+    currentUser,
+    data,
+  ]);
+
+  useEffect(() => {}, [currentUser]);
+
+  if (notReady) return <div>Chargement ...</div>;
   return (
     <ThemeProvider theme={theme}>
       <RTL direction={customizer.activeDir}>

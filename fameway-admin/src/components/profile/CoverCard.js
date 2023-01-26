@@ -235,7 +235,7 @@ const CoverCard = ({
                         minWidth: 100,
                         height: 40,
                         fontSize: 30,
-                        width: storeName.length * 15 + 50,
+                        width: storeName.length * 14 + 50,
                         fontWeight: "900",
                         textAlign: "start",
                         margin: 0,
