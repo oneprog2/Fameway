@@ -13,8 +13,11 @@ import PageContainer from "../../components/container/PageContainer";
 import CoverCard from "../../components/profile/CoverCard";
 import { userAtom } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { STORE_DATA } from "../../api/queries";
+import { handleUpload } from "../../components/aws/UploadToS3";
+import { UPDATE_STORE, UPDATE_USER } from "../../api/mutations";
+import Spinner from "../spinner/Spinner";
 
 const CategoryButton = ({ title, active, onClick }) => (
   <Link
@@ -47,6 +50,7 @@ const UserProfile = () => {
   const [profileFile, setProfileFile] = useState(null);
 
   const [storeDescription, setStoreDescription] = React.useState("");
+  const [mutationLoading, setMutationLoading] = React.useState(false);
 
   useEffect(() => {
     if (currentUser?.username) {
@@ -57,6 +61,10 @@ const UserProfile = () => {
   const { data, error, loading } = useQuery(STORE_DATA, {
     variables: { storeID: currentUser?.storeID },
   });
+
+  const [updateStore, { storeError }] = useMutation(UPDATE_STORE);
+  const [updateUser, { userError }] = useMutation(UPDATE_USER);
+
   const articles = data?.store_by_pk?.articles;
   const Shopitems = articles?.map((article) => {
     return {
@@ -69,6 +77,32 @@ const UserProfile = () => {
   });
 
   if (loading) return <div>Chargement ...</div>;
+
+  const handleStoreUpdate = async () => {
+    setMutationLoading(true);
+    if (profileFile) await handleUpload(profileFile, currentUser?.username);
+    if (bannerFile) await handleUpload(bannerFile, currentUser?.username);
+    await updateStore({
+      variables: {
+        storeID: currentUser?.storeID,
+        status: "draft",
+        name: storeName,
+        bannerPicture: bannerFile?.name,
+        profilePicture: profileFile?.name,
+        description: storeDescription,
+      },
+    });
+    await updateUser({
+      variables: {
+        userID: currentUser?.id,
+        firstOpening: false,
+      },
+    }).then(() => {
+      window.location.href = "/dashboard/starter";
+    });
+
+    setMutationLoading(false);
+  };
 
   return (
     <PageContainer title="User Profile" description="this is User Profile page">
@@ -114,6 +148,7 @@ const UserProfile = () => {
           </Box>
 
           <Button
+            onClick={handleStoreUpdate}
             color="primary"
             variant="contained"
             sx={{
@@ -123,7 +158,18 @@ const UserProfile = () => {
               borderRadius: "100px",
             }}
           >
-            Valider les modifications
+            {mutationLoading ? (
+              <Box
+                sx={{
+                  height: "30px",
+                  width: "30px",
+                }}
+              >
+                <Spinner />
+              </Box>
+            ) : (
+              "Valider les modifications"
+            )}
           </Button>
         </Box>
 

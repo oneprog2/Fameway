@@ -36,8 +36,9 @@ const App = () => {
       currentUser === null
     ) {
       const userData = data?.user[0];
-
+      console.log(userData);
       setCurrentUser({
+        id: userData.id,
         username: userData.username,
         firstname: userData.firstname,
         lastname: userData.lastname,
