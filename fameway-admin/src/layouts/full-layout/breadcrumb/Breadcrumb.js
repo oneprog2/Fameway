@@ -4,17 +4,36 @@ import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
-const Breadcrumb = ({ subtitle, items, title, children }) => (
+const Breadcrumb = ({ subtitle, username, items, title, children }) => (
   <Grid
     container
     sx={{
       py: "15px",
+      pl: "30px",
     }}
   >
     <Grid item xs={12} sm={6} lg={8}>
-      <Typography color="textSecondary" fontWeight="400" variant="h4">
-        {subtitle}
-      </Typography>
+      <Box
+        style={{
+          flexDirection: "row",
+          display: "flex",
+          marginBottom: 3,
+        }}
+      >
+        <Typography
+          style={{
+            marginRight: "3px",
+          }}
+          color="black"
+          fontWeight="300"
+          variant="h5"
+        >
+          {subtitle}
+        </Typography>
+        <Typography color="black" fontWeight="700" variant="h5">
+          {username?.charAt(0).toUpperCase() + username?.slice(1)}
+        </Typography>
+      </Box>
 
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}

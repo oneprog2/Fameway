@@ -12,6 +12,9 @@ import {
   Collapse,
   ListItemIcon,
   ListItemText,
+  Button,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import FeatherIcon from "feather-icons-react";
 import { SidebarWidth } from "../../../assets/global/Theme-variable";
@@ -19,6 +22,125 @@ import LogoIcon from "../logo/LogoIcon";
 import Menuitems from "./Menuitems";
 import Buynow from "./Buynow";
 import Scrollbar from "../../../components/custom-scroll/Scrollbar";
+import ProfileDropdown from "../header/ProfileDropdown";
+import { useAuth0 } from "@auth0/auth0-react";
+import { userAtom } from "../../../atoms/Atoms";
+import { useAtom } from "jotai";
+
+const Profile = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
+  const [open, setOpen] = React.useState(true);
+  const { user, isLoading, logout } = useAuth0();
+  const [currentUser] = useAtom(userAtom);
+
+  const [anchorEl4, setAnchorEl4] = React.useState(null);
+
+  const handleClick4 = (event) => {
+    setAnchorEl4(event.currentTarget);
+  };
+
+  const handleClose4 = () => {
+    setAnchorEl4(null);
+  };
+
+  return (
+    <Box
+      sx={{
+        marginBottom: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        alignContent: "center",
+        display: "flex",
+      }}
+    >
+      <Button
+        aria-label="menu"
+        color="inherit"
+        aria-controls="profile-menu"
+        aria-haspopup="true"
+        onClick={handleClick4}
+      >
+        <Box display="flex" alignItems="center">
+          <Box
+            sx={{
+              borderRadius: "100%",
+              width: "30px",
+              height: "30px",
+              justifyContent: "center",
+              alignItems: "center",
+              display: "flex",
+              backgroundColor: "#000000",
+            }}
+          >
+            <FeatherIcon icon="user" width="15" height="15" color="white" />
+          </Box>
+          <Box
+            sx={{
+              display: {
+                xs: "none",
+                sm: "flex",
+              },
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="h4"
+              fontWeight="400"
+              sx={{ ml: 1.5 }}
+              color={"black"}
+            >
+              Hello,
+            </Typography>
+            <Typography
+              variant="h4"
+              fontWeight="700"
+              color="black"
+              sx={{
+                ml: 0.5,
+                mr: 1,
+              }}
+            >
+              {currentUser?.username?.charAt(0).toUpperCase() +
+                currentUser?.username?.slice(1)}
+            </Typography>
+            <FeatherIcon
+              color="black"
+              icon="chevron-down"
+              width="20"
+              height="20"
+            />
+          </Box>
+        </Box>
+      </Button>
+
+      <Menu
+        id="profile-menu"
+        anchorEl={anchorEl4}
+        keepMounted
+        open={Boolean(anchorEl4)}
+        onClose={handleClose4}
+        sx={
+          {
+            // "& .MuiMenu-paper": {
+            //   bottom: "40px",
+            // },
+            // "& .MuiList-padding": {
+            //   bottom: "30px",
+            // },
+            // bottom: 300,
+          }
+        }
+      >
+        <MenuItem
+          onClick={() => {
+            logout();
+          }}
+        >
+          Déconnexion
+        </MenuItem>
+      </Menu>
+    </Box>
+  );
+};
 
 const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
   const [open, setOpen] = React.useState(true);
@@ -39,7 +161,11 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
     <Scrollbar style={{ height: "calc(100vh - 5px)" }}>
       <Box sx={{ p: 2 }}>
         <LogoIcon />
-        <Box>
+        <Box
+          sx={{
+            mt: 5,
+          }}
+        >
           <List>
             {Menuitems.map((item, index) => {
               // {/********SubHeader**********/}
@@ -185,6 +311,7 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
         }}
       >
         {SidebarContent}
+        <Profile />
       </Drawer>
     );
   }
@@ -201,7 +328,8 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
       }}
       variant="temporary"
     >
-      {SidebarContent}
+      {/* {SidebarContent} */}
+      {/* <Profile /> */}
     </Drawer>
   );
 };

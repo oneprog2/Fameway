@@ -6,6 +6,19 @@ import PageContainer from "../../components/container/PageContainer";
 import { userAtom } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
 
+import {
+  EarningsShop,
+  TopCards,
+  ProductPerformance,
+  WeeklyStats,
+  RecentTransactions,
+  Earnings,
+  YearlySales,
+  ProductsTable,
+  MedicalproBranding,
+  BlogCard,
+} from "../dashboard2-components";
+
 const Dashboard1 = () => {
   const [currentUser] = useAtom(userAtom);
 
@@ -15,8 +28,9 @@ const Dashboard1 = () => {
       description="Main informations"
     >
       <Breadcrumb
-        title={`Hello ${currentUser?.username}`}
-        subtitle={`C'est le come back !`}
+        title={`Voilà ce qu’il s’est passé depuis votre dernière connexion`}
+        subtitle={`Bonjour, `}
+        username={currentUser?.username}
       ></Breadcrumb>
     </PageContainer>
   );

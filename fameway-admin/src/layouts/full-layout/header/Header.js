@@ -54,17 +54,6 @@ const Header = ({
     setAnchorEl2(null);
   };
 
-  // 4
-  const [anchorEl4, setAnchorEl4] = React.useState(null);
-
-  const handleClick4 = (event) => {
-    setAnchorEl4(event.currentTarget);
-  };
-
-  const handleClose4 = () => {
-    setAnchorEl4(null);
-  };
-
   // drawer
   const [showDrawer, setShowDrawer] = useState(false);
 
@@ -78,9 +67,6 @@ const Header = ({
   const handleDrawerClose2 = () => {
     setShowDrawer2(false);
   };
-
-  const { user, isLoading, logout } = useAuth0();
-  const [currentUser] = useAtom(userAtom);
 
   return (
     <AppBar sx={sx} elevation={0} className={customClass}>
@@ -102,14 +88,16 @@ const Header = ({
             <FeatherIcon icon="menu" />
           </IconButton>
         )}
-        <Box
-          sx={{
-            alignSelf: "flex-start",
-            width: "200px",
-          }}
-        >
-          <LogoIcon />
-        </Box>
+        {!hideSidebar ? null : (
+          <Box
+            sx={{
+              alignSelf: "flex-start",
+              width: "200px",
+            }}
+          >
+            <LogoIcon />
+          </Box>
+        )}
 
         {hideSidebar ? null : (
           <IconButton
@@ -297,89 +285,6 @@ const Header = ({
             >
               See all messages
             </Link>
-          </Button>
-        </Menu>
-        <Button
-          aria-label="menu"
-          color="inherit"
-          aria-controls="profile-menu"
-          aria-haspopup="true"
-          onClick={handleClick4}
-        >
-          <Box display="flex" alignItems="center">
-            <Box
-              sx={{
-                borderRadius: "100%",
-                width: "30px",
-                height: "30px",
-                justifyContent: "center",
-                alignItems: "center",
-                display: "flex",
-                backgroundColor: "#000000",
-              }}
-            >
-              <FeatherIcon icon="user" width="15" height="15" color="white" />
-            </Box>
-            <Box
-              sx={{
-                display: {
-                  xs: "none",
-                  sm: "flex",
-                },
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                color="textSecondary"
-                variant="h5"
-                fontWeight="400"
-                sx={{ ml: 1 }}
-              >
-                Hello,
-              </Typography>
-              <Typography
-                variant="h5"
-                fontWeight="700"
-                sx={{
-                  ml: 1,
-                }}
-              >
-                {currentUser?.username}
-              </Typography>
-              <FeatherIcon icon="chevron-down" width="20" height="20" />
-            </Box>
-          </Box>
-        </Button>
-        <Menu
-          id="profile-menu"
-          anchorEl={anchorEl4}
-          keepMounted
-          open={Boolean(anchorEl4)}
-          onClose={handleClose4}
-          sx={{
-            "& .MuiMenu-paper": {
-              width: "385px",
-              right: 0,
-              top: "70px !important",
-            },
-            "& .MuiList-padding": {
-              p: "30px",
-            },
-          }}
-        >
-          <ProfileDropdown />
-
-          <Button
-            onClick={logout}
-            sx={{
-              mt: 2,
-              display: "block",
-              width: "100%",
-            }}
-            variant="contained"
-            color="primary"
-          >
-            Deconnexion
           </Button>
         </Menu>
       </Toolbar>
