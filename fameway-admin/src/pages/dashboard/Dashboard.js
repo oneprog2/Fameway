@@ -8,19 +8,17 @@ import { useAtom } from "jotai";
 import FeatherIcon from "feather-icons-react";
 
 import {
-  EarningsShop,
-  TopCards,
-  ProductPerformance,
   WeeklyStats,
-  RecentTransactions,
-  Earnings,
-  YearlySales,
   ProductsTable,
   MedicalproBranding,
+  InformationsCard,
   BlogCard,
 } from "../dashboard2-components";
-import { Button, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import DashboardButton from "../dashboard2-components/DashboardButton";
+import OnboardingCard from "../dashboard2-components/OnboardingCard";
+import OnboardingVideoCard from "../dashboard2-components/OnboardingVideoCard";
 
 const Dashboard1 = () => {
   const [currentUser] = useAtom(userAtom);
@@ -36,11 +34,11 @@ const Dashboard1 = () => {
           flexDirection: "row",
           width: "100%",
           pl: 1,
-          alignItems: "flex-end",
+          alignItems: "center",
         }}
       >
         <Breadcrumb
-          title={`Voilà ce qu’il s’est passé depuis votre dernière connexion`}
+          title={`Bienvenue sur l’espace administratif de votre compte.`}
           subtitle={`Bonjour, `}
           username={currentUser?.username}
         ></Breadcrumb>
@@ -69,6 +67,96 @@ const Dashboard1 = () => {
           </Typography>
         </Button>
       </Box>
+
+      <Grid container spacing={0}>
+        <Grid item xs={12} lg={6}>
+          <OnboardingCard />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          lg={6}
+          sx={{
+            flex: 1,
+            height: "100%",
+          }}
+        >
+          <OnboardingVideoCard />
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          lg={6}
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <InformationsCard
+            alignTitle="center"
+            borderColor={"#B8F1BE"}
+            title={"Questions"}
+            buttonTitle={"Lire plus"}
+            description={
+              "Tu as une question ? Alors consulte notre FAQ dans l’onglet “aide” ou envoie nous un message."
+            }
+          />
+          <InformationsCard
+            alignTitle="center"
+            borderColor={"#FFE3EA"}
+            title={"Conseils 🎈"}
+            description={
+              "Pour commencer à prendre en main ta boutique, n’hésite pas à mettre en vente des produits virtuels."
+            }
+            buttonTitle={"Lire plus"}
+          />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          lg={6}
+          sx={{
+            mt: -20,
+
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            <DashboardButton
+              onPress={() => console.log("plk")}
+              icon={"🧑🏽‍🦱"}
+              bgColor="#FFD028"
+              textColor="#222222"
+              title={"Configure ton compte et tes préférences"}
+            />
+            <DashboardButton
+              onPress={() => console.log("pok")}
+              bgColor="#222222"
+              textColor="white"
+              icon={"✌🏽"}
+              title={"Lance ta 1ère campagne marketing"}
+            />
+          </Box>
+          <Box>
+            <InformationsCard
+              centerAll
+              alignTitle="left"
+              borderColor="#FFDFD5"
+              title={"Bravo ! 👏🏾"}
+              description={
+                "En créant ton compte tu rejoins les 241 autres créateurs que compte Fameway."
+              }
+            />
+          </Box>
+        </Grid>
+      </Grid>
     </PageContainer>
   );
 };

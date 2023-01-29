@@ -1,43 +1,43 @@
-import React from 'react';
-import { Card, CardContent, Typography, Fab, Box, Grid } from '@mui/material';
-import FeatherIcon from 'feather-icons-react';
+import React from "react";
+import { Card, CardContent, Typography, Fab, Box, Grid } from "@mui/material";
+import FeatherIcon from "feather-icons-react";
 
 const sales = [
   {
-    btnbg: 'primary.light',
-    btntext: 'primary.main',
-    icon: 'users',
-    digits: '39,354',
-    subtext: 'Customers',
-    profit: '-9',
-    type: 'loss',
+    btnbg: "primary.light",
+    btntext: "primary.main",
+    icon: "users",
+    digits: "39,354",
+    subtext: "Customers",
+    profit: "-9",
+    type: "loss",
   },
   {
-    btnbg: 'warning.light',
-    btntext: 'warning.main',
-    icon: 'package',
-    digits: '4,396',
-    subtext: 'Products',
-    profit: '+23',
-    type: 'profit',
+    btnbg: "warning.light",
+    btntext: "warning.main",
+    icon: "package",
+    digits: "4,396",
+    subtext: "Products",
+    profit: "+23",
+    type: "profit",
   },
   {
-    btnbg: 'error.light',
-    btntext: 'error.main',
-    icon: 'bar-chart',
-    digits: '423,39',
-    subtext: 'Sales',
-    profit: '+38',
-    type: 'profit',
+    btnbg: "error.light",
+    btntext: "error.main",
+    icon: "bar-chart",
+    digits: "423,39",
+    subtext: "Sales",
+    profit: "+38",
+    type: "profit",
   },
   {
-    btnbg: 'success.light',
-    btntext: 'success.main',
-    icon: 'refresh-cw',
-    digits: '835',
-    subtext: 'Refunds',
-    profit: '-12',
-    type: 'loss',
+    btnbg: "success.light",
+    btntext: "success.main",
+    icon: "refresh-cw",
+    digits: "835",
+    subtext: "Refunds",
+    profit: "-12",
+    type: "loss",
   },
 ];
 
@@ -45,6 +45,9 @@ const TopCards = () => (
   <Card
     sx={{
       p: 0,
+      borderColor: "#FFE3EA",
+      borderWidth: 3,
+      borderStyle: "solid",
     }}
   >
     <Grid container spacing={0}>
@@ -53,12 +56,12 @@ const TopCards = () => (
           <CardContent
             sx={{
               borderRight: {
-                xs: '0',
-                sm: '1px solid rgba(0,0,0,0.1)',
+                xs: "0",
+                sm: "1px solid rgba(0,0,0,0.1)",
               },
-              padding: '30px',
-              '& :last-child': {
-                borderRight: '0',
+              padding: "30px",
+              "& :last-child": {
+                borderRight: "0",
               },
             }}
           >
@@ -68,10 +71,10 @@ const TopCards = () => (
               sx={{
                 backgroundColor: topcard.btnbg,
                 color: topcard.btntext,
-                boxShadow: 'none',
+                boxShadow: "none",
                 "&:hover": {
                   backgroundColor: topcard.btnbg,
-                }
+                },
               }}
             >
               <FeatherIcon icon={topcard.icon} />
@@ -85,7 +88,9 @@ const TopCards = () => (
             >
               <Typography variant="h3">{topcard.digits}</Typography>
               <Typography
-                color={topcard.type === 'profit' ? 'success.main' : 'error.main'}
+                color={
+                  topcard.type === "profit" ? "success.main" : "error.main"
+                }
                 variant="caption"
                 fontWeight="400"
                 sx={{
