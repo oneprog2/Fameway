@@ -42,30 +42,6 @@ const Dashboard1 = () => {
           subtitle={`Bonjour, `}
           username={currentUser?.username}
         ></Breadcrumb>
-
-        <Button
-          // onClick={handleStoreUpdate}
-          color="primary"
-          variant="contained"
-          sx={{
-            height: "40px",
-            width: "300px",
-            fontWeight: "700",
-            borderRadius: "100px",
-          }}
-        >
-          <FeatherIcon icon="plus" width="20" />
-          <Typography
-            variant="button"
-            color="white"
-            fontWeight={600}
-            sx={{
-              marginLeft: 1,
-            }}
-          >
-            Créer un nouvel article
-          </Typography>
-        </Button>
       </Box>
 
       <Grid container spacing={0}>
@@ -87,7 +63,7 @@ const Dashboard1 = () => {
         <Grid
           item
           xs={12}
-          lg={6}
+          lg={3}
           sx={{
             display: "flex",
             flexDirection: "row",
@@ -102,6 +78,17 @@ const Dashboard1 = () => {
               "Tu as une question ? Alors consulte notre FAQ dans l’onglet “aide” ou envoie nous un message."
             }
           />
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          lg={3}
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
           <InformationsCard
             alignTitle="center"
             borderColor={"#FFE3EA"}
@@ -112,12 +99,15 @@ const Dashboard1 = () => {
             buttonTitle={"Lire plus"}
           />
         </Grid>
+
         <Grid
           item
           xs={12}
           lg={6}
           sx={{
-            mt: -20,
+            mt: {
+              lg: -20,
+            },
 
             display: "flex",
             flexDirection: "column",
@@ -126,7 +116,10 @@ const Dashboard1 = () => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: {
+                xs: "column",
+                lg: "row",
+              },
             }}
           >
             <DashboardButton
@@ -136,6 +129,7 @@ const Dashboard1 = () => {
               textColor="#222222"
               title={"Configure ton compte et tes préférences"}
             />
+
             <DashboardButton
               onPress={() => console.log("pok")}
               bgColor="#222222"
@@ -144,9 +138,10 @@ const Dashboard1 = () => {
               title={"Lance ta 1ère campagne marketing"}
             />
           </Box>
+
           <Box>
             <InformationsCard
-              centerAll
+              withoutButton
               alignTitle="left"
               borderColor="#FFDFD5"
               title={"Bravo ! 👏🏾"}

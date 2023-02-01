@@ -19,7 +19,7 @@ const InformationsCard = ({
   borderColor,
   textColor,
   buttonTitle,
-  centerAll,
+  withoutButton,
 }) => (
   <Card
     onClick={onClick}
@@ -58,9 +58,10 @@ const InformationsCard = ({
           fontWeight="700"
           textAlign={"left"}
           sx={{
-            textAlign: alignTitle,
+            textAlign: "left",
             fontSize: 40,
-            mb: -2,
+            mb: -3,
+            ml: description ? 2 : 0,
           }}
         >
           {title}
@@ -85,6 +86,20 @@ const InformationsCard = ({
           sx={{
             textAlign: "left",
             fontSize: 18,
+            mt: {
+              xs: 4,
+              sm: 4,
+              md: 4,
+              lg: withoutButton ? 4 : 0,
+              xl: withoutButton ? 4 : 0,
+            },
+            mb: {
+              xs: withoutButton ? 0 : 4,
+              sm: withoutButton ? 0 : 4,
+              md: withoutButton ? 0 : 4,
+              lg: 0,
+              xl: 0,
+            },
           }}
         >
           {description}
