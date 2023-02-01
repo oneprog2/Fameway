@@ -2,12 +2,12 @@ const Menuitems = [
   {
     title: "Accueil",
     icon: "home",
-    href: "/dashboards/starter",
+    href: "/home",
   },
   {
     title: "Ma boutique",
     icon: "shopping-cart",
-    href: "/dashboards/starter",
+    href: "/store",
   },
   {
     title: "Mes statistiques",

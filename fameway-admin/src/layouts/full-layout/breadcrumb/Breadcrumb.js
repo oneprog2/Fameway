@@ -31,7 +31,7 @@ const Breadcrumb = ({ subtitle, username, items, title, children }) => (
           {subtitle}
         </Typography>
         <Typography color="black" fontWeight="700" variant="h5">
-          {username?.charAt(0).toUpperCase() + username?.slice(1)}
+          {username?.charAt(0).toUpperCase() + username?.slice(1)},
         </Typography>
       </Box>
 

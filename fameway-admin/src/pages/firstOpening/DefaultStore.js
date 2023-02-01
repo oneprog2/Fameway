@@ -116,7 +116,7 @@ const UserProfile = () => {
         firstOpening: false,
       },
     }).then(() => {
-      window.location.href = "/dashboard/starter";
+      window.location.href = "/home";
     });
 
     setMutationLoading(false);
@@ -161,7 +161,8 @@ const UserProfile = () => {
           >
             <Breadcrumb
               title={`Ici, tu peux commencer à personnaliser ta boutique.`}
-              subtitle={`Bienvenue ${currentUser?.username} !`}
+              subtitle={`Bienvenue `}
+              username={currentUser?.username}
             ></Breadcrumb>
           </Box>
 

@@ -2,18 +2,12 @@ import React, { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Loadable from "../layouts/full-layout/loadable/Loadable";
 
-/* ***Layouts**** */
 const FullLayout = Loadable(
   lazy(() => import("../layouts/full-layout/FullLayout"))
 );
 const BlankLayout = Loadable(
   lazy(() => import("../layouts/blank-layout/BlankLayout"))
 );
-/* ***End Layouts**** */
-
-// const Register = Loadable(
-//   lazy(() => import("../pages/authentication/Register"))
-// );
 
 const Error = Loadable(lazy(() => import("../pages/authentication/Error")));
 
@@ -28,8 +22,8 @@ const Router = [
     path: "/",
     element: <FullLayout />,
     children: [
-      { path: "/", element: <Navigate to="/dashboard/starter" /> },
-      { path: "/dashboard/starter", exact: true, element: <Dashboard /> },
+      { path: "/", element: <Navigate to="/home" /> },
+      { path: "/home", exact: true, element: <Dashboard /> },
       { path: "*", element: <Navigate to="/auth/404" /> },
     ],
   },
@@ -42,9 +36,9 @@ const Router = [
     ],
   },
   {
-    path: "/setup",
+    path: "/firstOpening",
     element: <FullLayout hideSidebar={true} />,
-    children: [{ path: "store", element: <FirstOpening /> }],
+    children: [{ path: "/firstOpening/", element: <FirstOpening /> }],
   },
 ];
 

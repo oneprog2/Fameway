@@ -39,7 +39,7 @@ const Dashboard1 = () => {
       >
         <Breadcrumb
           title={`Bienvenue sur l’espace administratif de votre compte.`}
-          subtitle={`Bonjour, `}
+          subtitle={`Bonjour `}
           username={currentUser?.username}
         ></Breadcrumb>
       </Box>
