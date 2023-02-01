@@ -98,7 +98,6 @@ const Header = ({
             <LogoIcon />
           </Box>
         )}
-
         {hideSidebar ? null : (
           <IconButton
             size="large"
@@ -116,21 +115,6 @@ const Header = ({
           </IconButton>
         )}
 
-        {/* ------------------------------------------- */}
-        {/* Search Dropdown */}
-        {/* ------------------------------------------- */}
-        {hideSidebar ? null : (
-          <IconButton
-            aria-label="show 4 new mails"
-            color="inherit"
-            aria-controls="search-menu"
-            aria-haspopup="true"
-            onClick={() => setShowDrawer2(true)}
-            size="large"
-          >
-            <FeatherIcon icon="search" width="20" height="20" />
-          </IconButton>
-        )}
         <Drawer
           anchor="top"
           open={showDrawer2}
@@ -167,9 +151,7 @@ const Header = ({
           </Box>
         </Drawer>
         {/* ------------ End Menu icon ------------- */}
-
         <Box flexGrow={1} />
-
         <Drawer
           anchor="right"
           open={showDrawer}
@@ -214,7 +196,6 @@ const Header = ({
         {/* ------------------------------------------- */}
         {/* Messages Dropdown */}
         {/* ------------------------------------------- */}
-
         <Menu
           id="msgs-menu"
           anchorEl={anchorEl2}

@@ -10,8 +10,19 @@ import { STORE_DATA } from "../../api/queries";
 import { handleUpload } from "../../components/aws/UploadToS3";
 import { UPDATE_STORE } from "../../api/mutations";
 import Spinner from "../spinner/Spinner";
+import QuillEditor from "../../components/inputs/QuillEditor";
 
 const UserProfile = () => {
+  const BCrumb = [
+    {
+      to: "/store",
+      title: "Boutique",
+    },
+    {
+      title: "Ajouter un article",
+    },
+  ];
+
   const [currentUser] = useAtom(userAtom);
   const [storeName, setStoreName] = React.useState(`@${currentUser?.username}`);
   const [bannerFile, setBannerFile] = useState(null);
@@ -33,44 +44,6 @@ const UserProfile = () => {
   const [updateStore, { storeError }] = useMutation(UPDATE_STORE);
 
   if (loading) return <div>Chargement ...</div>;
-
-  const handleStoreUpdate = async () => {
-    setMutationLoading(true);
-    let profileUrl;
-    let bannerUrl;
-
-    if (profileFile)
-      await handleUpload(profileFile, currentUser?.username)
-        .then((res) => {
-          profileUrl = res?.location;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    if (bannerFile)
-      await handleUpload(bannerFile, currentUser?.username)
-        .then((res) => {
-          bannerUrl = res?.location;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-    await updateStore({
-      variables: {
-        storeID: currentUser?.storeID,
-        status: "draft",
-        name: storeName,
-        bannerPicture: bannerUrl,
-        profilePicture: profileUrl,
-        description: storeDescription,
-      },
-    }).then(() => {
-      window.location.href = "/home";
-    });
-
-    setMutationLoading(false);
-  };
 
   return (
     <PageContainer title="User Profile" description="this is User Profile page">
@@ -109,13 +82,12 @@ const UserProfile = () => {
             }}
           >
             <Breadcrumb
-              title={`Depuis cette page, modifies les paramètres de ta boutique.`}
-              username={currentUser?.username}
+              title={`Ajoute un article à ta boutique.`}
+              items={BCrumb}
             ></Breadcrumb>
           </Box>
 
           <Button
-            onClick={handleStoreUpdate}
             color="primary"
             variant="contained"
             sx={{
@@ -135,21 +107,17 @@ const UserProfile = () => {
                 <Spinner />
               </Box>
             ) : (
-              "Valider les modifications"
+              "Créer l'article"
             )}
           </Button>
         </Box>
 
-        <CoverCard
-          storeName={storeName}
-          setStoreName={setStoreName}
-          storeDescription={storeDescription}
-          setStoreDescription={setStoreDescription}
-          bannerFile={bannerFile}
-          setBannerFile={setBannerFile}
-          profileFile={profileFile}
-          setProfileFile={setProfileFile}
-        />
+        <Grid lg={12} container>
+          <Grid item lg={3}></Grid>
+          <Grid item lg={9}>
+            <QuillEditor />
+          </Grid>
+        </Grid>
 
         <Box
           sx={{
@@ -171,7 +139,7 @@ const UserProfile = () => {
               borderRadius: "100px",
             }}
           >
-            Valider les modifications
+            Créer l'article
           </Button>
         </Box>
       </Grid>

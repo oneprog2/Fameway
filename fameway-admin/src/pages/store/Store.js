@@ -106,8 +106,15 @@ const UserProfile = () => {
           }}
         >
           <Breadcrumb
+            items={[
+              {
+                title: "Boutique",
+              },
+              {
+                title: "",
+              },
+            ]}
             title={`Depuis cette page, modifie les caractéristiques de ta boutique.`}
-            username={currentUser?.username}
           ></Breadcrumb>
         </Box>
       </Box>

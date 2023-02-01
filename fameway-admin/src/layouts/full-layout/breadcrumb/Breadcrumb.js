@@ -19,19 +19,23 @@ const Breadcrumb = ({ subtitle, username, items, title, children }) => (
           marginBottom: 3,
         }}
       >
-        <Typography
-          style={{
-            marginRight: "3px",
-          }}
-          color="black"
-          fontWeight="300"
-          variant="h5"
-        >
-          {subtitle}
-        </Typography>
-        <Typography color="black" fontWeight="700" variant="h5">
-          {username?.charAt(0).toUpperCase() + username?.slice(1)},
-        </Typography>
+        {subtitle ? (
+          <Typography
+            style={{
+              marginRight: "3px",
+            }}
+            color="black"
+            fontWeight="300"
+            variant="h5"
+          >
+            {subtitle}
+          </Typography>
+        ) : null}
+        {username ? (
+          <Typography color="black" fontWeight="700" variant="h5">
+            {username?.charAt(0).toUpperCase() + username?.slice(1)},
+          </Typography>
+        ) : null}
       </Box>
 
       <Breadcrumbs
@@ -62,6 +66,7 @@ const Breadcrumb = ({ subtitle, username, items, title, children }) => (
         variant="h1"
         sx={{
           lineHeight: "1.235",
+          marginTop: 1,
         }}
       >
         {title}
