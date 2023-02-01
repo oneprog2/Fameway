@@ -13,6 +13,7 @@ const Error = Loadable(lazy(() => import("../pages/authentication/Error")));
 
 const Dashboard = Loadable(lazy(() => import("../pages/dashboard/Dashboard")));
 const Store = Loadable(lazy(() => import("../pages/store/Store")));
+const AddArticle = Loadable(lazy(() => import("../pages/article/Add")));
 
 const FirstOpening = Loadable(
   lazy(() => import("../pages/firstOpening/DefaultStore"))
@@ -26,6 +27,7 @@ const Router = [
       { path: "/", element: <Navigate to="/home" /> },
       { path: "/home", exact: true, element: <Dashboard /> },
       { path: "/store", exact: true, element: <Store /> },
+      { path: "/article/add", exact: true, element: <AddArticle /> },
       { path: "*", element: <Navigate to="/auth/404" /> },
     ],
   },

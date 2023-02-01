@@ -61,7 +61,7 @@ const CoverCard = ({
   return (
     <div
       sx={{
-        padding: "0",
+        padding: 0,
         marginTop: 5,
       }}
     >

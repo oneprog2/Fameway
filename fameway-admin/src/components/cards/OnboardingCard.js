@@ -10,15 +10,6 @@ const OnboardingCard = () => (
       position: "relative",
       backgroundColor: (theme) =>
         `${theme.palette.mode === "dark" ? "#32363e" : ""}`,
-      "&:before": {
-        content: `""`,
-        position: "absolute",
-        left: (theme) => `${theme.direction === "rtl" ? "unset" : "0"}`,
-        right: (theme) => `${theme.direction === "rtl" ? "0" : "unset"}`,
-        width: "100%",
-        height: "100%",
-      },
-
       minHeight: 400,
     }}
   >

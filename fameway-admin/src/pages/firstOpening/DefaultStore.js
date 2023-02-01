@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  CardContent,
-  Grid,
-  Link,
-  Typography,
-} from "@mui/material";
+import { Box, Button, CardContent, Grid, Typography } from "@mui/material";
 import FeatherIcon from "feather-icons-react";
 import Breadcrumb from "../../layouts/full-layout/breadcrumb/Breadcrumb";
 import PageContainer from "../../components/container/PageContainer";
@@ -18,29 +11,7 @@ import { STORE_DATA } from "../../api/queries";
 import { handleUpload } from "../../components/aws/UploadToS3";
 import { UPDATE_STORE, UPDATE_USER } from "../../api/mutations";
 import Spinner from "../spinner/Spinner";
-
-const CategoryButton = ({ title, active, onClick }) => (
-  <Link
-    onClick={onClick}
-    sx={{
-      cursor: "pointer",
-      borderRadius: "0",
-      textTransform: "capitalize",
-      fontWeight: active ? "700" : "500",
-      fontSize: "14px",
-      color: "#000",
-      paddingBottom: "10px",
-      borderBottom: active ? "2px solid #000" : "none",
-      textDecoration: "none",
-      backgroundColor: "transparent",
-      "&:hover": {
-        backgroundColor: "transparent",
-      },
-    }}
-  >
-    <Typography variant="h5">{title}</Typography>
-  </Link>
-);
+import { CategoryButton } from "../../components/buttons/CategoryButton";
 
 const UserProfile = () => {
   const [currentUser] = useAtom(userAtom);

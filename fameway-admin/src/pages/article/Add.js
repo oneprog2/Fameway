@@ -10,15 +10,12 @@ import { STORE_DATA } from "../../api/queries";
 import { handleUpload } from "../../components/aws/UploadToS3";
 import { UPDATE_STORE } from "../../api/mutations";
 import Spinner from "../spinner/Spinner";
-import { CategoryButton } from "../../components/buttons/CategoryButton";
 
 const UserProfile = () => {
   const [currentUser] = useAtom(userAtom);
   const [storeName, setStoreName] = React.useState(`@${currentUser?.username}`);
   const [bannerFile, setBannerFile] = useState(null);
   const [profileFile, setProfileFile] = useState(null);
-
-  const [category, setCategory] = useState("Personnalisation");
 
   const [storeDescription, setStoreDescription] = React.useState("");
   const [mutationLoading, setMutationLoading] = React.useState(false);
@@ -77,69 +74,71 @@ const UserProfile = () => {
 
   return (
     <PageContainer title="User Profile" description="this is User Profile page">
-      <Box
+      <Grid
+        lg={12}
         sx={{
-          px: 1,
-          display: "flex",
-          flexDirection: {
-            xs: "column",
-            sm: "column",
-            md: "column",
-            lg: "row",
-          },
-          alignItems: {
-            xs: "start",
-            sm: "start",
-            md: "start",
-            lg: "center",
-          },
-          mb: {
-            xs: "15px",
-            sm: "15px",
-            md: "15px",
-          },
+          margin: "auto",
         }}
       >
         <Box
           sx={{
-            width: "100%",
+            display: "flex",
+            flexDirection: {
+              xs: "column",
+              sm: "column",
+              md: "column",
+              lg: "row",
+            },
+            alignItems: {
+              xs: "start",
+              sm: "start",
+              md: "start",
+              lg: "center",
+            },
+            mb: {
+              xs: "15px",
+              sm: "15px",
+              md: "15px",
+            },
           }}
         >
-          <Breadcrumb
-            title={`Depuis cette page, modifie les caractéristiques de ta boutique.`}
-            username={currentUser?.username}
-          ></Breadcrumb>
-        </Box>
-      </Box>
-      <Grid lg={12}>
-        <Grid
-          sx={{
-            px: 1,
-            mb: 6,
-            width: "100%",
-          }}
-          container
-          lg={12}
-        >
-          <CategoryButton
-            onClick={() => setCategory("Personnalisation")}
-            title="Personnalisation"
-            active={category === "Personnalisation" ? true : false}
-          />
           <Box
             sx={{
-              display: "flex",
-              flexDirection: "row",
-              marginLeft: 4,
+              width: "100%",
+              pl: 1,
             }}
           >
-            <CategoryButton
-              onClick={() => setCategory("Paramètres")}
-              title="Paramètres"
-              active={category === "Paramètres" ? true : false}
-            />
+            <Breadcrumb
+              title={`Depuis cette page, modifies les paramètres de ta boutique.`}
+              username={currentUser?.username}
+            ></Breadcrumb>
           </Box>
-        </Grid>
+
+          <Button
+            onClick={handleStoreUpdate}
+            color="primary"
+            variant="contained"
+            sx={{
+              height: "40px",
+              width: "300px",
+              fontWeight: "700",
+              borderRadius: "100px",
+            }}
+          >
+            {mutationLoading ? (
+              <Box
+                sx={{
+                  height: "30px",
+                  width: "30px",
+                }}
+              >
+                <Spinner />
+              </Box>
+            ) : (
+              "Valider les modifications"
+            )}
+          </Button>
+        </Box>
 
         <CoverCard
           storeName={storeName}

@@ -9,7 +9,6 @@ const Breadcrumb = ({ subtitle, username, items, title, children }) => (
     container
     sx={{
       py: "15px",
-      mx: "10px",
     }}
   >
     <Grid item xs={12} sm={12} lg={12}>

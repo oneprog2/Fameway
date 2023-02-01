@@ -10,9 +10,9 @@ const Menuitems = [
     href: "/store",
   },
   {
-    title: "Mes statistiques",
+    title: "Ajouter un article",
     icon: "pie-chart",
-    href: "/dashboards/starter",
+    href: "/article/add",
   },
   {
     title: "Mon calendrier",

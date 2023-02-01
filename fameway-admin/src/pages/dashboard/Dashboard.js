@@ -3,7 +3,7 @@ import PageContainer from "../../components/container/PageContainer";
 import { userAtom } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
 
-import { InformationsCard } from "../dashboard2-components";
+import InformationsCard from "../../components/cards/InformationsCard";
 import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import DashboardButton from "../../components/buttons/DashboardButton";
@@ -23,7 +23,7 @@ const Dashboard1 = () => {
           display: "flex",
           flexDirection: "row",
           width: "100%",
-          pl: 1,
+          px: 2,
           alignItems: "center",
         }}
       >
@@ -34,7 +34,7 @@ const Dashboard1 = () => {
         ></Breadcrumb>
       </Box>
 
-      <Grid container spacing={0}>
+      <Grid lg={12} container>
         <Grid item xs={12} lg={6}>
           <OnboardingCard />
         </Grid>
