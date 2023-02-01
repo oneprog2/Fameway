@@ -1,17 +1,8 @@
 import React from "react";
-import {
-  Grid,
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Link,
-  Input,
-} from "@mui/material";
+import { Grid, Box, Card, CardContent, Link } from "@mui/material";
 import profilecover from "../../assets/images/users/user.png";
 import imageIcon from "../../assets/images/logos/Icons.png";
 import FeatherIcon from "feather-icons-react";
-import CustomTextField from "../forms/custom-elements/CustomTextField";
 import CustomTextEmpty from "../forms/custom-elements/CustomTextEmpty";
 
 const EditButton = ({ onClick, size }) => (
@@ -81,7 +72,7 @@ const CoverCard = ({
             cursor: "pointer",
             zIndex: 200,
             height: "300px",
-            backgroundColor: previewBanner ? "transparent" : "#D5D1FF",
+            backgroundColor: previewBanner ? "transparent" : "#222222",
             alignItems: "center",
             justifyContent: "center",
             position: "relative",

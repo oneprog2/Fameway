@@ -33,10 +33,6 @@ const InformationsCard = ({
         height: "100%",
       },
 
-      borderColor: borderColor,
-      borderWidth: 3,
-      borderStyle: "solid",
-
       textAlign: "left",
 
       flex: 1,

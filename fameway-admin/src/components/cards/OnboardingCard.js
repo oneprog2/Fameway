@@ -19,9 +19,6 @@ const OnboardingCard = () => (
         height: "100%",
       },
 
-      borderColor: "#C2F0FF",
-      borderWidth: 3,
-      borderStyle: "solid",
       minHeight: 400,
     }}
   >

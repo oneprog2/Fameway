@@ -1,24 +1,14 @@
-import React, { useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-
 import Breadcrumb from "../../layouts/full-layout/breadcrumb/Breadcrumb";
 import PageContainer from "../../components/container/PageContainer";
 import { userAtom } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
-import FeatherIcon from "feather-icons-react";
 
-import {
-  WeeklyStats,
-  ProductsTable,
-  MedicalproBranding,
-  InformationsCard,
-  BlogCard,
-} from "../dashboard2-components";
-import { Button, Grid, Typography } from "@mui/material";
+import { InformationsCard } from "../dashboard2-components";
+import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
-import DashboardButton from "../dashboard2-components/DashboardButton";
-import OnboardingCard from "../dashboard2-components/OnboardingCard";
-import OnboardingVideoCard from "../dashboard2-components/OnboardingVideoCard";
+import DashboardButton from "../../components/buttons/DashboardButton";
+import OnboardingCard from "../../components/cards/OnboardingCard";
+import OnboardingVideoCard from "../../components/cards/OnboardingVideoCard";
 
 const Dashboard1 = () => {
   const [currentUser] = useAtom(userAtom);
