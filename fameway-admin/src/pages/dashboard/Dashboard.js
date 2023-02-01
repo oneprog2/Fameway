@@ -124,18 +124,18 @@ const Dashboard1 = () => {
           >
             <DashboardButton
               onPress={() => console.log("plk")}
-              icon={"🧑🏽‍🦱"}
+              icon={"🚀"}
               bgColor="#FFD028"
               textColor="#222222"
-              title={"Configure ton compte et tes préférences"}
+              title={"Personnalise ta boutique avant de la publier"}
             />
 
             <DashboardButton
               onPress={() => console.log("pok")}
               bgColor="#222222"
               textColor="white"
-              icon={"✌🏽"}
-              title={"Lance ta 1ère campagne marketing"}
+              icon={"🌟"}
+              title={"Propose à tes fans ton premier article virtuel"}
             />
           </Box>
 
