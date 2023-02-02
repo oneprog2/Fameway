@@ -12,8 +12,11 @@ const BlankLayout = Loadable(
 const Error = Loadable(lazy(() => import("../pages/authentication/Error")));
 
 const Dashboard = Loadable(lazy(() => import("../pages/dashboard/Dashboard")));
-const Store = Loadable(lazy(() => import("../pages/store/Store")));
-const AddArticle = Loadable(lazy(() => import("../pages/article/Add")));
+const Settings = Loadable(lazy(() => import("../pages/store/Settings")));
+const AddArticle = Loadable(lazy(() => import("../pages/store/article/Add")));
+const ArticleList = Loadable(
+  lazy(() => import("../pages/store/article/ArticleList"))
+);
 
 const FirstOpening = Loadable(
   lazy(() => import("../pages/firstOpening/DefaultStore"))
@@ -26,8 +29,9 @@ const Router = [
     children: [
       { path: "/", element: <Navigate to="/home" /> },
       { path: "/home", exact: true, element: <Dashboard /> },
-      { path: "/store", exact: true, element: <Store /> },
-      { path: "/store/article/add", exact: true, element: <AddArticle /> },
+      { path: "/store/settings", exact: true, element: <Settings /> },
+      { path: "/store/articles", exact: true, element: <ArticleList /> },
+      { path: "/store/articles/add", exact: true, element: <AddArticle /> },
       { path: "*", element: <Navigate to="/auth/404" /> },
     ],
   },

@@ -7,33 +7,28 @@ const Menuitems = [
   {
     title: "Ma boutique",
     icon: "shopping-cart",
-    href: "/store",
+    href: "/store/settings",
     collapse: true,
     children: [
       {
         title: "Commandes",
         icon: "package",
-        href: "/store/article",
+        href: "/store/order",
       },
       {
         title: "Articles",
         icon: "shopping-bag",
-        href: "/store/article",
+        href: "/store/articles",
       },
       {
         title: "Clients",
         icon: "user",
-        href: "/store/article",
-      },
-      {
-        title: "Ajouter un article",
-        icon: "plus-circle",
-        href: "/store/article/add",
+        href: "/store/clients",
       },
       {
         title: "Paramètres",
         icon: "tool",
-        href: "/store",
+        href: "/store/settings",
       },
     ],
   },

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Box, Button, Card, Grid, Typography } from "@mui/material";
-import Breadcrumb from "../../layouts/full-layout/breadcrumb/Breadcrumb";
-import PageContainer from "../../components/container/PageContainer";
+import Breadcrumb from "../../../layouts/full-layout/breadcrumb/Breadcrumb";
+import PageContainer from "../../../components/container/PageContainer";
 import {
   DescriptionCardForm,
   PriceCardForm,
   CategoryForm,
   SizeForm,
-} from "../../components/forms/fb-elements/index";
-import imageIcon from "../../assets/images/logos/Icons.png";
+} from "../../../components/forms/fb-elements/index";
+import imageIcon from "../../../assets/images/logos/Icons.png";
 
 const UserProfile = () => {
   const BCrumb = [

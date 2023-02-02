@@ -43,6 +43,7 @@ const Profile = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
   return (
     <Box
       sx={{
+        overflow: "hidden",
         marginBottom: 5,
         alignItems: "center",
         justifyContent: "center",
@@ -156,8 +157,8 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
     }
   };
   const SidebarContent = (
-    <Scrollbar style={{ height: "calc(100vh - 5px)" }}>
-      <Box sx={{ p: 2 }}>
+    <Scrollbar style={{ height: "calc(100vh - 5px)", overflow: "hidden" }}>
+      <Box sx={{ p: 2, overflow: "hidden" }}>
         <LogoIcon />
         <Box
           sx={{

@@ -111,7 +111,7 @@ const UserProfile = () => {
                 title: "Boutique",
               },
               {
-                title: "Apprence",
+                title: "Apparence",
               },
             ]}
             title={`Depuis cette page, modifie l'apparence de ta boutique.`}
