@@ -155,6 +155,7 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
       setOpen(index);
     }
   };
+
   const SidebarContent = (
     <Scrollbar style={{ height: "calc(100vh - 5px)" }}>
       <Box sx={{ p: 2 }}>
@@ -191,31 +192,60 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                       onClick={() => handleClick(index)}
                       selected={pathWithoutLastPart === item.href}
                       sx={{
-                        mb: 1,
-                        mt: "-8px",
                         backgroundColor: "white !important",
                         ...(pathWithoutLastPart === item.href && {
-                          color: "white",
+                          color: "red",
                           backgroundColor: "white !important",
                         }),
                       }}
                     >
-                      <ListItemIcon
+                      <Box
                         sx={{
-                          backgroundColor: "white",
-                          ...(pathWithoutLastPart === item.href && {
-                            color: "white",
-                          }),
+                          flex: 1,
+                          flexDirection: "row",
+                          display: "flex",
+                          justifyContent: "center",
                         }}
                       >
-                        <FeatherIcon icon={item.icon} width="20" height="20" />
-                      </ListItemIcon>
-                      <ListItemText>{item.title}</ListItemText>
-                      {index === open || pathWithoutLastPart === item.href ? (
-                        <FeatherIcon icon="chevron-down" size="16" />
-                      ) : (
-                        <FeatherIcon icon="chevron-right" size="16" />
-                      )}
+                        <ListItemIcon
+                          sx={{
+                            mt: "6.5px",
+                            backgroundColor: "white",
+                            ...(pathWithoutLastPart === item.href && {
+                              color: "white",
+                            }),
+                          }}
+                        >
+                          <FeatherIcon
+                            icon={item.icon}
+                            width="20"
+                            height="20"
+                          />
+                        </ListItemIcon>
+                        <ListItemText
+                          sx={{
+                            mb: 1,
+                          }}
+                        >
+                          {item.title}
+                        </ListItemText>
+                        <Box
+                          sx={{
+                            mt: "7.5px",
+                            justifyContent: "end",
+                            width: "100%",
+                            flex: 1,
+                            display: "flex",
+                          }}
+                        >
+                          {index === open ||
+                          pathWithoutLastPart === item.href ? (
+                            <FeatherIcon icon="chevron-down" size="16" />
+                          ) : (
+                            <FeatherIcon icon="chevron-right" size="16" />
+                          )}
+                        </Box>
+                      </Box>
                     </ListItem>
 
                     <Collapse in={index === open} timeout="auto" unmountOnExit>
@@ -255,7 +285,7 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                                 <ListItemIcon
                                   sx={{
                                     svg: { width: "14px", marginLeft: "3px" },
-                                    mt: "6px",
+                                    mt: "6.5px",
                                     p: 0,
                                     mr: 1,
                                     minWidth: "auto",
@@ -301,10 +331,11 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                       disableTouchRipple
                       onClick={() => handleClick(index)}
                       button
-                      component={NavLink}
+                      // component={NavLink}
                       to={item.href}
                       selected={pathDirect === item.href}
                       sx={{
+                        pb: 0,
                         backgroundColor: "white !important",
                         ...(pathDirect === item.href && {
                           color: "#222222",
@@ -321,7 +352,7 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                       >
                         <ListItemIcon
                           sx={{
-                            mt: "6px",
+                            mt: "6.5px",
                             ...(pathDirect === item.href && {
                               color: "#222222",
                             }),
