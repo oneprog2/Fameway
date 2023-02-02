@@ -26,14 +26,14 @@ const Menuitems = [
         href: "/store/article",
       },
       {
-        title: "Apparence",
-        icon: "feather",
-        href: "/store",
-      },
-      {
         title: "Ajouter un article",
         icon: "plus-circle",
         href: "/store/article/add",
+      },
+      {
+        title: "Paramètres",
+        icon: "tool",
+        href: "/store",
       },
     ],
   },
