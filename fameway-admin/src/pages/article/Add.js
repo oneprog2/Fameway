@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button, Grid } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Button, Card, Grid, Typography } from "@mui/material";
 import Breadcrumb from "../../layouts/full-layout/breadcrumb/Breadcrumb";
 import PageContainer from "../../components/container/PageContainer";
-import CoverCard from "../../components/profile/CoverCard";
-import { userAtom } from "../../atoms/Atoms";
-import { useAtom } from "jotai";
-import { useMutation, useQuery } from "@apollo/client";
-import { STORE_DATA } from "../../api/queries";
-import { handleUpload } from "../../components/aws/UploadToS3";
-import { UPDATE_STORE } from "../../api/mutations";
-import Spinner from "../spinner/Spinner";
-import QuillEditor from "../../components/inputs/QuillEditor";
+import {
+  DescriptionCardForm,
+  PriceCardForm,
+  CategoryForm,
+  SizeForm,
+} from "../../components/forms/fb-elements/index";
+import imageIcon from "../../assets/images/logos/Icons.png";
 
 const UserProfile = () => {
   const BCrumb = [
@@ -23,36 +21,17 @@ const UserProfile = () => {
     },
   ];
 
-  const [currentUser] = useAtom(userAtom);
-  const [storeName, setStoreName] = React.useState(`@${currentUser?.username}`);
-  const [bannerFile, setBannerFile] = useState(null);
-  const [profileFile, setProfileFile] = useState(null);
+  const [pictures, setPictures] = useState([]);
 
-  const [storeDescription, setStoreDescription] = React.useState("");
-  const [mutationLoading, setMutationLoading] = React.useState(false);
-
-  useEffect(() => {
-    if (currentUser?.username) {
-      setStoreName(`@${currentUser?.username}`);
-    }
-  }, [currentUser]);
-
-  const { data, error, loading } = useQuery(STORE_DATA, {
-    variables: { storeID: currentUser?.storeID },
+  // if (loading) return <div>Chargement ...</div>;
+  const [windowSize, setWindowSize] = useState({
+    height: window.innerWidth,
+    width: window.innerHeight,
   });
-
-  const [updateStore, { storeError }] = useMutation(UPDATE_STORE);
-
-  if (loading) return <div>Chargement ...</div>;
 
   return (
     <PageContainer title="User Profile" description="this is User Profile page">
-      <Grid
-        lg={12}
-        sx={{
-          margin: "auto",
-        }}
-      >
+      <Grid lg={12}>
         <Box
           sx={{
             display: "flex",
@@ -86,36 +65,155 @@ const UserProfile = () => {
               items={BCrumb}
             ></Breadcrumb>
           </Box>
-
-          <Button
-            color="primary"
-            variant="contained"
-            sx={{
-              height: "40px",
-              width: "300px",
-              fontWeight: "700",
-              borderRadius: "100px",
-            }}
-          >
-            {mutationLoading ? (
-              <Box
-                sx={{
-                  height: "30px",
-                  width: "30px",
-                }}
-              >
-                <Spinner />
-              </Box>
-            ) : (
-              "Créer l'article"
-            )}
-          </Button>
         </Box>
 
-        <Grid lg={12} container>
-          <Grid item lg={3}></Grid>
-          <Grid item lg={9}>
-            <QuillEditor />
+        <Grid lg={12} md={12} sm={12} xs={12} container>
+          <Grid item lg={3} md={4} sm={5} spacing={0}>
+            <Box>
+              <Card
+                sx={{
+                  borderRadius: 3,
+                  mt: 2,
+                  backgroundColor: "#ffce00",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  display: "flex",
+                  aspectRatio: "1/1.2",
+                }}
+              >
+                <img
+                  alt="banners"
+                  style={{
+                    height: "30%",
+                    width: "30%",
+                    objectFit: "contain",
+                  }}
+                  src={
+                    pictures && pictures.length > 0 ? pictures[0] : imageIcon
+                  }
+                />
+              </Card>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flex: 1,
+                  px: 2,
+                  mt: 0,
+                  justifyContent: "space-between",
+                  spacing: {
+                    sm: 0,
+                    lg: 40,
+                  },
+                  gap: 1,
+                }}
+              >
+                {new Array(3).fill(0).map((item, index) => (
+                  <Card
+                    sx={{
+                      flex: 1,
+                      m: 0,
+                      borderRadius: 2,
+                      aspectRatio: "1/1.2",
+                      backgroundColor: "#222222",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      display: "flex",
+                    }}
+                  >
+                    <img
+                      alt="banners"
+                      style={{
+                        height: "50%",
+                        width: "50%",
+                        objectFit: "contain",
+                      }}
+                      src={
+                        pictures && pictures.length > 0
+                          ? pictures[0]
+                          : imageIcon
+                      }
+                    />
+                  </Card>
+                ))}
+              </Box>
+            </Box>
+          </Grid>
+
+          <Grid
+            item
+            lg={9}
+            spacing={0}
+            sm={7}
+            sx={{
+              marginTop: 2,
+            }}
+          >
+            <Typography
+              fontWeight="700"
+              sx={{
+                mt: {
+                  xs: 2,
+                  sm: 0,
+                },
+                pl: {
+                  xs: 2,
+                  sm: 2,
+                  md: 4,
+                },
+                fontSize: 26,
+              }}
+            >
+              ✏️ Description
+            </Typography>
+            <DescriptionCardForm />
+            <Typography
+              fontWeight="700"
+              sx={{
+                pl: {
+                  xs: 2,
+                  sm: 2,
+                  md: 4,
+                },
+                mt: 4,
+                fontSize: 26,
+              }}
+            >
+              💰 Prix
+            </Typography>
+            <PriceCardForm />
+
+            <Typography
+              fontWeight="700"
+              sx={{
+                pl: {
+                  xs: 2,
+                  sm: 2,
+                  md: 4,
+                },
+                mt: 4,
+                fontSize: 26,
+              }}
+            >
+              *️⃣ Catégorie
+            </Typography>
+            <CategoryForm />
+
+            {/* <Typography
+              fontWeight="700"
+              sx={{
+                pl: {
+                  xs: 2,
+                  sm: 2,
+                  md: 4,
+                },
+                mt: 4,
+                fontSize: 26,
+              }}
+            >
+              🧵 Taille
+            </Typography>
+            <SizeForm /> */}
           </Grid>
         </Grid>
 

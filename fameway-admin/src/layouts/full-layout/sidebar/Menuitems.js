@@ -8,11 +8,19 @@ const Menuitems = [
     title: "Ma boutique",
     icon: "shopping-cart",
     href: "/store",
-  },
-  {
-    title: "Ajouter un article",
-    icon: "pie-chart",
-    href: "/article/add",
+    collapse: true,
+    children: [
+      {
+        title: "Personnalisation",
+        icon: "feather",
+        href: "/store",
+      },
+      {
+        title: "Ajouter un article",
+        icon: "plus-circle",
+        href: "/article/add",
+      },
+    ],
   },
   {
     title: "Mon calendrier",

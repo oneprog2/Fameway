@@ -1,27 +1,9 @@
 import React from "react";
-import { Grid, Box, Card, CardContent, Link } from "@mui/material";
+import { Grid, Box, Card, CardContent } from "@mui/material";
 import profilecover from "../../assets/images/users/user.png";
 import imageIcon from "../../assets/images/logos/Icons.png";
-import FeatherIcon from "feather-icons-react";
 import CustomTextEmpty from "../forms/custom-elements/CustomTextEmpty";
-
-const EditButton = ({ onClick, size }) => (
-  <Link
-    onClick={onClick}
-    sx={{
-      cursor: "pointer",
-      backgroundColor: "#ffce00",
-      height: size === "small" ? 20 : 25,
-      width: size === "small" ? 20 : 25,
-      borderRadius: "6px",
-      alignItems: "center",
-      justifyContent: "center",
-      display: "flex",
-    }}
-  >
-    <FeatherIcon size={size === "small" ? 12 : 18} icon={"edit-2"} />
-  </Link>
-);
+import { EditButton } from "../buttons/EditButton";
 
 const CoverCard = ({
   storeName,

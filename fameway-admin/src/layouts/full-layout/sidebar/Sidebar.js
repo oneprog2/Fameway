@@ -20,9 +20,7 @@ import FeatherIcon from "feather-icons-react";
 import { SidebarWidth } from "../../../assets/global/Theme-variable";
 import LogoIcon from "../logo/LogoIcon";
 import Menuitems from "./Menuitems";
-import Buynow from "./Buynow";
 import Scrollbar from "../../../components/custom-scroll/Scrollbar";
-import ProfileDropdown from "../header/ProfileDropdown";
 import { useAuth0 } from "@auth0/auth0-react";
 import { userAtom } from "../../../atoms/Atoms";
 import { useAtom } from "jotai";
@@ -63,15 +61,15 @@ const Profile = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
           <Box
             sx={{
               borderRadius: "100%",
-              width: "30px",
-              height: "30px",
+              width: "40px",
+              height: "40px",
               justifyContent: "center",
               alignItems: "center",
               display: "flex",
               backgroundColor: "#000000",
             }}
           >
-            <FeatherIcon icon="user" width="15" height="15" color="white" />
+            <FeatherIcon icon="user" width="20" height="20" color="white" />
           </Box>
           <Box
             sx={{
@@ -79,6 +77,7 @@ const Profile = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                 xs: "none",
                 sm: "flex",
               },
+
               alignItems: "center",
             }}
           >
@@ -156,7 +155,6 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
       setOpen(index);
     }
   };
-
   const SidebarContent = (
     <Scrollbar style={{ height: "calc(100vh - 5px)" }}>
       <Box sx={{ p: 2 }}>
@@ -187,21 +185,24 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                 return (
                   <React.Fragment key={item.title}>
                     <ListItem
+                      disableTouchRipple
                       button
                       component="li"
                       onClick={() => handleClick(index)}
                       selected={pathWithoutLastPart === item.href}
                       sx={{
                         mb: 1,
+                        mt: "-8px",
+                        backgroundColor: "white !important",
                         ...(pathWithoutLastPart === item.href && {
                           color: "white",
-                          backgroundColor: (theme) =>
-                            `${theme.palette.primary.main}!important`,
+                          backgroundColor: "white !important",
                         }),
                       }}
                     >
                       <ListItemIcon
                         sx={{
+                          backgroundColor: "white",
                           ...(pathWithoutLastPart === item.href && {
                             color: "white",
                           }),
@@ -216,11 +217,19 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                         <FeatherIcon icon="chevron-right" size="16" />
                       )}
                     </ListItem>
+
                     <Collapse in={index === open} timeout="auto" unmountOnExit>
-                      <List component="li" disablePadding>
+                      <List
+                        component="li"
+                        sx={{
+                          mb: 1,
+                          mt: -2,
+                        }}
+                      >
                         {item.children.map((child) => {
                           return (
                             <ListItem
+                              disableTouchRipple
                               key={child.title}
                               button
                               component={NavLink}
@@ -228,28 +237,55 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                               onClick={onSidebarClose}
                               selected={pathDirect === child.href}
                               sx={{
-                                mb: 1,
+                                marginLeft: 2,
+                                backgroundColor: "white !important",
                                 ...(pathDirect === child.href && {
-                                  color: "primary.main",
-                                  backgroundColor: "transparent!important",
+                                  color: "#222222",
+                                  backgroundColor: "white !important",
                                 }),
                               }}
                             >
-                              <ListItemIcon
+                              <Box
                                 sx={{
-                                  svg: { width: "14px", marginLeft: "3px" },
-                                  ...(pathDirect === child.href && {
-                                    color: "primary.main",
-                                  }),
+                                  flexDirection: "row",
+                                  display: "flex",
+                                  justifyContent: "center",
                                 }}
                               >
-                                <FeatherIcon
-                                  icon={child.icon}
-                                  width="20"
-                                  height="20"
-                                />
-                              </ListItemIcon>
-                              <ListItemText>{child.title}</ListItemText>
+                                <ListItemIcon
+                                  sx={{
+                                    svg: { width: "14px", marginLeft: "3px" },
+                                    mt: "6px",
+                                    p: 0,
+                                    mr: 1,
+                                    minWidth: "auto",
+                                    ...(pathDirect === child.href && {
+                                      color: "#222222",
+                                    }),
+                                  }}
+                                >
+                                  <FeatherIcon
+                                    icon={child.icon}
+                                    width="20"
+                                    height="20"
+                                  />
+                                </ListItemIcon>
+
+                                <ListItemText>
+                                  {child.title}
+                                  <Box
+                                    sx={{
+                                      borderBottomWidth: "3px",
+                                      borderBottomStyle: "solid",
+                                      borderBottomColor: "transparent",
+                                      ...(pathDirect === child.href && {
+                                        borderBottomColor: "#ffd028",
+                                        mt: 0,
+                                      }),
+                                    }}
+                                  ></Box>
+                                </ListItemText>
+                              </Box>
                             </ListItem>
                           );
                         })}
@@ -262,30 +298,71 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                 return (
                   <List component="li" disablePadding key={item.title}>
                     <ListItem
+                      disableTouchRipple
                       onClick={() => handleClick(index)}
                       button
                       component={NavLink}
                       to={item.href}
                       selected={pathDirect === item.href}
                       sx={{
-                        mb: 1,
+                        backgroundColor: "white !important",
                         ...(pathDirect === item.href && {
-                          color: "white",
-                          backgroundColor: (theme) =>
-                            `${theme.palette.primary.main}!important`,
+                          color: "#222222",
+                          backgroundColor: "white !important",
                         }),
                       }}
                     >
-                      <ListItemIcon
+                      <Box
                         sx={{
-                          ...(pathDirect === item.href && { color: "white" }),
+                          flexDirection: "row",
+                          display: "flex",
+                          justifyContent: "center",
                         }}
                       >
-                        <FeatherIcon icon={item.icon} width="20" height="20" />
-                      </ListItemIcon>
-                      <ListItemText onClick={onSidebarClose}>
-                        {item.title}
-                      </ListItemText>
+                        <ListItemIcon
+                          sx={{
+                            mt: "6px",
+                            ...(pathDirect === item.href && {
+                              color: "#222222",
+                            }),
+                          }}
+                        >
+                          <FeatherIcon
+                            icon={item.icon}
+                            width="20"
+                            height="20"
+                          />
+                        </ListItemIcon>
+                        <ListItemText
+                          onClick={onSidebarClose}
+                          primaryTypographyProps={{
+                            ...(pathDirect === item.href && {
+                              fontWeight: "800",
+                            }),
+                          }}
+                          sx={{
+                            flex: 1,
+                            ...(pathDirect === item.href && {
+                              color: "#222222",
+                              fontWeight: "bold",
+                            }),
+                          }}
+                        >
+                          {item.title}
+                          <Box
+                            sx={{
+                              borderBottomWidth: "3px",
+                              borderBottomStyle: "solid",
+                              borderBottomColor: "transparent",
+                              mt: 1,
+                              ...(pathDirect === item.href && {
+                                borderBottomColor: "#ffd028",
+                                mt: 1,
+                              }),
+                            }}
+                          ></Box>
+                        </ListItemText>
+                      </Box>
                     </ListItem>
                   </List>
                 );
@@ -332,12 +409,6 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
       {/* <Profile /> */}
     </Drawer>
   );
-};
-
-Sidebar.propTypes = {
-  isMobileSidebarOpen: PropTypes.bool,
-  onSidebarClose: PropTypes.func,
-  isSidebarOpen: PropTypes.bool,
 };
 
 export default Sidebar;
