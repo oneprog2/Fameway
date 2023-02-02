@@ -9,6 +9,7 @@ export const BigButton = ({
   <Box
     onClick={onClick}
     sx={{
+      cursor: "pointer",
       backgroundColor: backgroundColor,
       flexDirection: "row",
       borderRadius: 6,

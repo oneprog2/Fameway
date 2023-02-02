@@ -128,6 +128,9 @@ const ArticleList = () => {
           }}
         >
           <BigButton
+            onClick={() => {
+              window.location.href = "/store/articles/add";
+            }}
             icon={"🎨"}
             title={"Ajouter un nouvel article à ma boutique"}
           />
