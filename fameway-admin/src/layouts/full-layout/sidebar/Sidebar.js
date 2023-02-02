@@ -155,7 +155,6 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
       setOpen(index);
     }
   };
-
   const SidebarContent = (
     <Scrollbar style={{ height: "calc(100vh - 5px)" }}>
       <Box sx={{ p: 2 }}>
@@ -188,7 +187,9 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                     <ListItem
                       disableTouchRipple
                       button
-                      component="li"
+                      nav={item.nav}
+                      component={NavLink}
+                      to={item.href}
                       onClick={() => handleClick(index)}
                       selected={pathWithoutLastPart === item.href}
                       sx={{
@@ -331,7 +332,7 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                       disableTouchRipple
                       onClick={() => handleClick(index)}
                       button
-                      // component={NavLink}
+                      component={NavLink}
                       to={item.href}
                       selected={pathDirect === item.href}
                       sx={{
