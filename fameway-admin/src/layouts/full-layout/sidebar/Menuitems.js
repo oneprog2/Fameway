@@ -11,6 +11,16 @@ const Menuitems = [
     collapse: true,
     children: [
       {
+        title: "Commandes",
+        icon: "package",
+        href: "/store/article",
+      },
+      {
+        title: "Articles",
+        icon: "shopping-bag",
+        href: "/store/article",
+      },
+      {
         title: "Apparence",
         icon: "feather",
         href: "/store",

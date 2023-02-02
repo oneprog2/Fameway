@@ -257,7 +257,7 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                         component="li"
                         sx={{
                           mb: 1,
-                          mt: -2,
+                          mt: -1,
                         }}
                       >
                         {item.children.map((child) => {
@@ -279,7 +279,7 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                               onClick={onSidebarClose}
                               selected={pathDirect === child.href}
                               sx={{
-                                marginLeft: 2,
+                                marginLeft: 3,
                                 backgroundColor: "white !important",
                                 ...(pathDirect === child.href && {
                                   color: "#222222",
@@ -299,7 +299,7 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                                     svg: { width: "14px", marginLeft: "3px" },
                                     mt: "6.5px",
                                     p: 0,
-                                    mr: 1,
+                                    mr: 1.5,
                                     minWidth: "auto",
                                     ...(pathDirect === child.href && {
                                       color: "#222222",
