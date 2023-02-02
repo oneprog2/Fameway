@@ -12,7 +12,7 @@ const BlankLayout = Loadable(
 const Error = Loadable(lazy(() => import("../pages/authentication/Error")));
 
 const Dashboard = Loadable(lazy(() => import("../pages/dashboard/Dashboard")));
-const Settings = Loadable(lazy(() => import("../pages/store/Settings")));
+const Settings = Loadable(lazy(() => import("../pages/store/StoreSettings")));
 const AddArticle = Loadable(lazy(() => import("../pages/store/article/Add")));
 const ArticleList = Loadable(
   lazy(() => import("../pages/store/article/ArticleList"))

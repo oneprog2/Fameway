@@ -19,6 +19,9 @@ export const STORE_DATA = gql`
     store_by_pk(id: $storeID) {
       id
       name
+      profilePicture
+      bannerPicture
+      description
       articles {
         id
         name

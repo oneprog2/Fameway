@@ -134,7 +134,11 @@ const ArticleList = () => {
             icon={"🎨"}
             title={"Ajouter un nouvel article à ma boutique"}
           />
-          <BigButton icon={"👕"} title={"Créer une nouvelle collection"} />
+          <BigButton
+            disabled
+            icon={"👕"}
+            title={"Créer une nouvelle collection"}
+          />
         </Box>
       </Grid>
     </PageContainer>

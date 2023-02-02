@@ -39,7 +39,6 @@ const CoverCard = ({
       setPreviewProfile(reader.result);
     };
   };
-
   return (
     <div
       sx={{
@@ -208,7 +207,7 @@ const CoverCard = ({
                         minWidth: 100,
                         height: 40,
                         fontSize: 30,
-                        width: storeName.length * 14 + 50,
+                        width: storeName?.length * 14 + 50,
                         fontWeight: "900",
                         textAlign: "start",
                         margin: 0,
@@ -249,7 +248,7 @@ const CoverCard = ({
                         marginTop: 0,
                         textAlign: "start",
                         minWidth: "160px",
-                        width: storeDescription.length * 7,
+                        width: storeDescription?.length * 7,
                         height: 30,
                         padding: 0,
                         marginLeft: 2,

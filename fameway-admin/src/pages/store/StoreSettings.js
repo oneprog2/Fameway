@@ -14,29 +14,35 @@ import { CategoryButton } from "../../components/buttons/CategoryButton";
 
 const UserProfile = () => {
   const [currentUser] = useAtom(userAtom);
-  const [storeName, setStoreName] = React.useState(`@${currentUser?.username}`);
-  const [bannerFile, setBannerFile] = useState(null);
-  const [profileFile, setProfileFile] = useState(null);
-
-  const [category, setCategory] = useState("Personnalisation");
-
-  const [storeDescription, setStoreDescription] = React.useState("");
-  const [mutationLoading, setMutationLoading] = React.useState(false);
-
-  useEffect(() => {
-    if (currentUser?.username) {
-      setStoreName(`@${currentUser?.username}`);
-    }
-  }, [currentUser]);
 
   const { data, error, loading } = useQuery(STORE_DATA, {
     variables: { storeID: currentUser?.storeID },
   });
 
+  const [storeName, setStoreName] = React.useState(undefined);
+
+  const [category, setCategory] = useState("Personnalisation");
+
+  const [storeDescription, setStoreDescription] = React.useState("");
+  const [mutationLoading, setMutationLoading] = React.useState(false);
+  const [loadData, setLoadData] = React.useState(false);
+
+  useEffect(() => {
+    setLoadData(true);
+    if (data?.store_by_pk) {
+      setStoreName(data?.store_by_pk?.name);
+      setStoreDescription(data?.store_by_pk?.description);
+      setProfileFile(data?.store_by_pk?.profilePicture);
+      setBannerFile(data?.store_by_pk?.bannerPicture);
+      setLoadData(false);
+    }
+  }, [data, loading]);
+  const [bannerFile, setBannerFile] = useState(null);
+  const [profileFile, setProfileFile] = useState(null);
+
   const [updateStore, { storeError }] = useMutation(UPDATE_STORE);
 
-  if (loading) return <div>Chargement ...</div>;
-
+  if (loading || loadData) return <div>Chargement ...</div>;
   const handleStoreUpdate = async () => {
     setMutationLoading(true);
     let profileUrl;
@@ -69,7 +75,7 @@ const UserProfile = () => {
         description: storeDescription,
       },
     }).then(() => {
-      window.location.href = "/home";
+      window.location.href = "/store/settings";
     });
 
     setMutationLoading(false);
@@ -169,6 +175,7 @@ const UserProfile = () => {
           <Button
             color="primary"
             variant="contained"
+            onClick={handleStoreUpdate}
             sx={{
               alignSelf: "self-end",
               marginTop: 10,

@@ -5,11 +5,13 @@ export const BigButton = ({
   title,
   backgroundColor = "#222222",
   onClick,
+  disabled = false,
 }) => (
   <Box
-    onClick={onClick}
+    onClick={!disabled && onClick}
     sx={{
-      cursor: "pointer",
+      cursor: disabled ? "not-allowed" : "pointer",
+      opacity: disabled ? 0.5 : 1,
       backgroundColor: backgroundColor,
       flexDirection: "row",
       borderRadius: 6,
