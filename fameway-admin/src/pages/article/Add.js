@@ -67,8 +67,34 @@ const UserProfile = () => {
           </Box>
         </Box>
 
-        <Grid lg={12} md={12} sm={12} xs={12} container>
-          <Grid item lg={3} md={4} sm={5} spacing={0}>
+        <Grid
+          lg={12}
+          md={12}
+          sm={12}
+          xs={12}
+          container
+          sx={{
+            display: "flex",
+          }}
+        >
+          <Grid item lg={3} md={4} sm={5} spacing={0} sx={{ mt: 2 }}>
+            <Typography
+              fontWeight="700"
+              sx={{
+                mt: {
+                  xs: 2,
+                  sm: 0,
+                },
+                pl: {
+                  xs: 2,
+                  sm: 2,
+                  md: 2,
+                },
+                fontSize: 26,
+              }}
+            >
+              📷 Photos
+            </Typography>
             <Box>
               <Card
                 sx={{
@@ -140,10 +166,11 @@ const UserProfile = () => {
             </Box>
           </Grid>
 
+          <Box sx={{ flex: 1 }}></Box>
+
           <Grid
             item
-            lg={9}
-            spacing={0}
+            lg={8.5}
             sm={7}
             sx={{
               marginTop: 2,

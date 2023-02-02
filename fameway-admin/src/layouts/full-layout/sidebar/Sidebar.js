@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -248,8 +248,11 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                         </Box>
                       </Box>
                     </ListItem>
-
-                    <Collapse in={index === open} timeout="auto" unmountOnExit>
+                    <Collapse
+                      in={index === open || item.href === pathDirect}
+                      timeout="auto"
+                      unmountOnExit
+                    >
                       <List
                         component="li"
                         sx={{
@@ -258,6 +261,14 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                         }}
                       >
                         {item.children.map((child) => {
+                          if (pathDirect === child.href && open !== index) {
+                            setOpen(
+                              pathDirect.split("/")[1] ===
+                                child.href.split("/")[1]
+                                ? index
+                                : open
+                            );
+                          }
                           return (
                             <ListItem
                               disableTouchRipple
