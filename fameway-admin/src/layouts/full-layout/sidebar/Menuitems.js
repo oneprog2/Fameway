@@ -21,6 +21,11 @@ const Menuitems = [
         href: "/store/article",
       },
       {
+        title: "Clients",
+        icon: "user",
+        href: "/store/article",
+      },
+      {
         title: "Apparence",
         icon: "feather",
         href: "/store",

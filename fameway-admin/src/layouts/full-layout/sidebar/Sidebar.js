@@ -195,7 +195,6 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                       sx={{
                         backgroundColor: "white !important",
                         ...(pathWithoutLastPart === item.href && {
-                          color: "red",
                           backgroundColor: "white !important",
                         }),
                       }}
@@ -213,7 +212,7 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                             mt: "6.5px",
                             backgroundColor: "white",
                             ...(pathWithoutLastPart === item.href && {
-                              color: "white",
+                              color: "#222222",
                             }),
                           }}
                         >
@@ -221,10 +220,25 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                             icon={item.icon}
                             width="20"
                             height="20"
+                            color={
+                              pathDirect.split("/")[1] ===
+                              item.href.split("/")[1]
+                                ? "#222222"
+                                : "#757575"
+                            }
                           />
                         </ListItemIcon>
                         <ListItemText
+                          primaryTypographyProps={{
+                            ...(pathDirect.split("/")[1] ===
+                              item.href.split("/")[1] && {
+                              fontWeight: "800",
+                            }),
+                          }}
                           sx={{
+                            ...(pathWithoutLastPart === item.href && {
+                              color: "#222222",
+                            }),
                             mb: 1,
                           }}
                         >
@@ -237,13 +251,24 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                             width: "100%",
                             flex: 1,
                             display: "flex",
+                            ...(pathWithoutLastPart === item.href && {
+                              color: "#222222",
+                            }),
                           }}
                         >
                           {index === open ||
                           pathWithoutLastPart === item.href ? (
-                            <FeatherIcon icon="chevron-down" size="16" />
+                            <FeatherIcon
+                              icon="chevron-down"
+                              size="16"
+                              color={"#222222"}
+                            />
                           ) : (
-                            <FeatherIcon icon="chevron-right" size="16" />
+                            <FeatherIcon
+                              icon="chevron-right"
+                              size="16"
+                              color={"#757575"}
+                            />
                           )}
                         </Box>
                       </Box>
@@ -313,7 +338,13 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                                   />
                                 </ListItemIcon>
 
-                                <ListItemText>
+                                <ListItemText
+                                  primaryTypographyProps={{
+                                    ...(pathDirect === child.href && {
+                                      fontWeight: "800",
+                                    }),
+                                  }}
+                                >
                                   {child.title}
                                   <Box
                                     sx={{
