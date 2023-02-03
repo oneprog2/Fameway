@@ -22,11 +22,36 @@ const UserProfile = () => {
 
   const [pictures, setPictures] = useState([]);
 
-  // if (loading) return <div>Chargement ...</div>;
-  const [windowSize, setWindowSize] = useState({
-    height: window.innerWidth,
-    width: window.innerHeight,
-  });
+  const handleProfileInput = ({ index, file }) => {
+    var tmpFile = file.target.files[0];
+
+    var reader = new FileReader();
+    var url = reader.readAsDataURL(tmpFile);
+    reader.onloadend = function (e) {
+      let indexExist = pictures?.findIndex((p) => p.index === index);
+      if (indexExist !== -1) {
+        setPictures(
+          pictures?.map((p) => {
+            if (p.index === indexExist) {
+              let tmp = p;
+              tmp.preview = reader.result;
+              tmp.url = tmpFile;
+              tmp.index = index;
+              return tmp;
+            } else return p;
+          })
+        );
+      } else
+        setPictures([
+          ...pictures,
+          {
+            index: index,
+            preview: reader.result,
+            url: tmpFile,
+          },
+        ]);
+    };
+  };
 
   return (
     <PageContainer title="User Profile" description="this is User Profile page">
@@ -100,24 +125,54 @@ const UserProfile = () => {
                 sx={{
                   borderRadius: 3,
                   mt: 2,
-                  backgroundColor: "#ffce00",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  backgroundColor: "#222222",
+                  p: 0,
                   display: "flex",
                   aspectRatio: "1/1.2",
+                  cursor: "pointer",
                 }}
               >
-                <img
-                  alt="banners"
-                  style={{
-                    height: "30%",
-                    width: "30%",
-                    objectFit: "contain",
-                  }}
-                  src={
-                    pictures && pictures.length > 0 ? pictures[0] : imageIcon
+                <label
+                  key={"mainPic"}
+                  onChange={(e) =>
+                    handleProfileInput({
+                      file: e,
+                      index: 0,
+                    })
                   }
-                />
+                  style={{
+                    cursor: "pointer",
+                    height: "100%",
+                    width: "100%",
+                    objectFit: "contain",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    display: "flex",
+                  }}
+                  htmlFor="mainPicture"
+                >
+                  <input
+                    alt={"Photo principale"}
+                    accept="image/*"
+                    name="mainPicture"
+                    type="file"
+                    id="mainPicture"
+                    hidden
+                  />
+                  <img
+                    alt="banners"
+                    style={{
+                      height: pictures?.length > 0 ? "100%" : "30%",
+                      width: pictures?.length > 0 ? "100%" : "30%",
+                      objectFit: pictures?.length > 0 ? "cover" : "contain",
+                    }}
+                    src={
+                      pictures?.find((o) => o.index === 0)
+                        ? pictures?.find((o) => o.index === 0)?.preview
+                        : imageIcon
+                    }
+                  />
+                </label>
               </Card>
 
               <Box
@@ -134,33 +189,63 @@ const UserProfile = () => {
                   gap: 1,
                 }}
               >
-                {new Array(3).fill(0).map((item, index) => (
-                  <Card
-                    sx={{
-                      flex: 1,
-                      m: 0,
-                      borderRadius: 2,
-                      aspectRatio: "1/1.2",
-                      backgroundColor: "#222222",
-                      justifyContent: "center",
+                {new Array(4).fill(0).map((item, index) => (
+                  <label
+                    key={index + "pic"}
+                    onChange={(e) =>
+                      handleProfileInput({
+                        file: e,
+                        index: index + 1,
+                      })
+                    }
+                    style={{
+                      cursor: "pointer",
+                      height: "100%",
+                      width: "100%",
+                      objectFit: "contain",
                       alignItems: "center",
+                      justifyContent: "center",
                       display: "flex",
                     }}
+                    htmlFor={`pictures-${index}`}
                   >
-                    <img
-                      alt="banners"
-                      style={{
-                        height: "50%",
-                        width: "50%",
-                        objectFit: "contain",
-                      }}
-                      src={
-                        pictures && pictures.length > 0
-                          ? pictures[0]
-                          : imageIcon
-                      }
+                    <input
+                      accept="image/*"
+                      alt={`Photo ${index + 1}`}
+                      name={`pictures-${index}`}
+                      type="file"
+                      id={`pictures-${index}`}
+                      hidden
                     />
-                  </Card>
+                    <Card
+                      key={index + "pic"}
+                      sx={{
+                        flex: 1,
+                        m: 0,
+                        borderRadius: 2,
+                        aspectRatio: "1/1.2",
+                        backgroundColor: "#FFCE00",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        display: "flex",
+                      }}
+                    >
+                      <img
+                        alt="banners"
+                        style={{
+                          height: "50%",
+                          width: "50%",
+                          objectFit: "contain",
+                        }}
+                        src={
+                          pictures?.find((o) => o.index === index + 1)
+                            ? pictures?.find((o) => o.index === index + 1)
+                                ?.preview
+                            : imageIcon
+                        }
+                      />
+                    </Card>
+                  </label>
                 ))}
               </Box>
             </Box>

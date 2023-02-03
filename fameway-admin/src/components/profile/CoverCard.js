@@ -39,6 +39,7 @@ const CoverCard = ({
       setPreviewProfile(reader.result);
     };
   };
+
   return (
     <div
       sx={{

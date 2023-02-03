@@ -76,19 +76,18 @@ const PriceCardForm = () => {
     return (
       <Box
         sx={{
-          flex: 1,
           flexDirection: "column",
-          display: "flex",
         }}
       >
-        <Typography
+        <Box
           sx={{
-            marginTop: 2,
+            height: 50,
+            display: "flex",
+            flex: 1,
           }}
-          fontWeight="700"
         >
-          {title}
-        </Typography>
+          <Typography fontWeight="700">{title}</Typography>
+        </Box>
         <Box
           sx={{
             justifyContent: "center",
@@ -113,16 +112,27 @@ const PriceCardForm = () => {
   return (
     <Card
       sx={{
-        p: 0,
+        p: 2,
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <CardContent
         sx={{
           display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: {
+            xs: "column",
+            sm: "column",
+            md: "row",
+          },
           gap: 2,
-          height: 200,
+          height: {
+            xs: "auto",
+            sm: "auto",
+            md: "100%",
+          },
           px: "30px",
         }}
       >
