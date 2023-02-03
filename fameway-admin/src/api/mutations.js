@@ -24,6 +24,34 @@ export const UPDATE_STORE = gql`
   }
 `;
 
+export const UPSERT_ARTICLE = gql`
+  mutation upsert_article(
+    $storeID: uuid!
+    $name: String
+    $description: String
+    $articlePictures: _text
+    $price: Int
+  ) {
+    insert_article(
+      objects: {
+        storeID: $storeID
+        status: "draft"
+        name: $name
+        description: $description
+        articlePictures: $articlePictures
+        price: $price
+      } # on_conflict: {
+    ) #   constraint: article_pkey
+    #   update_columns: [status, name, description, articlePictures, price]
+    # }
+    {
+      returning {
+        id
+      }
+    }
+  }
+`;
+
 export const UPDATE_USER = gql`
   mutation UpdateUser($userID: String!, $firstOpening: Boolean) {
     update_user_by_pk(

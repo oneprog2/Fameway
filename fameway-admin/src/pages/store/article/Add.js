@@ -9,6 +9,11 @@ import {
 } from "../../../components/forms/fb-elements/index";
 import { PicturesInput } from "../../../components/inputs/PicturesInput";
 import FeatherIcon from "feather-icons-react";
+import { handleUpload } from "../../../components/aws/UploadToS3";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../atoms/Atoms";
+import { useMutation } from "@apollo/client";
+import { UPSERT_ARTICLE } from "../../../api/mutations";
 
 const UserProfile = () => {
   const BCrumb = [
@@ -21,10 +26,15 @@ const UserProfile = () => {
     },
   ];
 
+  const [currentUser] = useAtom(userAtom);
+
   const [pictures, setPictures] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [articleID, setArticleID] = useState(null);
+  const [mutationLoading, setMutationLoading] = useState(false);
+  const [upsertArticle, { storeError }] = useMutation(UPSERT_ARTICLE);
 
   const handleSetPictures = ({ index, file }) => {
     var tmpFile = file.target.files[0];
@@ -57,11 +67,57 @@ const UserProfile = () => {
     };
   };
 
-  const handleUploadArticle = () => {
-    console.log("name", name);
-    console.log("description", description);
-    console.log("price", price);
-    console.log("pictures", pictures);
+  const handleUploadArticle = async () => {
+    setMutationLoading(true);
+
+    if (pictures?.length > 0) {
+      let test = await Promise.all(
+        pictures.map(async (p) => {
+          let tmp = p;
+          await handleUpload(p.url, currentUser?.username).then((res) => {
+            tmp.uploadUrl = res?.location;
+          });
+          return tmp;
+        })
+      ).then(async (res) => {
+        // console.log(res.);
+        let uploadedUrls = res.map((item) => {
+          return item["uploadUrl"];
+        });
+        await upsertArticle({
+          variables: {
+            storeID: currentUser?.storeID,
+            name: name,
+            description: description,
+            price: price,
+            articlePictures: `{${uploadedUrls.join(",")}}`,
+          },
+        }).then(() => {
+          window.location.href = "/store/articles";
+        });
+      });
+    }
+
+    // await updateStore({
+    //   variables: {
+    //     storeID: currentUser?.storeID,
+    //     status: "draft",
+    //     name: storeName,
+    //     bannerPicture: bannerUrl,
+    //     profilePicture: profileUrl,
+    //     description: storeDescription,
+    //   },
+    // });
+    // await updateUser({
+    //   variables: {
+    //     userID: currentUser?.id,
+    //     firstOpening: false,
+    //   },
+    // }).then(() => {
+    //   window.location.href = "/home";
+    // });
+
+    setMutationLoading(false);
   };
 
   return (
