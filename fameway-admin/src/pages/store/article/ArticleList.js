@@ -62,6 +62,8 @@ const ArticleList = () => {
     };
   });
 
+  console.log(error);
+
   if (loading) return <div>Chargement ...</div>;
 
   return (

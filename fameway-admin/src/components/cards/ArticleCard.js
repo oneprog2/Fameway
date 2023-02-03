@@ -1,4 +1,4 @@
-import { CardContent, Grid, Typography } from "@mui/material";
+import { Card, CardContent, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
 export const ArticleCard = ({
@@ -28,17 +28,18 @@ export const ArticleCard = ({
           m: 0,
           mb: 1,
           width: "100%",
+          height: "100%",
         }}
       >
         <Box
           sx={{
             borderRadius: "6px",
-            backgroundColor: "#F5F5F5",
-            height: "320px",
-            width: "100%",
+            ratio: "1/1.2",
             justifyContent: "center",
             alignItems: "center",
             display: "flex",
+            backgroundColor: "#F5F5F5",
+            height: "100%",
           }}
         >
           {suggestion ? (
@@ -62,7 +63,7 @@ export const ArticleCard = ({
               height="100%"
               width="100%"
               style={{
-                objectFit: "contain",
+                objectFit: "cover",
               }}
             />
           ) : icon ? (
@@ -89,7 +90,7 @@ export const ArticleCard = ({
             }}
             textAlign={"center"}
           >
-            {price}
+            {price} €
           </Typography>
         </Box>
       </CardContent>
