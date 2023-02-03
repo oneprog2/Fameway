@@ -34,7 +34,7 @@ export const ArticleCard = ({
         <Box
           sx={{
             borderRadius: "6px",
-            ratio: "1/1.2",
+            aspectRatio: "1/1.2",
             justifyContent: "center",
             alignItems: "center",
             display: "flex",
