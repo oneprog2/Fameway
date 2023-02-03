@@ -287,13 +287,12 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                         }}
                       >
                         {item.children.map((child) => {
-                          if (pathDirect === child.href && open !== index) {
-                            setOpen(
-                              pathDirect.split("/")[1] ===
-                                child.href.split("/")[1]
-                                ? index
-                                : open
-                            );
+                          if (
+                            open !== index &&
+                            pathDirect?.split("/")?.[1] ===
+                              child.href?.split("/")?.[1]
+                          ) {
+                            setOpen(index);
                           }
                           return (
                             <ListItem
@@ -303,11 +302,15 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                               component={NavLink}
                               to={child.href}
                               onClick={onSidebarClose}
-                              selected={pathDirect === child.href}
+                              selected={
+                                child.href?.split("/")?.[2] ===
+                                pathDirect?.split("/")?.[2]
+                              }
                               sx={{
                                 marginLeft: 3,
                                 backgroundColor: "white !important",
-                                ...(pathDirect === child.href && {
+                                ...(child.href?.split("/")?.[2] ===
+                                  pathDirect?.split("/")?.[2] && {
                                   color: "#222222",
                                   backgroundColor: "white !important",
                                 }),
@@ -327,7 +330,8 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                                     p: 0,
                                     mr: 1.5,
                                     minWidth: "auto",
-                                    ...(pathDirect === child.href && {
+                                    ...(child.href?.split("/")?.[2] ===
+                                      pathDirect?.split("/")?.[2] && {
                                       color: "#222222",
                                     }),
                                   }}
@@ -341,7 +345,8 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
 
                                 <ListItemText
                                   primaryTypographyProps={{
-                                    ...(pathDirect === child.href && {
+                                    ...(child.href?.split("/")?.[2] ===
+                                      pathDirect?.split("/")?.[2] && {
                                       fontWeight: "800",
                                     }),
                                   }}
@@ -352,7 +357,8 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
                                       borderBottomWidth: "3px",
                                       borderBottomStyle: "solid",
                                       borderBottomColor: "transparent",
-                                      ...(pathDirect === child.href && {
+                                      ...(child.href?.split("/")?.[2] ===
+                                        pathDirect?.split("/")?.[2] && {
                                         borderBottomColor: "#ffd028",
                                         mt: 0,
                                       }),
