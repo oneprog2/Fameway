@@ -109,9 +109,6 @@ const ArticleList = () => {
           <Breadcrumb
             items={[
               {
-                title: "Boutique",
-              },
-              {
                 title: "Articles",
               },
             ]}

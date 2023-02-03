@@ -6,15 +6,14 @@ import {
   DescriptionCardForm,
   PriceCardForm,
   CategoryForm,
-  SizeForm,
 } from "../../../components/forms/fb-elements/index";
 import imageIcon from "../../../assets/images/logos/Icons.png";
 
 const UserProfile = () => {
   const BCrumb = [
     {
-      to: "/store",
-      title: "Boutique",
+      to: "/store/articles",
+      title: "Articles",
     },
     {
       title: "Ajouter un article",
