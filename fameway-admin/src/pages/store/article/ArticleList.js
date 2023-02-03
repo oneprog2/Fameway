@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, CardContent, Grid, Typography } from "@mui/material";
 import Breadcrumb from "../../../layouts/full-layout/breadcrumb/Breadcrumb";
 import PageContainer from "../../../components/container/PageContainer";
 import { userAtom } from "../../../atoms/Atoms";
@@ -7,12 +7,59 @@ import { useAtom } from "jotai";
 import { useQuery } from "@apollo/client";
 import { STORE_DATA } from "../../../api/queries";
 import { BigButton } from "../../../components/buttons/BigButton";
+import FeatherIcon from "feather-icons-react";
+import { ArticleCard } from "../../../components/cards/ArticleCard";
+
+const List = ({ data }) => {
+  return (
+    <>
+      {data?.map((product) => (
+        <ArticleCard
+          picture={product.photo}
+          title={product.title}
+          price={product.price}
+          icon={product.icon}
+          suggestion={product.suggestion}
+          type={product.type}
+        ></ArticleCard>
+      ))}
+    </>
+  );
+};
+const AddButton = () => {
+  return (
+    <Box
+      sx={{
+        backgroundColor: "#ffce00",
+        borderRadius: "100px",
+        width: "50px",
+        height: "50px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <FeatherIcon icon="plus" width="25" height="25" />
+    </Box>
+  );
+};
 
 const ArticleList = () => {
   const [currentUser] = useAtom(userAtom);
 
   const { data, error, loading } = useQuery(STORE_DATA, {
     variables: { storeID: currentUser?.storeID },
+  });
+
+  const articles = data?.store_by_pk?.articles;
+  const Shopitems = articles?.map((article) => {
+    return {
+      title: article.name,
+      category: article.category,
+      price: article.price,
+      photo: article.articlePictures?.[0],
+      id: article.id,
+    };
   });
 
   if (loading) return <div>Chargement ...</div>;
@@ -78,6 +125,94 @@ const ArticleList = () => {
             title={"Créer une nouvelle collection"}
           />
         </Box>
+
+        <Grid
+          lg={12}
+          sx={{
+            mt: 10,
+          }}
+        >
+          <Typography
+            fontWeight="700"
+            sx={{
+              fontSize: 26,
+              mb: 4,
+            }}
+          >
+            ⏳ En cours de modération
+          </Typography>
+
+          <Grid
+            sx={{
+              width: "100%",
+            }}
+            lg={12}
+            container
+          >
+            <List data={Shopitems} />
+            <ArticleCard
+              onClick={() => {
+                window.location.href = "/store/articles/add";
+              }}
+              icon={<AddButton />}
+              title={"Ajouter un article"}
+            ></ArticleCard>
+          </Grid>
+
+          <Typography
+            fontWeight="700"
+            sx={{
+              fontSize: 26,
+              mb: 4,
+            }}
+          >
+            ✅ Articles en ligne
+          </Typography>
+
+          <Grid
+            sx={{
+              width: "100%",
+            }}
+            lg={12}
+            container
+          >
+            <List data={Shopitems} />
+            <ArticleCard
+              onClick={() => {
+                window.location.href = "/store/articles/add";
+              }}
+              icon={<AddButton />}
+              title={"Ajouter un article"}
+            ></ArticleCard>
+          </Grid>
+
+          <Typography
+            fontWeight="700"
+            sx={{
+              fontSize: 26,
+              mb: 4,
+            }}
+          >
+            ✏️ Brouillons
+          </Typography>
+
+          <Grid
+            sx={{
+              width: "100%",
+            }}
+            lg={12}
+            container
+          >
+            <List data={Shopitems} />
+            <ArticleCard
+              onClick={() => {
+                window.location.href = "/store/articles/add";
+              }}
+              icon={<AddButton />}
+              title={"Ajouter un article"}
+            ></ArticleCard>
+          </Grid>
+        </Grid>
       </Grid>
     </PageContainer>
   );
