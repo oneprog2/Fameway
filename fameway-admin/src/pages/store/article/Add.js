@@ -8,6 +8,7 @@ import {
   CategoryForm,
 } from "../../../components/forms/fb-elements/index";
 import { PicturesInput } from "../../../components/inputs/PicturesInput";
+import FeatherIcon from "feather-icons-react";
 
 const UserProfile = () => {
   const BCrumb = [
@@ -21,6 +22,9 @@ const UserProfile = () => {
   ];
 
   const [pictures, setPictures] = useState([]);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
 
   const handleSetPictures = ({ index, file }) => {
     var tmpFile = file.target.files[0];
@@ -51,6 +55,13 @@ const UserProfile = () => {
           },
         ]);
     };
+  };
+
+  const handleUploadArticle = () => {
+    console.log("name", name);
+    console.log("description", description);
+    console.log("price", price);
+    console.log("pictures", pictures);
   };
 
   return (
@@ -125,6 +136,56 @@ const UserProfile = () => {
               handleSetPictures={handleSetPictures}
               pictures={pictures}
             />
+            <Box
+              sx={{
+                justifyContent: "center",
+                display: "flex",
+                mt: 3,
+                textAlign: "center",
+                fontSize: 12,
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: 14,
+                }}
+              >
+                Ajoute au moins 2 photos au format JPG/PNG.
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                justifyContent: "center",
+                display: "flex",
+              }}
+            >
+              <Button
+                color="primary"
+                variant="contained"
+                sx={{
+                  marginTop: 2,
+                  marginBottom: 10,
+                  height: "40px",
+                  fontWeight: "700",
+                  borderRadius: "100px",
+                  mx: 3,
+                  alignContent: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography>Aperçu dans la boutique</Typography>
+                <Box
+                  sx={{
+                    ml: 1,
+                    justifyContent: "center",
+                    alignContent: "center",
+                    display: "flex",
+                  }}
+                >
+                  <FeatherIcon icon="eye" width="20" />
+                </Box>
+              </Button>
+            </Box>
           </Grid>
 
           <Box sx={{ flex: 1 }}></Box>
@@ -154,7 +215,12 @@ const UserProfile = () => {
             >
               ✏️ Description
             </Typography>
-            <DescriptionCardForm />
+            <DescriptionCardForm
+              name={name}
+              setName={setName}
+              description={description}
+              setDescription={setDescription}
+            />
             <Typography
               fontWeight="700"
               sx={{
@@ -169,7 +235,7 @@ const UserProfile = () => {
             >
               💰 Prix
             </Typography>
-            <PriceCardForm />
+            <PriceCardForm setPrice={setPrice} price={price} />
 
             <Typography
               fontWeight="700"
@@ -224,6 +290,7 @@ const UserProfile = () => {
               fontWeight: "700",
               borderRadius: "100px",
             }}
+            onClick={handleUploadArticle}
           >
             Créer l'article
           </Button>

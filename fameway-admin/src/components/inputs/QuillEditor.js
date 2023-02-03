@@ -4,8 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import "./Quill.css";
 import { Box } from "@mui/material";
 
-const QuillEditor = () => {
-  const [text, setText] = useState("");
+const QuillEditor = (props) => {
   const quillRef = React.useRef();
 
   return (
@@ -24,12 +23,10 @@ const QuillEditor = () => {
       }}
     >
       <ReactQuill
+        {...props}
         ref={quillRef}
-        value={text}
-        onChange={(value) => {
-          setText(value);
-        }}
-        placeholder="Type here..."
+        value={props.value}
+        onChange={props.onChange}
       />
     </Box>
   );
