@@ -14,6 +14,9 @@ const Error = Loadable(lazy(() => import("../pages/authentication/Error")));
 const Dashboard = Loadable(lazy(() => import("../pages/dashboard/Dashboard")));
 const Settings = Loadable(lazy(() => import("../pages/store/StoreSettings")));
 const AddArticle = Loadable(lazy(() => import("../pages/store/article/Add")));
+const Unavailable = Loadable(
+  lazy(() => import("../pages/unavailable/Unavailable"))
+);
 const ArticleList = Loadable(
   lazy(() => import("../pages/store/article/ArticleList"))
 );
@@ -29,9 +32,15 @@ const Router = [
     children: [
       { path: "/", element: <Navigate to="/home" /> },
       { path: "/home", exact: true, element: <Dashboard /> },
+      { path: "/store/orders", exact: true, element: <Unavailable /> },
+      { path: "/store/clients", exact: true, element: <Unavailable /> },
       { path: "/store/settings", exact: true, element: <Settings /> },
       { path: "/store/articles", exact: true, element: <ArticleList /> },
       { path: "/store/articles/add", exact: true, element: <AddArticle /> },
+      { path: "/messages", exact: true, element: <Unavailable /> },
+      { path: "/calendar", exact: true, element: <Unavailable /> },
+      { path: "/settings", exact: true, element: <Unavailable /> },
+      { path: "/help", exact: true, element: <Unavailable /> },
       { path: "*", element: <Navigate to="/auth/404" /> },
     ],
   },

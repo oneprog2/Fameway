@@ -60,6 +60,7 @@ const UserProfile = () => {
             }}
           >
             <Breadcrumb
+              goBack
               title={`Ajoute un article à ta boutique.`}
               items={BCrumb}
             ></Breadcrumb>

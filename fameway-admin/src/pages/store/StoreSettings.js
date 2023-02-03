@@ -12,11 +12,12 @@ import { UPDATE_STORE } from "../../api/mutations";
 import Spinner from "../spinner/Spinner";
 import { CategoryButton } from "../../components/buttons/CategoryButton";
 
-const UserProfile = () => {
+const StoreSettings = () => {
   const [currentUser] = useAtom(userAtom);
 
   const { data, error, loading } = useQuery(STORE_DATA, {
     variables: { storeID: currentUser?.storeID },
+    fetchPolicy: "network-only",
   });
 
   const [storeName, setStoreName] = React.useState(undefined);
@@ -194,4 +195,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default StoreSettings;

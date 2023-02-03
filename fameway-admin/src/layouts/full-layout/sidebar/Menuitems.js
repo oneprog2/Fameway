@@ -13,7 +13,7 @@ const Menuitems = [
       {
         title: "Commandes",
         icon: "package",
-        href: "/store/order",
+        href: "/store/orders",
       },
       {
         title: "Articles",
@@ -35,22 +35,22 @@ const Menuitems = [
   {
     title: "Mon calendrier",
     icon: "calendar",
-    href: "/dashboards/starter",
+    href: "/calendar",
   },
   {
     title: "Mes messages",
     icon: "message-square",
-    href: "/dashboards/starter",
+    href: "/messages",
   },
   {
     title: "Paramètres",
     icon: "settings",
-    href: "/dashboards/starter",
+    href: "/settings",
   },
   {
     title: "Aide",
     icon: "help-circle",
-    href: "/dashboards/starter",
+    href: "/help",
   },
 ];
 
