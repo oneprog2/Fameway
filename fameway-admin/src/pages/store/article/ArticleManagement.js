@@ -140,7 +140,6 @@ const ArticleManagement = () => {
         });
       });
     } else if (pictures?.length > 0 && !changedPictures) {
-      console.log("ddzedz");
       await upsertArticle({
         variables: {
           articleID: articleID || undefined,

@@ -62,10 +62,9 @@ const ArticleList = () => {
       price: article.price,
       photo: article.articlePictures?.[0],
       id: article.id,
+      status: article.status,
     };
   });
-
-  console.log(error);
 
   if (loading) return <div>Chargement ...</div>;
 
@@ -154,7 +153,7 @@ const ArticleList = () => {
             lg={12}
             container
           >
-            <List data={Shopitems} />
+            <List data={Shopitems.filter((e) => e.status === "draft")} />
             <ArticleCard
               onClick={() => {
                 window.location.href = "/store/articles/add";
@@ -181,7 +180,7 @@ const ArticleList = () => {
             lg={12}
             container
           >
-            <List data={Shopitems} />
+            <List data={Shopitems.filter((e) => e.status === "published")} />
             <ArticleCard
               onClick={() => {
                 window.location.href = "/store/articles/add";
@@ -208,7 +207,7 @@ const ArticleList = () => {
             lg={12}
             container
           >
-            <List data={Shopitems} />
+            <List data={Shopitems.filter((e) => e.status === "in progress")} />
             <ArticleCard
               onClick={() => {
                 window.location.href = "/store/articles/add";

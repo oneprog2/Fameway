@@ -27,6 +27,7 @@ export const STORE_DATA = gql`
         name
         price
         articlePictures
+        status
       }
     }
   }

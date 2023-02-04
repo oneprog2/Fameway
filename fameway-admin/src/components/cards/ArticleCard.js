@@ -33,12 +33,13 @@ export const ArticleCard = ({
       >
         <Box
           sx={{
-            borderRadius: "6px",
+            borderRadius: 4,
             aspectRatio: "1/1.2",
             justifyContent: "center",
             alignItems: "center",
             display: "flex",
             backgroundColor: "#F5F5F5",
+            overflow: "hidden",
             height: "100%",
           }}
         >
@@ -62,16 +63,14 @@ export const ArticleCard = ({
               alt="img"
               height="100%"
               width="100%"
-              style={{
-                objectFit: "cover",
-              }}
+              style={{ objectFit: "cover" }}
             />
           ) : icon ? (
             icon
           ) : null}
         </Box>
       </Box>
-      <CardContent sx={{ px: 1, pt: 0, w: "100%" }}>
+      <CardContent sx={{ px: 1, pt: 0, w: "100%", height: "100%" }}>
         <Typography textAlign={"center"} fontWeight={700} variant="h5">
           {title}
         </Typography>
@@ -80,17 +79,17 @@ export const ArticleCard = ({
           alignItems="center"
           sx={{
             justifyContent: "center",
-            mt: "10px",
+            mt: 1,
           }}
         >
           <Typography
             variant="h6"
             sx={{
-              color: "#717171",
+              color: "#222222",
             }}
             textAlign={"center"}
           >
-            {price} €
+            {price > 0 ? `${price} €` : null}
           </Typography>
         </Box>
       </CardContent>

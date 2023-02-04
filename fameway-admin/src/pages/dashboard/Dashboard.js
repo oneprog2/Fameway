@@ -113,7 +113,7 @@ const Dashboard1 = () => {
             }}
           >
             <DashboardButton
-              onPress={() => console.log("plk")}
+              onClick={() => window.location.replace("/store/settings")}
               icon={"🚀"}
               bgColor="#FFD028"
               textColor="#222222"
@@ -121,7 +121,7 @@ const Dashboard1 = () => {
             />
 
             <DashboardButton
-              onPress={() => console.log("pok")}
+              onClick={() => window.location.replace("/store/articles/add")}
               bgColor="#222222"
               textColor="white"
               icon={"🌟"}
