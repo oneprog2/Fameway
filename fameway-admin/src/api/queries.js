@@ -31,3 +31,15 @@ export const STORE_DATA = gql`
     }
   }
 `;
+
+export const ARTICLE_DATA = gql`
+  query getStore($articleID: Int!) {
+    article_by_pk(id: $articleID) {
+      id
+      name
+      description
+      price
+      articlePictures
+    }
+  }
+`;

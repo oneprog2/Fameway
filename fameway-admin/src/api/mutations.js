@@ -24,8 +24,8 @@ export const UPDATE_STORE = gql`
   }
 `;
 
-export const UPSERT_ARTICLE = gql`
-  mutation upsert_article(
+export const ADD_ARTICLE = gql`
+  mutation add_article(
     $storeID: uuid!
     $name: String
     $description: String
@@ -40,14 +40,35 @@ export const UPSERT_ARTICLE = gql`
         description: $description
         articlePictures: $articlePictures
         price: $price
-      } # on_conflict: {
-    ) #   constraint: article_pkey
-    #   update_columns: [status, name, description, articlePictures, price]
-    # }
-    {
+      }
+    ) {
       returning {
         id
       }
+    }
+  }
+`;
+
+export const UPDATE_ARTICLE = gql`
+  mutation update_article(
+    $storeID: uuid!
+    $name: String
+    $description: String
+    $articlePictures: _text
+    $price: Int
+    $articleID: Int!
+  ) {
+    update_article_by_pk(
+      pk_columns: { id: $articleID }
+      _set: {
+        storeID: $storeID
+        name: $name
+        description: $description
+        articlePictures: $articlePictures
+        price: $price
+      }
+    ) {
+      id
     }
   }
 `;

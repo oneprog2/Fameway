@@ -11,7 +11,7 @@ const Breadcrumb = ({
   items,
   title,
   children,
-  goBack = false,
+  goBackLink = null,
 }) => (
   <Grid
     container
@@ -77,9 +77,9 @@ const Breadcrumb = ({
           alignItems: "center",
         }}
       >
-        {goBack ? (
+        {goBackLink ? (
           <Box
-            onClick={() => window.history.back()}
+            onClick={() => window.location.replace(goBackLink)}
             sx={{
               cursor: "pointer",
               border: 2,

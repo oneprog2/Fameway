@@ -15,6 +15,9 @@ const List = ({ data }) => {
     <>
       {data?.map((product) => (
         <ArticleCard
+          onClick={() =>
+            window.location.replace(`/store/articles/${product.id}`)
+          }
           picture={product.photo}
           title={product.title}
           price={product.price}

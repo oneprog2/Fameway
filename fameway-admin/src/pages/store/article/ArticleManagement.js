@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Card, Grid, Typography } from "@mui/material";
 import Breadcrumb from "../../../layouts/full-layout/breadcrumb/Breadcrumb";
 import PageContainer from "../../../components/container/PageContainer";
@@ -12,10 +12,16 @@ import FeatherIcon from "feather-icons-react";
 import { handleUpload } from "../../../components/aws/UploadToS3";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../atoms/Atoms";
-import { useMutation } from "@apollo/client";
-import { UPSERT_ARTICLE } from "../../../api/mutations";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  ADD_ARTICLE,
+  UPDATE_ARTICLE,
+  UPSERT_ARTICLE,
+} from "../../../api/mutations";
+import { useParams } from "react-router";
+import { ARTICLE_DATA } from "../../../api/queries";
 
-const UserProfile = () => {
+const ArticleManagement = () => {
   const BCrumb = [
     {
       to: "/store/articles",
@@ -29,14 +35,50 @@ const UserProfile = () => {
   const [currentUser] = useAtom(userAtom);
 
   const [pictures, setPictures] = useState([]);
+
+  const [changedPictures, setChangedPictures] = useState(false);
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [articleID, setArticleID] = useState(null);
   const [mutationLoading, setMutationLoading] = useState(false);
-  const [upsertArticle, { storeError }] = useMutation(UPSERT_ARTICLE);
+
+  const [upsertArticle, { storeError }] = useMutation(
+    articleID ? UPDATE_ARTICLE : ADD_ARTICLE
+  );
+
+  const { id } = useParams();
+
+  const { data, error, loading } = useQuery(ARTICLE_DATA, {
+    variables: { articleID: id },
+  });
+
+  useEffect(() => {
+    if (data?.article_by_pk) {
+      setArticleID(data?.article_by_pk?.id);
+      setName(data?.article_by_pk?.name);
+      setDescription(data?.article_by_pk?.description);
+      setPrice(data?.article_by_pk?.price);
+      setPictures(
+        data?.article_by_pk?.articlePictures?.map((p, index) => {
+          return {
+            index: index,
+            preview: p,
+            url: p,
+          };
+        })
+      );
+    }
+    return () => {};
+  }, [data]);
+
+  useEffect(() => {
+    setChangedPictures(false);
+  }, []);
 
   const handleSetPictures = ({ index, file }) => {
+    setChangedPictures(true);
     var tmpFile = file.target.files[0];
 
     var reader = new FileReader();
@@ -69,9 +111,10 @@ const UserProfile = () => {
 
   const handleUploadArticle = async () => {
     setMutationLoading(true);
+    console.log(data);
 
-    if (pictures?.length > 0) {
-      let test = await Promise.all(
+    if (pictures?.length > 0 && changedPictures) {
+      await Promise.all(
         pictures.map(async (p) => {
           let tmp = p;
           await handleUpload(p.url, currentUser?.username).then((res) => {
@@ -80,12 +123,12 @@ const UserProfile = () => {
           return tmp;
         })
       ).then(async (res) => {
-        // console.log(res.);
         let uploadedUrls = res.map((item) => {
           return item["uploadUrl"];
         });
         await upsertArticle({
           variables: {
+            articleID: articleID || undefined,
             storeID: currentUser?.storeID,
             name: name,
             description: description,
@@ -96,29 +139,27 @@ const UserProfile = () => {
           window.location.href = "/store/articles";
         });
       });
+    } else if (pictures?.length > 0 && !changedPictures) {
+      console.log("ddzedz");
+      await upsertArticle({
+        variables: {
+          articleID: articleID || undefined,
+          storeID: currentUser?.storeID,
+          name: name,
+          description: description,
+          price: price,
+          articlePictures: `{${data?.article_by_pk?.articlePictures.join(
+            ","
+          )}}`,
+        },
+      }).then(() => {
+        window.location.href = "/store/articles";
+      });
     }
-
-    // await updateStore({
-    //   variables: {
-    //     storeID: currentUser?.storeID,
-    //     status: "draft",
-    //     name: storeName,
-    //     bannerPicture: bannerUrl,
-    //     profilePicture: profileUrl,
-    //     description: storeDescription,
-    //   },
-    // });
-    // await updateUser({
-    //   variables: {
-    //     userID: currentUser?.id,
-    //     firstOpening: false,
-    //   },
-    // }).then(() => {
-    //   window.location.href = "/home";
-    // });
-
     setMutationLoading(false);
   };
+
+  if (mutationLoading || loading) return <div>loading...</div>;
 
   return (
     <PageContainer title="User Profile" description="this is User Profile page">
@@ -153,7 +194,11 @@ const UserProfile = () => {
           >
             <Breadcrumb
               goBack
-              title={`Ajoute un article à ta boutique.`}
+              title={
+                articleID
+                  ? "Modifies les caractéristiques de l'article"
+                  : `Ajoute un article à ta boutique.`
+              }
               items={BCrumb}
             ></Breadcrumb>
           </Box>
@@ -348,7 +393,7 @@ const UserProfile = () => {
             }}
             onClick={handleUploadArticle}
           >
-            Créer l'article
+            {articleID ? "Modifier l'article" : "Créer l'article"}
           </Button>
         </Box>
       </Grid>
@@ -356,4 +401,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default ArticleManagement;

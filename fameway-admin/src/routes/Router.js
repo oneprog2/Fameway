@@ -13,7 +13,9 @@ const Error = Loadable(lazy(() => import("../pages/authentication/Error")));
 
 const Dashboard = Loadable(lazy(() => import("../pages/dashboard/Dashboard")));
 const Settings = Loadable(lazy(() => import("../pages/store/StoreSettings")));
-const AddArticle = Loadable(lazy(() => import("../pages/store/article/Add")));
+const ArticleManagement = Loadable(
+  lazy(() => import("../pages/store/article/ArticleManagement"))
+);
 const Unavailable = Loadable(
   lazy(() => import("../pages/unavailable/Unavailable"))
 );
@@ -36,7 +38,21 @@ const Router = [
       { path: "/store/clients", exact: true, element: <Unavailable /> },
       { path: "/store/settings", exact: true, element: <Settings /> },
       { path: "/store/articles", exact: true, element: <ArticleList /> },
-      { path: "/store/articles/add", exact: true, element: <AddArticle /> },
+      {
+        path: "/store/articles/add",
+        exact: true,
+        element: <ArticleManagement />,
+      },
+      {
+        path: "/store/articles/:id",
+        exact: true,
+        element: <ArticleManagement />,
+      },
+      {
+        path: "/store/articles/:id",
+        exact: true,
+        element: <ArticleManagement />,
+      },
       { path: "/messages", exact: true, element: <Unavailable /> },
       { path: "/calendar", exact: true, element: <Unavailable /> },
       { path: "/settings", exact: true, element: <Unavailable /> },
