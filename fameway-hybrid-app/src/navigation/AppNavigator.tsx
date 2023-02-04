@@ -55,7 +55,7 @@ export const AppNavigator = () => {
         }}
         initialRouteName={"Presentation"}
       >
-        {(() => {
+        {/* {(() => {
           if (isFirstLaunch)
             return (
               <>
@@ -65,23 +65,23 @@ export const AppNavigator = () => {
                 />
               </>
             );
-          return (
-            <Stack.Group>
-              <Stack.Screen
-                name="CustomerStack"
-                component={CustomerStackNavigator}
-              />
-              <Stack.Screen name="Store" component={StoreScreen} />
-              <Stack.Screen
-                options={{
-                  headerShown: false,
-                }}
-                name="ArticleDetail"
-                component={ArticleDetailScreen}
-              />
-            </Stack.Group>
-          );
-        })()}
+          return ( */}
+        <Stack.Group>
+          <Stack.Screen
+            name="CustomerStack"
+            component={CustomerStackNavigator}
+          />
+          <Stack.Screen name="Store" component={StoreScreen} />
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="ArticleDetail"
+            component={ArticleDetailScreen}
+          />
+        </Stack.Group>
+        {/* ); */}
+        {/* })()} */}
       </Stack.Navigator>
     </NavigationContainer>
   );

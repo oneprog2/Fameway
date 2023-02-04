@@ -12,6 +12,8 @@ import {
 import { View } from "react-native";
 import { ArticlesList, InfluencersCard } from "@components";
 import { ScrollView } from "react-native-gesture-handler";
+import { useQuery } from "@apollo/client";
+import { ARTICLE_DATA, STORES_DATA, STORE_DATA } from "@api";
 
 const DATA = {
   id: "1",
@@ -140,6 +142,17 @@ const DATA = {
 };
 
 export const HomeScreen = ({ navigation }) => {
+  const { data, error, loading } = useQuery(STORES_DATA);
+  let influencers = data?.store.map((item) => {
+    return {
+      id: item.id,
+      name: item.name,
+      image: item.profilePicture,
+    };
+  });
+  console.log(DATA.influencers);
+  console.log(influencers);
+
   return (
     <PageContainer
       onPress={() => navigation.navigate("Search")}
@@ -163,8 +176,9 @@ export const HomeScreen = ({ navigation }) => {
           />
           <SectionName name="New creators" />
         </View>
-
-        <SellersList sellers={DATA.influencers} />
+        <View className="flex-1">
+          <SellersList sellers={influencers} />
+        </View>
 
         <View className={"p-3 flex-1"}>
           <SectionName name="New items" />

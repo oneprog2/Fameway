@@ -8,7 +8,7 @@ const DATA = [
   {
     title: "Bienvenue sur",
     // description: "La plateforme qui vous permet de gérer votre famille",
-    image: require("@assets/images/presentation/.png"),
+    // image: require("@assets/images/presentation/.png"),
   },
   {
     title: "Retrouvez vos créateurs de contenus préférés",

@@ -23,7 +23,8 @@
       "@hooks": ["src/hooks/index"],
       "@themes": ["src/themes/index"],
       "@styles": ["src/styles/index"],
-      "@navigation": ["src/navigation/index"]
+      "@navigation": ["src/navigation/index"],
+      "@api": ["src/api/index"]
     }
   },
   "extends": "expo/tsconfig.base",

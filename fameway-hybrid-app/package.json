@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@apollo/client": "^3.7.2",
+    "@apollo/client": "^3.7.7",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",

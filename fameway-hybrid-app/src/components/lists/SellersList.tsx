@@ -2,6 +2,7 @@ import { FlashList } from "@shopify/flash-list";
 import { InfluencersCard } from "@components";
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { FlatList } from "react-native-gesture-handler";
 
 type Seller = {
   id: string;
@@ -21,8 +22,7 @@ export const SellersList = ({
   const navigation = useNavigation();
 
   return (
-    <FlashList
-      estimatedItemSize={200}
+    <FlatList
       horizontal={horizontal}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}

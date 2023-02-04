@@ -7,12 +7,26 @@ import { StatusBar } from "expo-status-bar";
 import "./styles.css";
 import "react-native-gesture-handler";
 import { PortalProvider } from "@gorhom/portal";
+import {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
+
+const hasuraUri = "https://fameway.hasura.app/v1/graphql";
+
+const client = new ApolloClient({
+  uri: hasuraUri,
+  cache: new InMemoryCache(),
+});
 
 SplashScreen.preventAutoHideAsync();
 
 import { LogBox } from "react-native";
 LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
+
 function App() {
   const [fontsLoaded] = useFonts({
     "Oblivian-Light": require("@assets/fonts/Oblivian/Oblivian-Light.otf"),
@@ -37,10 +51,12 @@ function App() {
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <PortalProvider>
-        <StatusBar style="dark" />
-        <AppNavigator />
-      </PortalProvider>
+      <ApolloProvider client={client}>
+        <PortalProvider>
+          <StatusBar style="dark" />
+          <AppNavigator />
+        </PortalProvider>
+      </ApolloProvider>
     </View>
   );
 }

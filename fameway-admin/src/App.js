@@ -45,12 +45,7 @@ const App = () => {
         storeID: userData.stores?.[0].id,
       });
     } else {
-      if (
-        currentUser?.firstOpening &&
-        window.location.pathname !== "/setup/store"
-      ) {
-        window.location.href = "/setup/store";
-      } else setNotReady(false);
+      setNotReady(false);
     }
   }, [
     setCurrentUser,

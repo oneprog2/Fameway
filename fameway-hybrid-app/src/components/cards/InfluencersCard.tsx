@@ -33,9 +33,10 @@ export const InfluencersCard = ({
               light="center"
             >
               <Image
-                resizeMode="contain"
+                resizeMode="cover"
                 resizeMethod="resize"
-                source={image}
+                source={{ uri: image }}
+                // source={image}
                 className={"h-full w-full"}
               ></Image>
             </CardContainer>
