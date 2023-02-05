@@ -53,7 +53,7 @@ export const InfluencersCard = ({
         <Button
           onPress={onPress}
           size="sm"
-          label="Follow"
+          label="Suivre"
           role="grey"
           startSlot={<CustomIcon size={20} name="plus2" />}
           roundness="full"

@@ -67,13 +67,17 @@ export const STORES_DATA = gql`
 `;
 
 export const ARTICLE_DATA = gql`
-  query getStore($articleID: Int!) {
+  query getArticle($articleID: Int!) {
     article_by_pk(id: $articleID) {
       id
       name
       description
       price
       articlePictures
+      store {
+        id
+        name
+      }
     }
   }
 `;

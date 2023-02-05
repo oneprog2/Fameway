@@ -49,7 +49,7 @@ export const CollectionHeader = ({
         <Button
           onPress={onPress}
           size="sm"
-          label="Follow"
+          label="Suivre"
           role="white"
           startSlot={<CustomIcon size={20} name="plus2" />}
           roundness="full"

@@ -31,23 +31,26 @@ export const Carousel = ({ articlePictures, ...props }: CarouselProps) => {
         parallaxScrollingScale: 0.9,
         parallaxScrollingOffset: 50,
       }}
-      data={[3, 2, 1]}
+      data={articlePictures}
       renderItem={({ index }) => (
         <CardContainer
           light="off"
           backgroundColor="#f3f3f3"
+          padding={0}
           size="full"
           style={{
+            aspectRation: "1/2",
+            margin: 20,
             alignItems: "center",
-            width: PAGE_WIDTH,
-            height: PAGE_WIDTH,
             backgroundColor: "red",
           }}
         >
           <Image
-            resizeMode="contain"
-            source={require("@assets/images/article5.png")}
-            className="h-full w-full"
+            resizeMode="cover"
+            source={{
+              uri: articlePictures[index],
+            }}
+            className="h-full w-full p-0"
           />
         </CardContainer>
       )}

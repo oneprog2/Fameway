@@ -199,12 +199,12 @@ export const HomeScreen = ({ navigation }) => {
         <SellersList sellers={influencers} />
       </View>
 
-      <View className={"p-3 flex-1"}>
+      {/* <View className={"p-3 flex-1"}>
         <SectionName name="Nouveaux articles" />
-      </View>
+      </View> */}
 
       {/* <ArticlesList horizontal articles={DATA.articles} /> */}
-
+      {/* 
       <View className={"flex-1 p-4 pt-10"}>
         <CollectionCard
           onPress={() =>
@@ -219,15 +219,15 @@ export const HomeScreen = ({ navigation }) => {
           articles={DATA.collection?.articles}
           influencer={DATA.collection?.influencer}
         />
-      </View>
+      </View> */}
 
-      <View className={"px-3 flex-1"}>
+      {/* <View className={"px-3 flex-1"}>
         <SectionName name="Trendy items" />
-      </View>
+      </View> */}
 
       {/* <ArticlesList articles={DATA.articles} /> */}
 
-      <View className={"flex-1 p-4 pt-10"}>
+      {/* <View className={"flex-1 p-4 pt-10"}>
         <CollectionCard
           startingDate="2021-01-01"
           onPress={() =>
@@ -241,7 +241,7 @@ export const HomeScreen = ({ navigation }) => {
           articles={DATA.collection2?.articles}
           influencer={DATA.collection2?.influencer}
         />
-      </View>
+      </View> */}
 
       <View className="p-3 flex-1 pb-10">
         <CreateAccountCard backgroundColor="#f5f5f5" />

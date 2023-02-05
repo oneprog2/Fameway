@@ -24,11 +24,7 @@ export const DonationCard = ({ donation }: any) => {
           }
         </Text>
         <View className="px-10 pb-8">
-          <Button
-            roundness="full"
-            role="white"
-            label="En savoir plus à props de WWF"
-          />
+          <Button roundness="full" role="white" label="En savoir plus" />
         </View>
       </View>
       <View className="h-56 w-full">

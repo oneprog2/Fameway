@@ -46,7 +46,7 @@ export const StoreHeader = ({ store }: StoreHeaderProps) => {
           <View className="flex-1  justify-center" pointerEvents="box-none">
             <Button
               roundness={"full"}
-              label="Follow"
+              label="Suivre"
               startSlot={<CustomIcon color="white" size={20} name={"plus2"} />}
             />
           </View>

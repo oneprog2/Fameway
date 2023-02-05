@@ -32,10 +32,10 @@ const MainPage = (store: any) => {
         influencer={store?.collection?.influencer}
       />
     </View> */}
-      {/* 
-    <View className="p-3 pb-10">
-      <CreateAccountCard backgroundColor="#f5f5f5" />
-    </View> */}
+
+      <View className="p-3 pb-10">
+        <CreateAccountCard backgroundColor="#f5f5f5" />
+      </View>
     </Tabs.ScrollView>
   );
 };

@@ -46,7 +46,10 @@ export const PageHeader = ({
               title === "Fameway" ? "ml-1" : "flex-1 absolute w-screen -left-3"
             )}
           >
-            <Text weight="bold" className="text-2xl">
+            <Text
+              weight="bold"
+              className={title?.length > 14 ? "text-xl" : "text-2xl"}
+            >
               {title}
             </Text>
           </View>

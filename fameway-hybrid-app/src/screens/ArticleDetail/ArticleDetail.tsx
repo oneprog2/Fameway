@@ -1,3 +1,5 @@
+import { ARTICLE_DATA } from "@api";
+import { useQuery } from "@apollo/client";
 import {
   Text,
   AddToCartButton,
@@ -18,7 +20,7 @@ import { useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { View } from "react-native";
 
-const ProductHeaderInformations = () => {
+const ProductHeaderInformations = ({ title, storeName, price }: any) => {
   return (
     <>
       <Text
@@ -27,29 +29,26 @@ const ProductHeaderInformations = () => {
         color="neutral-muted"
         className="pb-[1px]"
       >
-        Space Fox
+        {storeName}
       </Text>
       <Text position="left" size="xxl" weight="bold" className="pb-[1px]">
-        Sweat Sherpa SAT. VI
+        {title}
       </Text>
       <Text family="DM" position="left" size="lg">
-        $75,99
+        {price} €
       </Text>
     </>
   );
 };
 
-const ArticleInformations = () => {
+const ArticleInformations = ({ description }: any) => {
   return (
     <View className="flex-1">
       <Accordion
         title="Description"
         children={
           <View className="px-3 py-3">
-            <Text position="left">
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-              fpzoekfpeozfkezpofkzealiquet"
-            </Text>
+            <Text position="left">{description}</Text>
           </View>
         }
       />
@@ -57,10 +56,7 @@ const ArticleInformations = () => {
         title="About"
         children={
           <View className="px-3 py-3">
-            <Text position="left">
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-              fpzoekfpeozfkezpofkzealiquet"
-            </Text>
+            <Text position="left">...</Text>
           </View>
         }
       />
@@ -68,10 +64,7 @@ const ArticleInformations = () => {
         title="Materials"
         children={
           <View className="px-3 py-3">
-            <Text position="left">
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-              fpzoekfpeozfkezpofkzealiquet"
-            </Text>
+            <Text position="left">{"..."}</Text>
           </View>
         }
       />
@@ -85,23 +78,23 @@ const ShippingInformations = () => {
       <View className="flex-1 flex-row items-center">
         <CustomIcon name="check-circle" color="black" size={20} />
         <Text className="pl-1" position="left" size="md" color="dark">
-          {"Livraison gratuite"}
+          {"Livraison instantanée"}
         </Text>
       </View>
 
-      <View className="flex-1 flex-row items-center">
+      {/* <View className="flex-1 flex-row items-center">
         <CustomIcon name="check-circle" color="black" size={20} />
         <Text className="pl-1" position="left" size="md" color="dark">
-          4-5 jours ouvrés
+          {"Téléchargement immédiat"}
         </Text>
-      </View>
+      </View> */}
     </View>
   );
 };
 
 export const ArticleDetailScreen = ({ navigation }: any) => {
   let route = useRoute();
-  // const { articleID } = route?.params;
+  const { articleID } = route?.params;
   const [selected, setSelected] = useState({
     size: 0,
     type: 0,
@@ -111,27 +104,42 @@ export const ArticleDetailScreen = ({ navigation }: any) => {
     headerShown: false,
   });
 
+  const {
+    data: articleData,
+    error: articleError,
+    loading: articleLoading,
+  } = useQuery(ARTICLE_DATA, {
+    variables: {
+      articleID: articleID,
+    },
+  });
+  const article = articleData?.article_by_pk;
+  console.log(article?.articlePictures);
   return (
     <PageContainer
       edges={["top", "bottom", "left", "right"]}
-      title="Sweat Sherpa SAT. VI"
+      title={article?.name}
       goBack
       footer={<AddToCartButton />}
     >
       <View className="p-2">
         <BreadCrumbs
-          store={{ id: "pokpok", name: "Amixem" }}
-          categorie={{ id: "dowowo", name: "Tee-shirt" }}
-          article={{ id: "pokpsok", name: "Spacefox 349" }}
+          store={{ id: article?.store?.id, name: article?.store?.name }}
+          // categorie={{ id: "dowowo", name: "" }}
+          article={{ id: article?.id, name: article?.name }}
         />
       </View>
-      <Carousel articlePictures={DATA.articles} />
+      <Carousel articlePictures={article?.articlePictures} />
       <View className="px-5">
-        <ProductHeaderInformations />
+        <ProductHeaderInformations
+          price={article?.price}
+          storeName={article?.store?.name}
+          title={article?.name}
+        />
         <View className="pt-2">
           <DonationButton />
         </View>
-        <View className="pb-6 border-b-[1px] border-[#E6E6E6]">
+        {/* <View className="pb-6 border-b-[1px] border-[#E6E6E6]">
           <View className="pt-5 pb-2 flex-row">
             <Text position="left" size="md" color="dark">
               {"Color :"}
@@ -169,11 +177,11 @@ export const ArticleDetailScreen = ({ navigation }: any) => {
               })
             }
           />
-        </View>
+        </View> */}
 
         <ShippingInformations />
 
-        <ArticleInformations />
+        <ArticleInformations description={article?.description} />
 
         <View className="flex-1 pt-10">
           <DonationCard />
@@ -186,12 +194,8 @@ export const ArticleDetailScreen = ({ navigation }: any) => {
       <View className="pb-4">
         {/* <ArticlesList articles={DATA.articles} horizontal /> */}
       </View>
-      <View className="p-3 flex-1 pb-10">
-        <CreateAccountCard
-          title="Créé ton compte dès maintenant"
-          subtitle="Ne rate plus aucune offre et bénéficie de nombreux avantages"
-          backgroundColor="#f5f5f5"
-        />
+      <View className="p-3">
+        <CreateAccountCard backgroundColor="#f5f5f5" />
       </View>
     </PageContainer>
   );
