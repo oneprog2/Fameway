@@ -45,7 +45,13 @@ const App = () => {
         storeID: userData.stores?.[0].id,
       });
     } else {
-      setNotReady(false);
+      if (
+        currentUser?.firstOpening &&
+        window.location.pathname !== "/firstOpening"
+      ) {
+        console.log(window.location.pathname);
+        window.location.href = "/firstOpening";
+      } else setNotReady(false);
     }
   }, [
     setCurrentUser,
@@ -59,7 +65,8 @@ const App = () => {
 
   useEffect(() => {}, [currentUser]);
 
-  if (notReady) return <div>Chargement ...</div>;
+  if (notReady || !currentUser) return <div>Chargement ...</div>;
+
   return (
     <ThemeProvider theme={theme}>
       <RTL direction={customizer.activeDir}>

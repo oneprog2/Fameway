@@ -13,6 +13,8 @@ import OnboardingVideoCard from "../../components/cards/OnboardingVideoCard";
 const Dashboard1 = () => {
   const [currentUser] = useAtom(userAtom);
 
+  const steps = ["🔎 Identité", "🔥 Articles", "🚀 Publication"];
+
   return (
     <PageContainer
       title="Fameway - Gestion de boutique"
@@ -36,7 +38,7 @@ const Dashboard1 = () => {
 
       <Grid lg={12} container>
         <Grid item xs={12} lg={6}>
-          <OnboardingCard />
+          <OnboardingCard steps={steps} />
         </Grid>
         <Grid
           item

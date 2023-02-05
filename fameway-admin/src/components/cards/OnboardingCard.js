@@ -1,9 +1,20 @@
 import React from "react";
-import { Card, CardContent, Typography, Box, Fab, Button } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  Fab,
+  Button,
+  Stepper,
+  Step,
+  StepLabel,
+  StepButton,
+} from "@mui/material";
 import FeatherIcon from "feather-icons-react";
 import imgsvg from "../../assets/images/backgrounds/welcome-bg-2x-svg.svg";
 
-const OnboardingCard = () => (
+const OnboardingCard = ({ steps }) => (
   <Card
     elevation={0}
     sx={{
@@ -13,7 +24,13 @@ const OnboardingCard = () => (
       minHeight: 400,
     }}
   >
-    <CardContent></CardContent>
+    <Stepper activeStep={1}>
+      {steps.map((label) => (
+        <Step key={label}>
+          <StepLabel>{label}</StepLabel>
+        </Step>
+      ))}
+    </Stepper>
   </Card>
 );
 
