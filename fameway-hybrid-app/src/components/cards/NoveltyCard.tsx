@@ -1,5 +1,6 @@
 import { CardContainer, Text, Button } from "@components";
 import { View, Image } from "react-native";
+import * as Linking from "expo-linking";
 
 export type NoveltyCardProps = {
   title?: string;
@@ -37,14 +38,13 @@ export const NoveltyCard = ({
           <Button onPress={onPress} label={buttonLabel} roundness="full" />
         </View>
       </View>
-
       <View className="pb-2">
         <View className="flex-row h-28 overflow-hidden rounded-xl">
           <View className="flex-1 pr-1">
             <Image
               className="h-full w-full"
               resizeMode="contain"
-              source={images && images[0]}
+              source={{ uri: images && images?.[0] }}
             />
           </View>
 
@@ -52,7 +52,7 @@ export const NoveltyCard = ({
             <Image
               className="h-full w-full"
               resizeMode="contain"
-              source={images && images[1]}
+              source={{ uri: images && images?.[1] }}
             />
           </View>
 
@@ -60,7 +60,7 @@ export const NoveltyCard = ({
             <Image
               className="h-full w-full"
               resizeMode="contain"
-              source={images && images[2]}
+              source={{ uri: images && images?.[2] }}
             />
           </View>
         </View>

@@ -1,4 +1,3 @@
-import { FlashList } from "@shopify/flash-list";
 import { InfluencersCard } from "@components";
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -23,6 +22,7 @@ export const SellersList = ({
 
   return (
     <FlatList
+      keyExtractor={(item) => item.id}
       horizontal={horizontal}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}

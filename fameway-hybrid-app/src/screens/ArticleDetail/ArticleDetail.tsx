@@ -188,8 +188,8 @@ export const ArticleDetailScreen = ({ navigation }: any) => {
       </View>
       <View className="p-3 flex-1 pb-10">
         <CreateAccountCard
-          title="Create your account today"
-          subtitle="Never miss exclusive drops again"
+          title="Créé ton compte dès maintenant"
+          subtitle="Ne rate plus aucune offre et bénéficie de nombreux avantages"
           backgroundColor="#f5f5f5"
         />
       </View>

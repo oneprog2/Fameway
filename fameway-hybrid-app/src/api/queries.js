@@ -33,6 +33,20 @@ export const STORE_DATA = gql`
   }
 `;
 
+export const PROMOTION_CARD = gql`
+  query getPromotionCard {
+    promotionCard {
+      id
+      title
+      type
+      description
+      buttonText
+      pictures
+      link
+    }
+  }
+`;
+
 export const STORES_DATA = gql`
   query getStores {
     store {

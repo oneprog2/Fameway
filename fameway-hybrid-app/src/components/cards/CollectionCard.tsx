@@ -69,7 +69,7 @@ export const CollectionCard = ({
 
         <View className="flex-row h-44 w-full mb-10 items-center px-2">
           {articles?.map((article) => (
-            <View className="flex-1 px-1">
+            <View key={article.id} className="flex-1 px-1">
               <CardContainer light="off" backgroundColor="white">
                 <View className="h-full w-full">
                   <ArticleCard

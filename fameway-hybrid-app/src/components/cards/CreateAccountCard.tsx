@@ -6,11 +6,13 @@ export type CreateAccountCardProps = {
   subtitle?: string;
   onPress?: () => void;
   backgroundColor?: string;
+  buttonText?: string;
 };
 
 export const CreateAccountCard = ({
   title,
   subtitle,
+  buttonText,
   onPress,
   backgroundColor,
 }: CreateAccountCardProps) => {
@@ -35,7 +37,7 @@ export const CreateAccountCard = ({
         </View>
 
         <View className="pt-10 pb-10">
-          <Button label="Create Account" size="lg" roundness="full" />
+          <Button label={buttonText} size="lg" roundness="full" />
         </View>
       </View>
     </CardContainer>

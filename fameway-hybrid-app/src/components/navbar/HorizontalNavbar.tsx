@@ -1,7 +1,7 @@
 import { createUseStyles, useTheme, ThemeType } from "@styles";
 import { View, StyleProp, ViewStyle } from "react-native";
-import { FlashList } from "@shopify/flash-list";
 import { IconButton } from "@components";
+import { FlatList } from "react-native-gesture-handler";
 
 interface DataProps {}
 
@@ -69,7 +69,7 @@ export const HorizontalNavbar: React.FC<DataProps & ContextProps> = (props) => {
   const styles = useStyles({ theme });
 
   return (
-    <FlashList
+    <FlatList
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       horizontal

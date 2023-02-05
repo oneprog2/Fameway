@@ -14,7 +14,7 @@ export const SectionName = ({ name }: { name: string }) => {
           iconOnly
           role="empty"
           size="full"
-          startSlot={<Text size="sm">Show all</Text>}
+          startSlot={<Text size="sm">Voir plus</Text>}
           backgroundColor="transparent"
         ></Button>
       </View>

@@ -1,7 +1,7 @@
-import { FlashList } from "@shopify/flash-list";
 import clsx from "clsx";
 import { View, Image } from "react-native";
 import { Button, CustomIcon } from "@components";
+import { FlatList } from "react-native-gesture-handler";
 type SelectTypeProps = {
   selectedType: number;
   setSelectedType: (value: number) => void;
@@ -24,7 +24,7 @@ export const SelectType = ({
 
   return (
     <View className="flex-1 w-full h-full">
-      <FlashList
+      <FlatList
         horizontal
         data={DATA}
         keyExtractor={(item) => item.id}

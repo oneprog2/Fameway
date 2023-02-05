@@ -1,4 +1,3 @@
-import { FlashList } from "@shopify/flash-list";
 import { ArticleCard } from "@components";
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
