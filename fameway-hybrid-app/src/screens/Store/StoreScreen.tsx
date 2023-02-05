@@ -120,13 +120,12 @@ export const StoreScreen = ({ navigation }: any) => {
               borderRadius: 1000,
             }}
             labelStyle={{
-              marginTop: 10,
               fontSize: 16,
               fontFamily: "DM-Regular",
               textTransform: "capitalize",
             }}
             style={{
-              marginLeft: 20,
+              marginLeft: 30,
             }}
             {...props}
             scrollEnabled
