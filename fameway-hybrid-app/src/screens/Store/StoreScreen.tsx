@@ -19,7 +19,7 @@ import Animated from "react-native-reanimated";
 const MainPage = (store: any) => {
   return (
     <Tabs.ScrollView>
-      <View className="p-3 pb-10">
+      <View className="p-3 pt-10 pb-10">
         <ArticlesList articles={store?.store?.articles} />
       </View>
       {/* <View className={"flex-1 p-4"}>
@@ -103,6 +103,12 @@ export const StoreScreen = ({ navigation }: any) => {
   });
   return (
     <Tabs.Container
+      headerContainerStyle={{
+        backgroundColor: "white",
+        shadowOpacity: 0,
+        elevation: 0,
+        borderBottomColor: "transparent",
+      }}
       containerStyle={{ backgroundColor: "white" }}
       allowHeaderOverscroll
       renderTabBar={(props) => {
@@ -114,9 +120,13 @@ export const StoreScreen = ({ navigation }: any) => {
               borderRadius: 1000,
             }}
             labelStyle={{
+              marginTop: 10,
               fontSize: 16,
               fontFamily: "DM-Regular",
               textTransform: "capitalize",
+            }}
+            style={{
+              marginLeft: 20,
             }}
             {...props}
             scrollEnabled
