@@ -31,7 +31,7 @@ export const SellersList = ({
       renderItem={({ item }) => (
         <View className="pl-4">
           <InfluencersCard
-            onPress={() => navigation.navigate("Store", { item: item })}
+            onPress={() => navigation.navigate("Store", { storeID: item.id })}
             backgroundColor="#f4f4f4"
             key={item.id}
             name={item.name}

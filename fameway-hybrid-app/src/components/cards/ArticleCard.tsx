@@ -52,9 +52,9 @@ export const ArticleCard = ({
         >
           <TouchableOpacity onPress={onPress}>
             <Image
-              resizeMode="contain"
+              resizeMode="cover"
               resizeMethod="resize"
-              source={image}
+              source={{ uri: image }}
               className={"h-full w-full"}
             ></Image>
           </TouchableOpacity>

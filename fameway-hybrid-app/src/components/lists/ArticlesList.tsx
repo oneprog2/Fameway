@@ -1,9 +1,11 @@
+import { FlashList } from "@shopify/flash-list";
 import { ArticleCard } from "@components";
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FlatList } from "react-native";
 
 type Article = {
+  articlePictures: any;
   id: string;
   name: string;
   description: string;
@@ -24,6 +26,7 @@ export const ArticlesList = ({
   disabled,
 }: ArticleListProps) => {
   const navigation = useNavigation();
+
   return (
     <FlatList
       scrollEnabled={!disabled}
@@ -33,22 +36,24 @@ export const ArticlesList = ({
       showsVerticalScrollIndicator={false}
       data={articles}
       ListFooterComponent={() => <View className={horizontal ? "pl-4" : ""} />}
-      renderItem={({ item, index }: { item: Article; index: number }) => (
-        <ArticleCard
-          onPress={() =>
-            navigation.navigate("ArticleDetail", { articleID: item.id })
-          }
-          tag={item.tag}
-          wishlistButton
-          horizontal={horizontal}
-          backgroundColor="#f4f4f4"
-          key={item.id}
-          name={item.name}
-          description={item.description}
-          price={item.price + "€"}
-          image={item.image}
-        />
-      )}
+      renderItem={({ item, index }: { item: Article; index: number }) => {
+        return (
+          <ArticleCard
+            onPress={() =>
+              navigation.navigate("ArticleDetail", { articleID: item.id })
+            }
+            tag={item.tag}
+            wishlistButton
+            horizontal={horizontal}
+            backgroundColor="#f4f4f4"
+            key={item.id}
+            name={item.name}
+            description={item.description}
+            price={item.price + "€"}
+            image={item?.articlePictures?.[0]}
+          />
+        );
+      }}
     />
   );
 };

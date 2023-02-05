@@ -72,7 +72,7 @@ export const CollectionCard = ({
             <View key={article.id} className="flex-1 px-1">
               <CardContainer light="off" backgroundColor="white">
                 <View className="h-full w-full">
-                  <ArticleCard
+                  {/* <ArticleCard
                     wishlistButton={false}
                     size={"flex"}
                     position="center"
@@ -82,7 +82,7 @@ export const CollectionCard = ({
                     name={article.name}
                     price={article.price + "€"}
                     image={article.image}
-                  />
+                  /> */}
                 </View>
               </CardContainer>
             </View>

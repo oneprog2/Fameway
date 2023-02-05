@@ -34,7 +34,7 @@ export const NoveltyCard = ({
         >
           {title}
         </Text>
-        <View className="pr-40 pt-6 pb-4">
+        <View className="pr-40 pt-6 pb-4 pl-1n">
           <Button onPress={onPress} label={buttonLabel} roundness="full" />
         </View>
       </View>

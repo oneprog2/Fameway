@@ -40,10 +40,10 @@ function ArticleItem() {
   return (
     <View className="flex-row mt-5">
       <View className="w-24 h-32">
-        <ArticleCard
+        {/* <ArticleCard
           size={"flex"}
           image={require("@assets/images/article1.png")}
-        />
+        /> */}
       </View>
       <View className="flex-1 pl-5 pb-2">
         <View className="flex-1 pr-1">

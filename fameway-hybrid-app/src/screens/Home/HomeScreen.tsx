@@ -9,7 +9,6 @@ import {
 } from "@components";
 import { Linking, View } from "react-native";
 import { ArticlesList, InfluencersCard } from "@components";
-import { ScrollView } from "react-native-gesture-handler";
 import { useQuery } from "@apollo/client";
 import { PROMOTION_CARD, STORES_DATA } from "@api";
 
@@ -204,7 +203,7 @@ export const HomeScreen = ({ navigation }) => {
         <SectionName name="Nouveaux articles" />
       </View>
 
-      <ArticlesList horizontal articles={DATA.articles} />
+      {/* <ArticlesList horizontal articles={DATA.articles} /> */}
 
       <View className={"flex-1 p-4 pt-10"}>
         <CollectionCard
@@ -226,7 +225,7 @@ export const HomeScreen = ({ navigation }) => {
         <SectionName name="Trendy items" />
       </View>
 
-      <ArticlesList articles={DATA.articles} />
+      {/* <ArticlesList articles={DATA.articles} /> */}
 
       <View className={"flex-1 p-4 pt-10"}>
         <CollectionCard
@@ -245,12 +244,7 @@ export const HomeScreen = ({ navigation }) => {
       </View>
 
       <View className="p-3 flex-1 pb-10">
-        <CreateAccountCard
-          title={createAccountData?.title}
-          subtitle={createAccountData?.description}
-          buttonText={createAccountData?.buttonText}
-          backgroundColor="#f5f5f5"
-        />
+        <CreateAccountCard backgroundColor="#f5f5f5" />
       </View>
       {/* </ScrollView> */}
     </PageContainer>

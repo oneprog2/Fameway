@@ -184,7 +184,7 @@ export const ArticleDetailScreen = ({ navigation }: any) => {
         </View>
       </View>
       <View className="pb-4">
-        <ArticlesList articles={DATA.articles} horizontal />
+        {/* <ArticlesList articles={DATA.articles} horizontal /> */}
       </View>
       <View className="p-3 flex-1 pb-10">
         <CreateAccountCard

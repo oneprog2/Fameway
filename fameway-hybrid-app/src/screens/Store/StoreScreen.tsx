@@ -1,3 +1,5 @@
+import { STORE_DATA } from "@api";
+import { useQuery } from "@apollo/client";
 import {
   CollectionCard,
   CreateAccountCard,
@@ -14,41 +16,36 @@ import { View } from "react-native";
 import { Tabs, MaterialTabBar } from "react-native-collapsible-tab-view";
 import Animated from "react-native-reanimated";
 
-const MainPage = () => (
-  <Tabs.ScrollView>
-    <View className="pt-6">
-      <ArticlesList disabled articles={DATA.articles} />
-    </View>
-    <View className={"flex-1 p-4"}>
+const MainPage = (store: any) => {
+  return (
+    <Tabs.ScrollView>
+      <View className="p-3 pb-10">
+        <ArticlesList articles={store?.store?.articles} />
+      </View>
+      {/* <View className={"flex-1 p-4"}>
       <CollectionCard
         buttonRole="white"
         backgroundColor="#000000"
-        name={DATA.collection?.name}
-        description={DATA.collection?.description}
-        articles={DATA.collection?.articles}
-        influencer={DATA.collection?.influencer}
+        name={store?.collection?.name}
+        description={store?.collection?.description}
+        articles={store?.collection?.articles}
+        influencer={store?.collection?.influencer}
       />
-    </View>
-
-    <View className="p-3 flex-1 pb-10">
-      <CreateAccountCard
-        title="Create your account today"
-        subtitle="Never miss exclusive drops again"
-        backgroundColor="#f5f5f5"
-      />
-    </View>
-  </Tabs.ScrollView>
-);
-
-const ArticlePage = ({ articles }) => (
-  <Tabs.ScrollView>
-    <View className="pt-6">
-      <ArticlesList disabled articles={DATA.articles} />
-    </View>
-  </Tabs.ScrollView>
-);
-
-const Header = ({ collectionID }: { collectionID: string }) => {
+    </View> */}
+      {/* 
+    <View className="p-3 pb-10">
+      <CreateAccountCard backgroundColor="#f5f5f5" />
+    </View> */}
+    </Tabs.ScrollView>
+  );
+};
+const Header = ({
+  collectionID,
+  store,
+}: {
+  collectionID: string;
+  store: any;
+}) => {
   return (
     <Animated.View
       pointerEvents="box-none"
@@ -57,14 +54,29 @@ const Header = ({ collectionID }: { collectionID: string }) => {
         collectionID ? "h-[400px]" : "h-80"
       )}
     >
-      {collectionID ? <CollectionHeader /> : <StoreHeader />}
+      {collectionID ? (
+        <CollectionHeader store={store} />
+      ) : (
+        <StoreHeader store={store} />
+      )}
     </Animated.View>
   );
 };
 
 export const StoreScreen = ({ navigation }: any) => {
   let route = useRoute();
-  const { collectionID } = route?.params;
+  const { collectionID, storeID } = route?.params;
+
+  const {
+    data: storeData,
+    error: storeError,
+    loading: storeLoading,
+  } = useQuery(STORE_DATA, {
+    variables: {
+      storeID: storeID,
+    },
+  });
+  const store = storeData?.store_by_pk;
 
   navigation.setOptions({
     headerShown: true,
@@ -77,7 +89,7 @@ export const StoreScreen = ({ navigation }: any) => {
     },
     headerTitle: () => (
       <Text size="xxl" weight="bold">
-        Amixem
+        {store?.name}
       </Text>
     ),
     headerLeft: () => (
@@ -111,17 +123,17 @@ export const StoreScreen = ({ navigation }: any) => {
           />
         );
       }}
-      renderHeader={() => <Header collectionID={collectionID} />}
+      renderHeader={() => <Header store={store} collectionID={collectionID} />}
     >
       <Tabs.Tab name={"All"}>
-        <MainPage />
+        <MainPage store={store} />
       </Tabs.Tab>
 
-      {DATA.categories.map((item: any, index: number) => (
+      {/* {store.categories.map((item: any, index: number) => (
         <Tabs.Tab name={item} key={index}>
-          <ArticlePage item={DATA.articles} />
+          <ArticlePage item={item?.articles} />
         </Tabs.Tab>
-      ))}
+      ))} */}
     </Tabs.Container>
   );
 };
