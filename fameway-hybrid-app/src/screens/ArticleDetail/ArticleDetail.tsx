@@ -186,15 +186,15 @@ export const ArticleDetailScreen = ({ navigation }: any) => {
         <View className="flex-1 pt-10">
           <DonationCard />
         </View>
-
+        {/* 
         <View>
           <SectionName name="Autres produits" />
-        </View>
+        </View> */}
       </View>
-      <View className="pb-4">
+      <View className="pb-4 flex-1">
         {/* <ArticlesList articles={DATA.articles} horizontal /> */}
       </View>
-      <View className="p-3">
+      <View className="p-3 flex-1">
         <CreateAccountCard backgroundColor="#f5f5f5" />
       </View>
     </PageContainer>

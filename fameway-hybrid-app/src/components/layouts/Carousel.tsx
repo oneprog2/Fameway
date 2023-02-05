@@ -37,9 +37,8 @@ export const Carousel = ({ articlePictures, ...props }: CarouselProps) => {
           light="off"
           backgroundColor="#f3f3f3"
           padding={0}
-          size="full"
           style={{
-            aspectRation: "1/2",
+            aspectRatio: "1/1.2",
             margin: 20,
             alignItems: "center",
             backgroundColor: "red",
