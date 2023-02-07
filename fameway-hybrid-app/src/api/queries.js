@@ -77,6 +77,7 @@ export const ARTICLE_DATA = gql`
       store {
         id
         name
+        profilePicture
       }
     }
   }

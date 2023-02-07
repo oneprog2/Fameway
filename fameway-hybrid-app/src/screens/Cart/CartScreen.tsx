@@ -6,11 +6,13 @@ import {
   Text,
   QuantitySelector,
 } from "@components";
+import { useAtom } from "jotai";
 import { useState } from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { cartAtom } from "../../atoms/Atoms";
 
-function SellerHeader({ first }: { first?: boolean }) {
+function SellerHeader({ first, store }: { first?: boolean; store: any }) {
   return (
     <View
       className={`w-full flex-row  ${
@@ -21,8 +23,8 @@ function SellerHeader({ first }: { first?: boolean }) {
         <Avatar
           size={34}
           influencer={{
-            image: require("@assets/images/influencer.png"),
-            name: "Gotaga",
+            image: store?.profilePicture,
+            name: store?.name,
           }}
         />
       </View>
@@ -33,22 +35,18 @@ function SellerHeader({ first }: { first?: boolean }) {
   );
 }
 
-function ArticleItem() {
-  const [quantity, setQuantity] = useState(1);
+function ArticleItem({ article, quantity, setQuantity }: { article: any }) {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   return (
     <View className="flex-row mt-5">
       <View className="w-24 h-32">
-        {/* <ArticleCard
-          size={"flex"}
-          image={require("@assets/images/article1.png")}
-        /> */}
+        <ArticleCard size={"flex"} image={article?.articlePictures[0]} />
       </View>
       <View className="flex-1 pl-5 pb-2">
         <View className="flex-1 pr-1">
           <Text position="left" color="neutral-muted" family="DM">
-            Baskets for running
+            {article?.name}
           </Text>
           <View className="flex-row pt-2">
             <View className="flex-1">
@@ -57,7 +55,7 @@ function ArticleItem() {
 
             <View>
               <Text weight="bold" position="left">
-                34 €
+                {article?.price}
               </Text>
             </View>
           </View>
@@ -154,6 +152,7 @@ export function Subtotal({ last }: { last?: boolean }) {
 }
 
 export function CartScreen({ closeCart }: { closeCart?: () => void }) {
+  const [cart, setCart] = useAtom(cartAtom);
   return (
     <View className="flex-1 mx-4 mt-4">
       <View className="flex-row">
@@ -188,30 +187,24 @@ export function CartScreen({ closeCart }: { closeCart?: () => void }) {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        <SellerHeader first />
-        <View className="mb-3">
-          <ArticleItem />
-          <ArticleItem />
-          <Subtotal />
-        </View>
-        <SellerHeader />
-        <View className="mb-3">
-          <ArticleItem />
-          <ArticleItem />
-          <Subtotal />
-        </View>
-        <SellerHeader />
-        <View className="mb-3">
-          <ArticleItem />
-          <ArticleItem />
-          <Subtotal />
-        </View>
-        <SellerHeader />
-        <View className="mb-3">
-          <ArticleItem />
-          <ArticleItem />
-          <Subtotal last />
-        </View>
+        {cart?.map((item, index) => {
+          if (item?.article)
+            return (
+              <View key={index}>
+                <SellerHeader store={item?.store} first={index === 0} />
+                <ArticleItem
+                  article={item?.article}
+                  quantity={item?.quantity}
+                  setQuantity={(quantity) => {
+                    const newCart = [...cart];
+                    newCart[index].quantity = quantity;
+                    setCart(newCart);
+                  }}
+                />
+                <Subtotal last={index === cart.length - 1} />
+              </View>
+            );
+        })}
       </ScrollView>
       <TotalAmount />
     </View>

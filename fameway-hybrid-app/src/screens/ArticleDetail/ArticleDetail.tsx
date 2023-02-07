@@ -114,13 +114,13 @@ export const ArticleDetailScreen = ({ navigation }: any) => {
     },
   });
   const article = articleData?.article_by_pk;
-  console.log(article?.articlePictures);
+
   return (
     <PageContainer
       edges={["top", "bottom", "left", "right"]}
       title={article?.name}
       goBack
-      footer={<AddToCartButton />}
+      footer={<AddToCartButton store={article?.store} article={article} />}
     >
       <View className="p-2">
         <BreadCrumbs

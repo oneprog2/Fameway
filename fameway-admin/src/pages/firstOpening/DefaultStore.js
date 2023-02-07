@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, CardContent, Grid, Typography } from "@mui/material";
-import FeatherIcon from "feather-icons-react";
+import { Box, Button, Grid } from "@mui/material";
 import Breadcrumb from "../../layouts/full-layout/breadcrumb/Breadcrumb";
 import PageContainer from "../../components/container/PageContainer";
-import CoverCard from "../../components/profile/CoverCard";
 import { userAtom } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
 import { useMutation, useQuery } from "@apollo/client";
@@ -11,11 +9,12 @@ import { STORE_DATA } from "../../api/queries";
 import { handleUpload } from "../../components/aws/UploadToS3";
 import { UPDATE_STORE, UPDATE_USER } from "../../api/mutations";
 import Spinner from "../spinner/Spinner";
-import { CategoryButton } from "../../components/buttons/CategoryButton";
+import { StoreSettingsInputs } from "../../components/inputs/StoreSettingsInputs";
 
 const UserProfile = () => {
   const [currentUser] = useAtom(userAtom);
-  const [storeName, setStoreName] = React.useState(`@${currentUser?.username}`);
+  const [storeName, setStoreName] = React.useState(currentUser?.username);
+  const [username, setUsername] = React.useState(currentUser?.username);
   const [category, setCategory] = useState("Tout");
   const [bannerFile, setBannerFile] = useState(null);
   const [profileFile, setProfileFile] = useState(null);
@@ -25,7 +24,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (currentUser?.username) {
-      setStoreName(`@${currentUser?.username}`);
+      setStoreName(currentUser?.username);
     }
   }, [currentUser]);
 
@@ -163,193 +162,18 @@ const UserProfile = () => {
           </Button>
         </Box>
 
-        <CoverCard
+        <StoreSettingsInputs
+          username={username}
+          setUsername={setUsername}
           storeName={storeName}
+          setStoreName={setStoreName}
           storeDescription={storeDescription}
+          setStoreDescription={setStoreDescription}
           bannerFile={bannerFile}
           setBannerFile={setBannerFile}
           profileFile={profileFile}
           setProfileFile={setProfileFile}
-        />
-
-        <Grid
-          sx={{
-            margin: 5,
-            width: "100%",
-          }}
-          container
-          lg={10}
-        >
-          <CategoryButton
-            onClick={() => setCategory("Tout")}
-            title="Tout"
-            active={category === "Tout" ? true : false}
-          />
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              marginLeft: 4,
-            }}
-          >
-            <CategoryButton
-              onClick={() => setCategory("Articles virtuels")}
-              title="Articles virtuels"
-              active={category === "Articles virtuels" ? true : false}
-            />
-          </Box>
-        </Grid>
-
-        <Grid
-          sx={{
-            width: "100%",
-          }}
-          lg={12}
-          container
-        >
-          {Shopitems?.map((product) => (
-            <Grid
-              item
-              xs={12}
-              lg={3}
-              sm={4}
-              display="flex"
-              sx={{ flexDirection: "column", px: 1 }}
-              key={product.title}
-            >
-              <Box
-                sx={{
-                  p: 0,
-                  m: 0,
-                  mb: 1,
-                  width: "100%",
-                }}
-              >
-                <Box
-                  sx={{
-                    borderRadius: "6px",
-                    backgroundColor: "#F5F5F5",
-                    height: "320px",
-                    width: "100%",
-                  }}
-                >
-                  <Typography
-                    variant="h6"
-                    fontWeight={700}
-                    sx={{
-                      position: "absolute",
-                      pt: "13px",
-                      pl: "17px",
-                    }}
-                  >
-                    Suggestion
-                  </Typography>
-                  <img
-                    src={product.photo}
-                    srtl
-                    alt="img"
-                    height="100%"
-                    width="100%"
-                    style={{
-                      objectFit: "contain",
-                    }}
-                  />
-                </Box>
-              </Box>
-              <CardContent sx={{ px: 1, pt: 0, w: "100%" }}>
-                <Typography textAlign={"center"} fontWeight={700} variant="h5">
-                  {product.title}
-                </Typography>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  sx={{
-                    justifyContent: "center",
-                    mt: "10px",
-                  }}
-                >
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      color: "#717171",
-                    }}
-                    textAlign={"center"}
-                  >
-                    {product.price}
-                  </Typography>
-                </Box>
-              </CardContent>
-            </Grid>
-          ))}
-          <Grid
-            item
-            xs={12}
-            lg={3}
-            sm={4}
-            display="flex"
-            sx={{ flexDirection: "column", px: 1 }}
-          >
-            <Box
-              sx={{
-                p: 0,
-                m: 0,
-                mb: 1,
-                width: "100%",
-              }}
-            >
-              <Box
-                sx={{
-                  borderRadius: "6px",
-                  backgroundColor: "#F5F5F5",
-                  height: "320px",
-                  width: "100%",
-                  alignContent: "center",
-                  justifyContent: "center",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <Box
-                  sx={{
-                    backgroundColor: "#ffce00",
-                    borderRadius: "100px",
-                    width: "50px",
-                    height: "50px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <FeatherIcon icon="plus" width="25" height="25" />
-                </Box>
-              </Box>
-              {/* <img src={product.photo} alt="img" width="100%" /> */}
-            </Box>
-            <CardContent sx={{ px: 1, pt: 0, w: "100%" }}>
-              <Typography textAlign={"center"} fontWeight={700} variant="h5">
-                Ajouter un produit
-              </Typography>
-              <Box
-                display="flex"
-                alignItems="center"
-                sx={{
-                  justifyContent: "center",
-                  mt: "10px",
-                }}
-              >
-                <Typography
-                  variant="h6"
-                  sx={{
-                    color: "#717171",
-                  }}
-                  textAlign={"center"}
-                >
-                  Prix
-                </Typography>
-              </Box>
-            </CardContent>
-          </Grid>
-        </Grid>
+        ></StoreSettingsInputs>
 
         <Box
           sx={{
