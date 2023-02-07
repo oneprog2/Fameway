@@ -193,33 +193,51 @@ const CoverCard = ({
                 <Box
                   sx={{
                     display: "flex",
-                    alignItems: "center",
-                    flexDirection: "row",
+                    alignItems: {
+                      xs: "start",
+                      sm: "start",
+                      md: "center",
+                    },
                     alignContent: "center",
+                    flexDirection: {
+                      xs: "column",
+                      sm: "column",
+                      md: "row",
+                    },
                   }}
                 >
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      fontWeight: "900",
-                      fontSize: "30px",
-                      color: "#222222",
-                      margin: 0,
-                      padding: 0,
-                    }}
-                  >
-                    {storeName?.length > 0 ? storeName : "Nom de la boutique"}
-                  </Typography>
+                  <Box>
+                    <Typography
+                      variant="h3"
+                      sx={{
+                        fontWeight: "900",
+                        fontSize: "30px",
+                        color: "#222222",
+                        margin: 0,
+                        padding: 0,
+                      }}
+                    >
+                      {storeName?.length > 0 ? storeName : "Nom de la boutique"}
+                    </Typography>
+                  </Box>
                   <Box
                     sx={{
-                      borderLeft: "1px solid #B2B2B2",
-                      pl: 2,
+                      borderLeft: {
+                        md: "1px solid #B2B2B2",
+                      },
+                      pl: {
+                        md: 2,
+                      },
                       height: "100%",
                       display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      ml: "14px",
-                      mt: 1,
+                      alignItems: "start",
+                      justifyContent: "start",
+                      ml: {
+                        xs: 0,
+                        sm: 0,
+                        md: "14px",
+                      },
+                      // mt: 1,
                     }}
                   >
                     <Typography>@{username}</Typography>
@@ -228,28 +246,34 @@ const CoverCard = ({
 
                 <Box
                   sx={{
-                    display: "flex",
+                    display: {
+                      xs: "none",
+                      sm: "none",
+                      md: "flex",
+                    },
+                    mt: -1,
                     flex: 1,
                     alignItems: "center",
                   }}
                 >
-                  <Typography
-                  // inputProps={{
-                  //   style: {
-                  //     fontSize: 14,
-                  //     fontWeight: "300",
-                  //     marginTop: 0,
-                  //     textAlign: "start",
-                  //     height: 30,
-                  //     padding: 0,
-                  //     marginLeft: 2,
-                  //   },
-                  // }}
-                  >
-                    {ReactHtmlParser(storeDescription)}
-                  </Typography>
+                  <Typography>{ReactHtmlParser(storeDescription)}</Typography>
                 </Box>
               </Box>
+            </Box>
+            <Box
+              sx={{
+                display: {
+                  xs: "flex",
+                  sm: "flex",
+                  md: "none",
+                },
+                px: 3,
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography>{ReactHtmlParser(storeDescription)}</Typography>
             </Box>
           </Grid>
         </Grid>

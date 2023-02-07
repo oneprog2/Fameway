@@ -19,7 +19,11 @@ const DescriptionInput = ({ storeDescription, setStoreDescription }) => {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: {
+            xs: "column",
+            sm: "column",
+            md: "row",
+          },
         }}
       >
         <Box
@@ -33,7 +37,11 @@ const DescriptionInput = ({ storeDescription, setStoreDescription }) => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              width: "40%",
+              width: {
+                sm: "70%",
+                md: "70%",
+                lg: "40%",
+              },
             }}
           >
             <Typography
@@ -45,7 +53,17 @@ const DescriptionInput = ({ storeDescription, setStoreDescription }) => {
             >
               Ma description
             </Typography>
-            <Typography fontWeight={"regular"} variant="h6">
+            <Typography
+              sx={{
+                pb: {
+                  xs: 2,
+                  sm: 2,
+                  md: 0,
+                },
+              }}
+              fontWeight={"regular"}
+              variant="h6"
+            >
               Seul le texte qui apparaît en gras sera visible dans son
               intégralité. Le reste sera visible sur votre compte en cliquant
               sur “lire plus”.
@@ -76,13 +94,22 @@ const UsernameInput = ({ username, setUsername }) => {
     <Grid
       sx={{
         width: "100%",
+        flexDirection: {
+          xs: "column",
+          sm: "column",
+          md: "row",
+        },
       }}
       lg={12}
     >
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: {
+            xs: "column",
+            sm: "column",
+            md: "row",
+          },
         }}
       >
         <Box
@@ -139,13 +166,22 @@ const StoreNameInput = ({ storeName, setStoreName }) => {
     <Grid
       sx={{
         width: "100%",
+        flexDirection: {
+          xs: "column",
+          sm: "column",
+          md: "row",
+        },
       }}
       lg={12}
     >
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: {
+            xs: "column",
+            sm: "column",
+            md: "row",
+          },
         }}
       >
         <Box
@@ -353,28 +389,36 @@ const StoreSettings = () => {
 
         <Box
           sx={{
-            mt: 4,
-            pb: 3,
-            borderBottom: "1px solid #E5E5E5",
-            mb: 3,
+            px: {
+              md: 3,
+            },
           }}
         >
-          <UsernameInput username={username} setUsername={setUsername} />
-        </Box>
-        <Box
-          sx={{
-            pb: 3,
-            borderBottom: "1px solid #E5E5E5",
-            mb: 3,
-          }}
-        >
-          <StoreNameInput storeName={storeName} setStoreName={setStoreName} />
-        </Box>
+          <Box
+            sx={{
+              mt: 4,
+              pb: 3,
+              borderBottom: "1px solid #E5E5E5",
+              mb: 3,
+            }}
+          >
+            <UsernameInput username={username} setUsername={setUsername} />
+          </Box>
+          <Box
+            sx={{
+              pb: 3,
+              borderBottom: "1px solid #E5E5E5",
+              mb: 3,
+            }}
+          >
+            <StoreNameInput storeName={storeName} setStoreName={setStoreName} />
+          </Box>
 
-        <DescriptionInput
-          storeDescription={storeDescription}
-          setStoreDescription={setStoreDescription}
-        />
+          <DescriptionInput
+            storeDescription={storeDescription}
+            setStoreDescription={setStoreDescription}
+          />
+        </Box>
 
         <Box
           sx={{
