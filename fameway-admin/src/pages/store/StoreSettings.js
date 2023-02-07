@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import Breadcrumb from "../../layouts/full-layout/breadcrumb/Breadcrumb";
 import PageContainer from "../../components/container/PageContainer";
-import CoverCard from "../../components/profile/CoverCard";
 import { userAtom } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
 import { useMutation, useQuery } from "@apollo/client";
@@ -10,228 +9,7 @@ import { STORE_DATA } from "../../api/queries";
 import { handleUpload } from "../../components/aws/UploadToS3";
 import { UPDATE_STORE } from "../../api/mutations";
 import { CategoryButton } from "../../components/buttons/CategoryButton";
-import QuillEditor from "../../components/inputs/QuillEditor";
-import CustomTextField from "../../components/forms/custom-elements/CustomTextField";
-
-const DescriptionInput = ({ storeDescription, setStoreDescription }) => {
-  return (
-    <Grid lg={12}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: {
-            xs: "column",
-            sm: "column",
-            md: "row",
-          },
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              width: {
-                sm: "70%",
-                md: "70%",
-                lg: "40%",
-              },
-            }}
-          >
-            <Typography
-              sx={{
-                mb: 1,
-                fontWeight: "bold",
-              }}
-              variant="h5"
-            >
-              Ma description
-            </Typography>
-            <Typography
-              sx={{
-                pb: {
-                  xs: 2,
-                  sm: 2,
-                  md: 0,
-                },
-              }}
-              fontWeight={"regular"}
-              variant="h6"
-            >
-              Seul le texte qui apparaît en gras sera visible dans son
-              intégralité. Le reste sera visible sur votre compte en cliquant
-              sur “lire plus”.
-            </Typography>
-          </Box>
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            flex: 1,
-          }}
-        >
-          <QuillEditor
-            value={storeDescription}
-            onChange={setStoreDescription}
-            placeholder="Description de l'article..."
-          />
-        </Box>
-      </Box>
-    </Grid>
-  );
-};
-
-const UsernameInput = ({ username, setUsername }) => {
-  return (
-    <Grid
-      sx={{
-        width: "100%",
-        flexDirection: {
-          xs: "column",
-          sm: "column",
-          md: "row",
-        },
-      }}
-      lg={12}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: {
-            xs: "column",
-            sm: "column",
-            md: "row",
-          },
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              width: "40%",
-            }}
-          >
-            <Typography
-              sx={{
-                mb: 1,
-                fontWeight: "bold",
-              }}
-              variant="h5"
-            >
-              Nom de créateur
-            </Typography>
-          </Box>
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            flex: 1,
-          }}
-        >
-          <CustomTextField
-            id="default-value"
-            variant="outlined"
-            defaultValue=""
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Nom de créateur..."
-            fullWidth
-            size="small"
-          />
-        </Box>
-      </Box>
-    </Grid>
-  );
-};
-
-const StoreNameInput = ({ storeName, setStoreName }) => {
-  return (
-    <Grid
-      sx={{
-        width: "100%",
-        flexDirection: {
-          xs: "column",
-          sm: "column",
-          md: "row",
-        },
-      }}
-      lg={12}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: {
-            xs: "column",
-            sm: "column",
-            md: "row",
-          },
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              width: "40%",
-            }}
-          >
-            <Typography
-              sx={{
-                mb: 1,
-                fontWeight: "bold",
-              }}
-              variant="h5"
-            >
-              Nom de ma boutique
-            </Typography>
-          </Box>
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            flex: 1,
-          }}
-        >
-          <CustomTextField
-            id="default-value"
-            variant="outlined"
-            defaultValue=""
-            value={storeName}
-            onChange={(e) => setStoreName(e.target.value)}
-            placeholder="Nom de ma boutique..."
-            fullWidth
-            size="small"
-          />
-        </Box>
-      </Box>
-    </Grid>
-  );
-};
+import { StoreSettingsInputs } from "../../components/inputs/StoreSettingsInputs";
 
 const StoreSettings = () => {
   const [currentUser] = useAtom(userAtom);
@@ -268,10 +46,10 @@ const StoreSettings = () => {
   if (loading || loadData) return <div>Chargement ...</div>;
   const handleStoreUpdate = async () => {
     setMutationLoading(true);
-    let profileUrl;
-    let bannerUrl;
+    let profileUrl = profileFile;
+    let bannerUrl = bannerFile;
 
-    if (profileFile)
+    if (profileFile && profileFile !== data?.store_by_pk?.profilePicture)
       await handleUpload(profileFile, currentUser?.username)
         .then((res) => {
           profileUrl = res?.location;
@@ -279,7 +57,7 @@ const StoreSettings = () => {
         .catch((err) => {
           console.log(err);
         });
-    if (bannerFile)
+    if (bannerFile && bannerFile !== data?.store_by_pk?.bannerPicture)
       await handleUpload(bannerFile, currentUser?.username)
         .then((res) => {
           bannerUrl = res?.location;
@@ -377,48 +155,18 @@ const StoreSettings = () => {
           </Box>
         </Grid>
 
-        <CoverCard
+        <StoreSettingsInputs
           username={username}
+          setUsername={setUsername}
           storeName={storeName}
+          setStoreName={setStoreName}
           storeDescription={storeDescription}
+          setStoreDescription={setStoreDescription}
           bannerFile={bannerFile}
           setBannerFile={setBannerFile}
           profileFile={profileFile}
           setProfileFile={setProfileFile}
-        />
-
-        <Box
-          sx={{
-            px: {
-              md: 3,
-            },
-          }}
-        >
-          <Box
-            sx={{
-              mt: 4,
-              pb: 3,
-              borderBottom: "1px solid #E5E5E5",
-              mb: 3,
-            }}
-          >
-            <UsernameInput username={username} setUsername={setUsername} />
-          </Box>
-          <Box
-            sx={{
-              pb: 3,
-              borderBottom: "1px solid #E5E5E5",
-              mb: 3,
-            }}
-          >
-            <StoreNameInput storeName={storeName} setStoreName={setStoreName} />
-          </Box>
-
-          <DescriptionInput
-            storeDescription={storeDescription}
-            setStoreDescription={setStoreDescription}
-          />
-        </Box>
+        ></StoreSettingsInputs>
 
         <Box
           sx={{
