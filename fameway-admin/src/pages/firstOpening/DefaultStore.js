@@ -137,7 +137,7 @@ const UserProfile = () => {
             ></Breadcrumb>
           </Box>
 
-          {/* <Button
+          <Button
             onClick={handleStoreUpdate}
             color="primary"
             variant="contained"
@@ -160,14 +160,12 @@ const UserProfile = () => {
             ) : (
               "Valider les modifications"
             )}
-          </Button> */}
+          </Button>
         </Box>
 
         <CoverCard
           storeName={storeName}
-          setStoreName={setStoreName}
           storeDescription={storeDescription}
-          setStoreDescription={setStoreDescription}
           bannerFile={bannerFile}
           setBannerFile={setBannerFile}
           profileFile={profileFile}
@@ -356,89 +354,25 @@ const UserProfile = () => {
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
             justifyContent: "end",
           }}
         >
-          <Box
+          <Button
+            color="primary"
+            variant="contained"
             sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "end",
-              alignContent: "end",
+              alignSelf: "self-end",
+              marginTop: 10,
+              marginBottom: 10,
+              height: "40px",
+              width: "300px",
+              fontWeight: "700",
+              borderRadius: "100px",
             }}
           >
-            <Button
-              onClick={handleStoreUpdate}
-              color="primary"
-              variant="contained"
-              sx={{
-                height: "40px",
-                width: "300px",
-                fontWeight: "700",
-                borderRadius: "100px",
-              }}
-            >
-              {mutationLoading ? (
-                <Box
-                  sx={{
-                    height: "30px",
-                    width: "30px",
-                  }}
-                >
-                  <Spinner />
-                </Box>
-              ) : (
-                "Aperçu mobile"
-              )}
-            </Button>
-            <Button
-              onClick={handleStoreUpdate}
-              color="primary"
-              variant="contained"
-              sx={{
-                height: "40px",
-                width: "300px",
-                fontWeight: "700",
-                borderRadius: "100px",
-              }}
-            >
-              {mutationLoading ? (
-                <Box
-                  sx={{
-                    height: "30px",
-                    width: "30px",
-                  }}
-                >
-                  <Spinner />
-                </Box>
-              ) : (
-                "Aperçu web"
-              )}
-            </Button>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "end",
-            }}
-          >
-            <Button
-              color="primary"
-              variant="contained"
-              sx={{
-                alignSelf: "self-end",
-                marginTop: 2,
-                marginBottom: 10,
-                height: "40px",
-                width: "300px",
-                fontWeight: "700",
-                borderRadius: "100px",
-              }}
-            >
-              Continuer
-            </Button>
-          </Box>
+            Valider les modifications
+          </Button>
         </Box>
       </Grid>
     </PageContainer>

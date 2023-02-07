@@ -372,7 +372,7 @@ const StoreSettings = () => {
         </Box>
 
         <DescriptionInput
-          description={storeDescription}
+          storeDescription={storeDescription}
           setStoreDescription={setStoreDescription}
         />
 
