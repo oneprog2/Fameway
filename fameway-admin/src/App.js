@@ -37,12 +37,12 @@ const App = () => {
     ) {
       const userData = data?.user[0];
       setCurrentUser({
-        id: userData.id,
-        username: userData.username,
-        firstname: userData.firstname,
-        lastname: userData.lastname,
-        firstOpening: userData.firstOpening,
-        storeID: userData.stores?.[0].id,
+        id: userData?.id,
+        username: userData?.username,
+        firstname: userData?.firstname,
+        lastname: userData?.lastname,
+        firstOpening: userData?.firstOpening,
+        storeID: userData?.stores?.[0].id,
       });
     } else {
       if (

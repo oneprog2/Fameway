@@ -12,6 +12,7 @@ const CustomTextField = styled((props) => <TextField {...props} />)(
       borderColor: `${
         theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.12)" : "#dee3e9"
       }`,
+      borderRadius: "16px",
     },
     "& .MuiOutlinedInput-input.Mui-disabled": {
       backgroundColor: `${

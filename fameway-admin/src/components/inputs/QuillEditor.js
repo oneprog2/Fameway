@@ -9,9 +9,6 @@ const QuillEditor = (props) => {
 
   return (
     <Box
-      onClick={() => {
-        quillRef.current.focus();
-      }}
       sx={{
         cursor: "text",
         p: 0,
@@ -20,6 +17,7 @@ const QuillEditor = (props) => {
         borderWidth: 1,
         borderRadius: 1,
         borderStyle: "solid",
+        flex: 1,
       }}
     >
       <ReactQuill

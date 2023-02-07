@@ -137,7 +137,7 @@ const UserProfile = () => {
             ></Breadcrumb>
           </Box>
 
-          <Button
+          {/* <Button
             onClick={handleStoreUpdate}
             color="primary"
             variant="contained"
@@ -160,7 +160,7 @@ const UserProfile = () => {
             ) : (
               "Valider les modifications"
             )}
-          </Button>
+          </Button> */}
         </Box>
 
         <CoverCard
@@ -356,25 +356,89 @@ const UserProfile = () => {
         <Box
           sx={{
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "column",
             justifyContent: "end",
           }}
         >
-          <Button
-            color="primary"
-            variant="contained"
+          <Box
             sx={{
-              alignSelf: "self-end",
-              marginTop: 10,
-              marginBottom: 10,
-              height: "40px",
-              width: "300px",
-              fontWeight: "700",
-              borderRadius: "100px",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "end",
+              alignContent: "end",
             }}
           >
-            Valider les modifications
-          </Button>
+            <Button
+              onClick={handleStoreUpdate}
+              color="primary"
+              variant="contained"
+              sx={{
+                height: "40px",
+                width: "300px",
+                fontWeight: "700",
+                borderRadius: "100px",
+              }}
+            >
+              {mutationLoading ? (
+                <Box
+                  sx={{
+                    height: "30px",
+                    width: "30px",
+                  }}
+                >
+                  <Spinner />
+                </Box>
+              ) : (
+                "Aperçu mobile"
+              )}
+            </Button>
+            <Button
+              onClick={handleStoreUpdate}
+              color="primary"
+              variant="contained"
+              sx={{
+                height: "40px",
+                width: "300px",
+                fontWeight: "700",
+                borderRadius: "100px",
+              }}
+            >
+              {mutationLoading ? (
+                <Box
+                  sx={{
+                    height: "30px",
+                    width: "30px",
+                  }}
+                >
+                  <Spinner />
+                </Box>
+              ) : (
+                "Aperçu web"
+              )}
+            </Button>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "end",
+            }}
+          >
+            <Button
+              color="primary"
+              variant="contained"
+              sx={{
+                alignSelf: "self-end",
+                marginTop: 2,
+                marginBottom: 10,
+                height: "40px",
+                width: "300px",
+                fontWeight: "700",
+                borderRadius: "100px",
+              }}
+            >
+              Continuer
+            </Button>
+          </Box>
         </Box>
       </Grid>
     </PageContainer>

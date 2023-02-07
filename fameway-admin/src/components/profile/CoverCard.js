@@ -1,15 +1,14 @@
 import React from "react";
-import { Grid, Box, Card, CardContent } from "@mui/material";
+import { Grid, Box, Card, CardContent, Typography } from "@mui/material";
 import profilecover from "../../assets/images/users/user.png";
 import imageIcon from "../../assets/images/logos/Icons.png";
-import CustomTextEmpty from "../forms/custom-elements/CustomTextEmpty";
 import { EditButton } from "../buttons/EditButton";
+import ReactHtmlParser from "react-html-parser";
 
 const CoverCard = ({
+  username,
   storeName,
-  setStoreName,
   storeDescription,
-  setStoreDescription,
   bannerFile,
   setBannerFile,
   profileFile,
@@ -113,7 +112,7 @@ const CoverCard = ({
         <Grid container spacing={0}>
           <Grid
             item
-            lg={4}
+            lg={12}
             sm={12}
             xs={12}
             sx={{
@@ -188,86 +187,67 @@ const CoverCard = ({
                 sx={{
                   ml: "20px",
                   mt: "-20px",
-                  display: "block",
+                  flex: 1,
                 }}
               >
                 <Box
                   sx={{
                     display: "flex",
                     alignItems: "center",
+                    flexDirection: "row",
+                    alignContent: "center",
                   }}
                 >
-                  <CustomTextEmpty
-                    id="storeName"
-                    value={storeName}
-                    onChange={(e) => setStoreName(e.target.value)}
-                    placeholder="@Nom"
-                    fontSize={30}
-                    inputProps={{
-                      style: {
-                        minWidth: 100,
-                        height: 40,
-                        fontSize: 30,
-                        width: storeName?.length * 14 + 50,
-                        fontWeight: "900",
-                        textAlign: "start",
-                        margin: 0,
-                        padding: 0,
-                      },
-                    }}
-                  ></CustomTextEmpty>
-
-                  <Box
+                  <Typography
+                    variant="h3"
                     sx={{
-                      marginLeft: "10px",
+                      fontWeight: "900",
+                      fontSize: "30px",
+                      color: "#222222",
+                      margin: 0,
+                      padding: 0,
                     }}
                   >
-                    <EditButton
-                      onClick={() =>
-                        document.getElementById("storeName").focus()
-                      }
-                      size={"small"}
-                    ></EditButton>
+                    {storeName?.length > 0 ? storeName : "Nom de la boutique"}
+                  </Typography>
+                  <Box
+                    sx={{
+                      borderLeft: "1px solid #B2B2B2",
+                      pl: 2,
+                      height: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      ml: "14px",
+                      mt: 1,
+                    }}
+                  >
+                    <Typography>@{username}</Typography>
                   </Box>
                 </Box>
 
                 <Box
                   sx={{
                     display: "flex",
+                    flex: 1,
                     alignItems: "center",
                   }}
                 >
-                  <CustomTextEmpty
-                    id="description"
-                    value={storeDescription}
-                    onChange={(e) => setStoreDescription(e.target.value)}
-                    placeholder="Ecrivez une description"
-                    inputProps={{
-                      style: {
-                        fontSize: 14,
-                        fontWeight: "300",
-                        marginTop: 0,
-                        textAlign: "start",
-                        minWidth: "160px",
-                        width: storeDescription?.length * 7,
-                        height: 30,
-                        padding: 0,
-                        marginLeft: 2,
-                      },
-                    }}
-                  ></CustomTextEmpty>
-                  <Box
-                    sx={{
-                      marginLeft: "10px",
-                    }}
+                  <Typography
+                  // inputProps={{
+                  //   style: {
+                  //     fontSize: 14,
+                  //     fontWeight: "300",
+                  //     marginTop: 0,
+                  //     textAlign: "start",
+                  //     height: 30,
+                  //     padding: 0,
+                  //     marginLeft: 2,
+                  //   },
+                  // }}
                   >
-                    <EditButton
-                      onClick={() =>
-                        document.getElementById("description").focus()
-                      }
-                      size={"small"}
-                    ></EditButton>
-                  </Box>
+                    {ReactHtmlParser(storeDescription)}
+                  </Typography>
                 </Box>
               </Box>
             </Box>
