@@ -216,7 +216,9 @@ export function CartScreen({
       <TotalAmount
         onPress={() => {
           closeCart && closeCart();
-          navigation.navigate("Shipping");
+          navigation.navigate("OrderStack", {
+            screen: "Shipping",
+          });
         }}
       />
     </View>

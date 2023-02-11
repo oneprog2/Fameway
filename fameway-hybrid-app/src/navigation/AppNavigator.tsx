@@ -8,7 +8,11 @@ import { PresentationScreen, ArticleDetailScreen, StoreScreen } from "@screens";
 import { useColorScheme } from "react-native";
 import { useGetOnboardingStatus } from "@hooks";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AuthStackNavigator, CustomerStackNavigator } from "@navigation";
+import {
+  AuthStackNavigator,
+  OrderStackNavigator,
+  CustomerStackNavigator,
+} from "@navigation";
 import { useState } from "react";
 import * as Linking from "expo-linking";
 
@@ -66,20 +70,16 @@ export const AppNavigator = () => {
               </>
             );
           return ( */}
-        <Stack.Group>
-          <Stack.Screen
-            name="CustomerStack"
-            component={CustomerStackNavigator}
-          />
-          <Stack.Screen name="Store" component={StoreScreen} />
-          <Stack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="ArticleDetail"
-            component={ArticleDetailScreen}
-          />
-        </Stack.Group>
+        <Stack.Screen name="CustomerStack" component={CustomerStackNavigator} />
+
+        <Stack.Screen
+          name="OrderStack"
+          component={OrderStackNavigator}
+          options={{
+            // ...TransitionPresets.SlideFromRightIOS,
+            gestureEnabled: false,
+          }}
+        />
         {/* ); */}
         {/* })()} */}
       </Stack.Navigator>

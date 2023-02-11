@@ -7,6 +7,7 @@ import { useMemo, useRef, useState } from "react";
 
 interface DataProps {
   children: React.ReactNode;
+  navigation: any;
 }
 
 export const CartTabButton: React.FC<DataProps> = ({

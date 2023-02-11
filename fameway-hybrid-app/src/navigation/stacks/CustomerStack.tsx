@@ -4,15 +4,30 @@ import {
   ProfileScreen,
   SearchScreen,
   WishlistScreen,
-  CartScreen,
+  ArticleDetailScreen,
+  StoreScreen,
 } from "@screens";
 import { CartTabButton, CustomIcon, TabBarIcon } from "@components";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 
-const CustomerStack = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
+const HomeStack = createNativeStackNavigator();
+
+export const HomeStackNavigator = () => {
+  return (
+    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+      <HomeStack.Screen name="Dashboard" component={HomeScreen} />
+      <HomeStack.Screen name="ArticleDetail" component={ArticleDetailScreen} />
+      <HomeStack.Screen name="Store" component={StoreScreen} />
+    </HomeStack.Navigator>
+  );
+};
 
 export const CustomerStackNavigator = () => {
+  const navigation = useNavigation();
   return (
-    <CustomerStack.Navigator
+    <Tab.Navigator
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -22,16 +37,17 @@ export const CustomerStackNavigator = () => {
         },
       }}
     >
-      <CustomerStack.Screen
+      <Tab.Screen
         options={{
           tabBarIcon: ({ focused }) => (
             <TabBarIcon screenName="Home" focused={focused} iconName={"icon"} />
           ),
         }}
-        name="Home"
-        component={HomeScreen}
+        name="HomeStack"
+        component={HomeStackNavigator}
       />
-      <CustomerStack.Screen
+
+      <Tab.Screen
         options={{
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
@@ -44,7 +60,7 @@ export const CustomerStackNavigator = () => {
         name="Search"
         component={SearchScreen}
       />
-      <CustomerStack.Screen
+      <Tab.Screen
         name="Cart"
         component={HomeScreen}
         listeners={{
@@ -58,10 +74,12 @@ export const CustomerStackNavigator = () => {
               size={30}
             />
           ),
-          tabBarButton: (props) => <CartTabButton {...props} />,
+          tabBarButton: (props) => (
+            <CartTabButton navigation={navigation} {...props} />
+          ),
         }}
       />
-      <CustomerStack.Screen
+      <Tab.Screen
         options={{
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
@@ -74,7 +92,7 @@ export const CustomerStackNavigator = () => {
         name="Wishlist"
         component={WishlistScreen}
       />
-      <CustomerStack.Screen
+      <Tab.Screen
         options={{
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
@@ -87,6 +105,6 @@ export const CustomerStackNavigator = () => {
         name="Profile"
         component={ProfileScreen}
       />
-    </CustomerStack.Navigator>
+    </Tab.Navigator>
   );
 };

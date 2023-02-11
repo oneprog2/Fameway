@@ -1,15 +1,15 @@
 import { BottomButton, PageContainer, Text } from "@components";
 
-export const ShippingScreen = ({ navigation }) => {
+export const RecapScreen = ({ navigation }) => {
   return (
     <PageContainer
       edges={["top", "bottom", "left", "right"]}
       goBack
       onPress={() => navigation.navigate("Search")}
-      title="🚚 Livraison"
+      title="🔥 Récapitulatif"
       footer={
         <BottomButton
-          label={"Choisir mon mode de paiement"}
+          label={"Confirmer la commande"}
           onPress={() => navigation.navigate("Payment")}
         ></BottomButton>
       }
