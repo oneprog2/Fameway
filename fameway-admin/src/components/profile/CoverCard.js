@@ -1,8 +1,9 @@
 import React from "react";
 import { Grid, Box, Card, CardContent, Typography } from "@mui/material";
 import profilecover from "../../assets/images/users/user.png";
-import imageIcon from "../../assets/images/logos/Icons.png";
+import imageIcon from "../../assets/images/logos/Icons-black.png";
 import { EditButton } from "../buttons/EditButton";
+import { DeleteButton } from "../buttons/DeleteButton";
 import ReactHtmlParser from "react-html-parser";
 
 const CoverCard = ({
@@ -48,17 +49,20 @@ const CoverCard = ({
     >
       <label onChange={handleBannerInput} htmlFor="formId">
         <input name="" type="file" id="formId" hidden />
-        <Card
+        <Box
           sx={{
             cursor: "pointer",
             zIndex: 200,
             height: "300px",
-            backgroundColor: previewBanner ? "transparent" : "#222222",
+            backgroundColor: previewBanner ? "transparent" : "#f0f0f0",
             alignItems: "center",
             justifyContent: "center",
             position: "relative",
             padding: 0,
+            overflow: "hidden",
+
             margin: 0,
+            borderRadius: "20px",
           }}
         >
           <Box
@@ -88,19 +92,40 @@ const CoverCard = ({
             ) : null}
           </Box>
 
-          <Box
-            style={{
-              position: "absolute",
-              bottom: 15,
-              right: 20,
-              alignItems: "center",
-              justifyContent: "center",
-              alignSelf: "center",
-            }}
-          >
-            <EditButton></EditButton>
-          </Box>
-        </Card>
+          {previewBanner ? (
+            <Box
+              onClick={(e) => {
+                e.preventDefault();
+                setPreviewBanner(null);
+                setBannerFile(null);
+              }}
+              style={{
+                zIndex: 200,
+                position: "absolute",
+                top: 15,
+                right: 20,
+                alignItems: "center",
+                justifyContent: "center",
+                alignSelf: "center",
+              }}
+            >
+              <DeleteButton></DeleteButton>
+            </Box>
+          ) : (
+            <Box
+              style={{
+                position: "absolute",
+                bottom: 15,
+                right: 20,
+                alignItems: "center",
+                justifyContent: "center",
+                alignSelf: "center",
+              }}
+            >
+              <EditButton></EditButton>
+            </Box>
+          )}
+        </Box>
       </label>
 
       <CardContent
@@ -142,16 +167,18 @@ const CoverCard = ({
                   <Box
                     sx={{
                       cursor: "pointer",
-                      borderRadius: "100%",
                       backgroundPosition: "center",
                       backgroundSize: "cover",
                       backgroundImage: previewProfile
                         ? null
                         : `url(${profilecover})`,
-                      backgroundColor: previewProfile ? "#222222" : "#FFF",
                       width: "162px",
                       height: "162px",
-                      border: "3px solid #fff",
+                      borderRadius: "100%",
+                      border: previewProfile
+                        ? "5px solid #fff"
+                        : "2px solid #fff",
+                      overflow: previewProfile ? "hidden" : "visible",
                       position: "relative",
                     }}
                   >
@@ -162,23 +189,26 @@ const CoverCard = ({
                           height: "100%",
                           width: "100%",
                           objectFit: "cover",
-                          borderRadius: "100%",
+                          backgroundColor: "#FFF",
                         }}
                         src={previewProfile}
                       />
                     ) : null}
-                    <Box
-                      style={{
-                        position: "absolute",
-                        bottom: 10,
-                        right: 10,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        alignSelf: "center",
-                      }}
-                    >
-                      <EditButton></EditButton>
-                    </Box>
+                    {!previewProfile ? (
+                      <Box
+                        style={{
+                          position: "absolute",
+                          bottom: 10,
+                          right: 10,
+                          alignItems: "center",
+                          justifyContent: "center",
+                          alignSelf: "center",
+                          zIndex: 200,
+                        }}
+                      >
+                        <EditButton></EditButton>
+                      </Box>
+                    ) : null}
                   </Box>
                 </label>
               </Box>

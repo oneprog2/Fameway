@@ -8,7 +8,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { STORE_DATA } from "../../api/queries";
 import { handleUpload } from "../../components/aws/UploadToS3";
 import { UPDATE_STORE, UPDATE_USER } from "../../api/mutations";
-import Spinner from "../spinner/Spinner";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { StoreSettingsInputs } from "../../components/inputs/StoreSettingsInputs";
 
 const UserProfile = () => {
@@ -16,6 +16,7 @@ const UserProfile = () => {
   const [storeName, setStoreName] = React.useState(currentUser?.username);
   const [username, setUsername] = React.useState(currentUser?.username);
   const [category, setCategory] = useState("Tout");
+  const [hasChangedSomething, setHasChangedSomething] = useState(false);
   const [bannerFile, setBannerFile] = useState(null);
   const [profileFile, setProfileFile] = useState(null);
 
@@ -27,6 +28,7 @@ const UserProfile = () => {
       setStoreName(currentUser?.username);
     }
   }, [currentUser]);
+  console.log(storeDescription);
 
   const { data, error, loading } = useQuery(STORE_DATA, {
     variables: { storeID: currentUser?.storeID },
@@ -47,6 +49,21 @@ const UserProfile = () => {
   });
 
   if (loading) return <div>Chargement ...</div>;
+
+  const handleSkip = async () => {
+    setMutationLoading(true);
+
+    await updateUser({
+      variables: {
+        userID: currentUser?.id,
+        firstOpening: false,
+      },
+    }).then(() => {
+      window.location.href = "/home";
+    });
+
+    setMutationLoading(false);
+  };
 
   const handleStoreUpdate = async () => {
     setMutationLoading(true);
@@ -93,9 +110,12 @@ const UserProfile = () => {
   };
 
   return (
-    <PageContainer title="User Profile" description="this is User Profile page">
+    <PageContainer
+      title="Personnalise ta boutique"
+      description="Définis le nom de ta boutique, ajoute une description, une photo de couverture et de profil."
+    >
       <Grid
-        lg={10}
+        lg={12}
         sx={{
           margin: "auto",
         }}
@@ -136,10 +156,34 @@ const UserProfile = () => {
             ></Breadcrumb>
           </Box>
 
-          <Button
+          <LoadingButton
+            loading={mutationLoading}
+            onClick={handleSkip}
+            color="primary"
+            variant="outlined"
+            sx={{
+              height: "40px",
+              width: "300px",
+              fontWeight: "700",
+              borderRadius: "100px",
+              marginRight: "15px",
+            }}
+          >
+            Personnaliser plus tard
+          </LoadingButton>
+
+          <LoadingButton
+            loading={mutationLoading}
             onClick={handleStoreUpdate}
             color="primary"
             variant="contained"
+            disabled={
+              (currentUser.username === storeName &&
+                currentUser.username === username &&
+                storeDescription === "") ||
+              profileFile ||
+              bannerFile
+            }
             sx={{
               height: "40px",
               width: "300px",
@@ -147,19 +191,8 @@ const UserProfile = () => {
               borderRadius: "100px",
             }}
           >
-            {mutationLoading ? (
-              <Box
-                sx={{
-                  height: "30px",
-                  width: "30px",
-                }}
-              >
-                <Spinner />
-              </Box>
-            ) : (
-              "Valider les modifications"
-            )}
-          </Button>
+            Valider les modifications
+          </LoadingButton>
         </Box>
 
         <StoreSettingsInputs
@@ -174,31 +207,8 @@ const UserProfile = () => {
           profileFile={profileFile}
           setProfileFile={setProfileFile}
         ></StoreSettingsInputs>
-
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "end",
-          }}
-        >
-          <Button
-            color="primary"
-            variant="contained"
-            sx={{
-              alignSelf: "self-end",
-              marginTop: 10,
-              marginBottom: 10,
-              height: "40px",
-              width: "300px",
-              fontWeight: "700",
-              borderRadius: "100px",
-            }}
-          >
-            Valider les modifications
-          </Button>
-        </Box>
       </Grid>
+      <Box sx={{ marginBottom: 20 }}></Box>
     </PageContainer>
   );
 };

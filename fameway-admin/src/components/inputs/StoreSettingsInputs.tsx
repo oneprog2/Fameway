@@ -125,7 +125,7 @@ export const StoreSettingsInputs = (props: any) => {
           <InputRow
             data={username}
             setData={setUsername}
-            inputName={"Nom d'utilisateur"}
+            inputName={"Nom de créateur*"}
             input={
               <CustomTextField
                 id="default-value"
@@ -151,7 +151,7 @@ export const StoreSettingsInputs = (props: any) => {
           <InputRow
             data={storeName}
             setData={setStoreName}
-            inputName="Nom de ma boutique"
+            inputName="Nom de ta boutique*"
             input={
               <CustomTextField
                 id="default-value"
@@ -170,10 +170,7 @@ export const StoreSettingsInputs = (props: any) => {
         <InputRow
           data={storeDescription}
           setData={setStoreDescription}
-          inputName={"Description de l'article"}
-          inputSubName={
-            "Seul le texte qui apparaît en gras sera visible dans son intégralité. Le reste sera visible sur votre compte en cliquant sur “lire plus”."
-          }
+          inputName={"Description de la boutique"}
           input={
             <QuillEditor
               value={storeDescription}

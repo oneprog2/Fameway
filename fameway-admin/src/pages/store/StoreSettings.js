@@ -44,6 +44,7 @@ const StoreSettings = () => {
   const [updateStore, { storeError }] = useMutation(UPDATE_STORE);
 
   if (loading || loadData) return <div>Chargement ...</div>;
+
   const handleStoreUpdate = async () => {
     setMutationLoading(true);
     let profileUrl = profileFile;
