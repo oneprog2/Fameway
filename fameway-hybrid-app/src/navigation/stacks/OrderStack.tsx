@@ -10,7 +10,9 @@ const OrderStack = createNativeStackNavigator();
 
 export const OrderStackNavigator = () => {
   return (
-    <OrderStack.Navigator screenOptions={{ headerShown: false }}>
+    <OrderStack.Navigator
+      screenOptions={{ headerShown: false, animation: "none" }}
+    >
       <OrderStack.Screen name="Shipping" component={ShippingScreen} />
       <OrderStack.Screen name="Payment" component={PaymentScreen} />
       <OrderStack.Screen name="Recap" component={RecapScreen} />

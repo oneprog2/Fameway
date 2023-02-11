@@ -10,7 +10,7 @@ export const RecapScreen = ({ navigation }) => {
       footer={
         <BottomButton
           label={"Confirmer la commande"}
-          onPress={() => navigation.navigate("Payment")}
+          onPress={() => navigation.navigate("Confirmation")}
         ></BottomButton>
       }
     >

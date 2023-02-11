@@ -10,7 +10,11 @@ export const ConfirmationScreen = ({ navigation }) => {
       footer={
         <BottomButton
           label={"🛍️ Continuer le shopping"}
-          onPress={() => navigation.navigate("Payment")}
+          onPress={() =>
+            navigation.navigate("CustomerStack", {
+              screen: "Home",
+            })
+          }
         ></BottomButton>
       }
     >

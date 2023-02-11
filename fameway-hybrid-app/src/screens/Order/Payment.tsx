@@ -10,7 +10,7 @@ export const PaymentScreen = ({ navigation }) => {
       footer={
         <BottomButton
           label={"Voir le récapitulatif"}
-          onPress={() => navigation.navigate("Payment")}
+          onPress={() => navigation.navigate("Recap")}
         ></BottomButton>
       }
     >
