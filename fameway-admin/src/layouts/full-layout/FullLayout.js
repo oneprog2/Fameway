@@ -77,7 +77,7 @@ const FullLayout = ({ hideSidebar = false }) => {
           <Box sx={{ minHeight: "calc(100vh - 170px)" }}>
             <Outlet />
           </Box>
-          <Customizer />
+          {/* <Customizer /> */}
           <Footer />
         </Container>
       </PageWrapper>

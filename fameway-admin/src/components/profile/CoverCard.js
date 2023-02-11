@@ -154,12 +154,19 @@ const CoverCard = ({
               alignItems="flex-start"
               justifyContent="flex-start"
               sx={{
-                ml: "20px",
+                ml: {
+                  xs: "0px",
+                  sm: "20px",
+                  md: "20px",
+                },
               }}
             >
               <Box
                 sx={{
-                  mt: "-90px",
+                  mt: {
+                    xs: "-70px",
+                    sm: "-90px",
+                  },
                 }}
               >
                 <label onChange={handleProfileInput} htmlFor="profile">
@@ -172,8 +179,12 @@ const CoverCard = ({
                       backgroundImage: previewProfile
                         ? null
                         : `url(${profilecover})`,
-                      width: "162px",
-                      height: "162px",
+                      aspectRatio: "1/1",
+                      width: {
+                        xs: "100px",
+                        sm: "160px",
+                        md: "160px",
+                      },
                       borderRadius: "100%",
                       border: previewProfile
                         ? "5px solid #fff"
@@ -238,10 +249,13 @@ const CoverCard = ({
                 >
                   <Box>
                     <Typography
-                      variant="h3"
                       sx={{
                         fontWeight: "900",
-                        fontSize: "30px",
+                        fontSize: {
+                          xs: "20px",
+                          sm: "30px",
+                          md: "30px",
+                        },
                         color: "#222222",
                         margin: 0,
                         padding: 0,

@@ -5,7 +5,7 @@ import PageContainer from "../../components/container/PageContainer";
 import { userAtom } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
 import { useMutation, useQuery } from "@apollo/client";
-import { STORE_DATA } from "../../api/queries";
+import { DOMAIN_DATA, STORE_DATA } from "../../api/queries";
 import { handleUpload } from "../../components/aws/UploadToS3";
 import { UPDATE_STORE } from "../../api/mutations";
 import { CategoryButton } from "../../components/buttons/CategoryButton";
@@ -16,6 +16,14 @@ const StoreSettings = () => {
 
   const { data, error, loading } = useQuery(STORE_DATA, {
     variables: { storeID: currentUser?.storeID },
+    fetchPolicy: "network-only",
+  });
+
+  const {
+    data: domainData,
+    error: domainError,
+    loading: domainLoading,
+  } = useQuery(DOMAIN_DATA, {
     fetchPolicy: "network-only",
   });
 
@@ -66,6 +74,7 @@ const StoreSettings = () => {
         .catch((err) => {
           console.log(err);
         });
+    console.log(domainData);
 
     await updateStore({
       variables: {

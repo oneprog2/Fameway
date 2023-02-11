@@ -1,10 +1,12 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, MenuItem, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import CustomTextField from "../forms/custom-elements/CustomTextField";
 import CoverCard from "../profile/CoverCard";
 import QuillEditor from "./QuillEditor";
+import FormControl from "@mui/material/FormControl";
+import Autocomplete from "@mui/material/Autocomplete";
 
-const InputRow = ({ data, setData, inputName, inputSubName, input }: any) => {
+const InputRow = ({ inputName, inputSubName, input }: any) => {
   return (
     <Grid
       sx={{
@@ -93,8 +95,10 @@ export const StoreSettingsInputs = (props: any) => {
     setBannerFile,
     profileFile,
     setProfileFile,
+    domainSelected,
+    setDomainSelected,
+    domains,
   } = props;
-
   return (
     <>
       <CoverCard
@@ -106,7 +110,6 @@ export const StoreSettingsInputs = (props: any) => {
         profileFile={profileFile}
         setProfileFile={setProfileFile}
       />
-
       <Box
         sx={{
           px: {
@@ -118,14 +121,12 @@ export const StoreSettingsInputs = (props: any) => {
           sx={{
             mt: 4,
             pb: 3,
-            borderBottom: "1px solid #E5E5E5",
+            borderBottom: "1px solid #EFEFEF",
             mb: 3,
           }}
         >
           <InputRow
-            data={username}
-            setData={setUsername}
-            inputName={"Nom de créateur*"}
+            inputName={"Nom de créateur"}
             input={
               <CustomTextField
                 id="default-value"
@@ -143,15 +144,86 @@ export const StoreSettingsInputs = (props: any) => {
 
         <Box
           sx={{
+            mt: 4,
             pb: 3,
-            borderBottom: "1px solid #E5E5E5",
+            borderBottom: "1px solid #EFEFEF",
             mb: 3,
           }}
         >
           <InputRow
-            data={storeName}
-            setData={setStoreName}
-            inputName="Nom de ta boutique*"
+            inputName={"Ma catégorie"}
+            input={
+              <FormControl
+                size="small"
+                sx={{
+                  width: "100%",
+                  borderRadius: "16px",
+                  border: 0,
+                }}
+              >
+                <Autocomplete
+                  size="small"
+                  id="combo-box-demo"
+                  options={domains.map((item) => (item.label = item.name))}
+                  onChange={(event, newValue) => {
+                    setDomainSelected(newValue);
+                  }}
+                  value={domainSelected}
+                  renderInput={(params) => (
+                    <CustomTextField fullWidth size={"small"} {...params} />
+                  )}
+                  renderOption={(props, option, state) => {
+                    const icon = domains?.find(
+                      (item) => item.name === option
+                    )?.icon;
+
+                    return (
+                      <MenuItem
+                        sx={{
+                          width: "100%",
+                        }}
+                        {...props}
+                      >
+                        <img
+                          alt={option}
+                          style={{
+                            height: 20,
+                            width: 20,
+                            objectFit: "cover",
+                            marginRight: 10,
+                          }}
+                          src={icon ? icon : "https://via.placeholder.com/150"}
+                        />
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontSize: 16,
+                            color: "#222222",
+                            margin: 0,
+                            padding: 0,
+                          }}
+                        >
+                          {option}
+                        </Typography>
+                      </MenuItem>
+                    );
+                  }}
+                />
+              </FormControl>
+            }
+          />
+        </Box>
+
+        <Box
+          sx={{
+            mt: 4,
+            pb: 3,
+            borderBottom: "1px solid #EFEFEF",
+            mb: 3,
+          }}
+        >
+          <InputRow
+            inputName="Nom de ta boutique"
             input={
               <CustomTextField
                 id="default-value"
@@ -168,8 +240,6 @@ export const StoreSettingsInputs = (props: any) => {
         </Box>
 
         <InputRow
-          data={storeDescription}
-          setData={setStoreDescription}
           inputName={"Description de la boutique"}
           input={
             <QuillEditor

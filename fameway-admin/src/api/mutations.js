@@ -74,10 +74,14 @@ export const UPDATE_ARTICLE = gql`
 `;
 
 export const UPDATE_USER = gql`
-  mutation UpdateUser($userID: String!, $firstOpening: Boolean) {
+  mutation UpdateUser(
+    $userID: String!
+    $firstOpening: Boolean
+    $domain: String
+  ) {
     update_user_by_pk(
       pk_columns: { id: $userID }
-      _set: { firstOpening: $firstOpening }
+      _set: { firstOpening: $firstOpening, domain: $domain }
     ) {
       id
     }

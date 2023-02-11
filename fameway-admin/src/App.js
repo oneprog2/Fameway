@@ -25,7 +25,7 @@ const App = () => {
     variables: { email: user?.email },
   });
   const [currentUser, setCurrentUser] = useAtom(userAtom);
-
+  console.log(error);
   useEffect(() => {
     if (!isAuthenticated && !isLoading) {
       loginWithRedirect();
@@ -43,6 +43,7 @@ const App = () => {
         lastname: userData?.lastname,
         firstOpening: userData?.firstOpening,
         storeID: userData?.stores?.[0].id,
+        domain: userData?.domain,
       });
     } else {
       if (

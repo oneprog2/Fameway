@@ -6,6 +6,7 @@ export const CURRENT_USER = gql`
       username
       id
       firstOpening
+      domain
       stores {
         id
         name
@@ -29,6 +30,17 @@ export const STORE_DATA = gql`
         articlePictures
         status
       }
+    }
+  }
+`;
+
+export const DOMAIN_DATA = gql`
+  query getDomains {
+    domain {
+      id
+      name
+      key
+      icon
     }
   }
 `;

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import Breadcrumb from "../../layouts/full-layout/breadcrumb/Breadcrumb";
 import PageContainer from "../../components/container/PageContainer";
 import { userAtom } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
 import { useMutation, useQuery } from "@apollo/client";
-import { STORE_DATA } from "../../api/queries";
+import { DOMAIN_DATA, STORE_DATA } from "../../api/queries";
 import { handleUpload } from "../../components/aws/UploadToS3";
 import { UPDATE_STORE, UPDATE_USER } from "../../api/mutations";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -15,23 +15,30 @@ const UserProfile = () => {
   const [currentUser] = useAtom(userAtom);
   const [storeName, setStoreName] = React.useState(currentUser?.username);
   const [username, setUsername] = React.useState(currentUser?.username);
-  const [category, setCategory] = useState("Tout");
-  const [hasChangedSomething, setHasChangedSomething] = useState(false);
+  const [domainSelected, setDomainSelected] = useState("Gaming");
   const [bannerFile, setBannerFile] = useState(null);
   const [profileFile, setProfileFile] = useState(null);
 
   const [storeDescription, setStoreDescription] = React.useState("");
   const [mutationLoading, setMutationLoading] = React.useState(false);
+  const [skipLoading, setSkipLoading] = React.useState(false);
 
   useEffect(() => {
     if (currentUser?.username) {
       setStoreName(currentUser?.username);
     }
   }, [currentUser]);
-  console.log(storeDescription);
 
   const { data, error, loading } = useQuery(STORE_DATA, {
     variables: { storeID: currentUser?.storeID },
+  });
+
+  const {
+    data: domainData,
+    error: domainError,
+    loading: domainLoading,
+  } = useQuery(DOMAIN_DATA, {
+    fetchPolicy: "network-only",
   });
 
   const [updateStore, { storeError }] = useMutation(UPDATE_STORE);
@@ -48,21 +55,23 @@ const UserProfile = () => {
     };
   });
 
-  if (loading) return <div>Chargement ...</div>;
+  if (loading || domainLoading) return <div>Chargement ...</div>;
 
   const handleSkip = async () => {
-    setMutationLoading(true);
+    setSkipLoading(true);
 
     await updateUser({
       variables: {
         userID: currentUser?.id,
         firstOpening: false,
+        domain: domainData?.domain?.find((item) => item.name === domainSelected)
+          ?.key,
       },
     }).then(() => {
       window.location.href = "/home";
     });
 
-    setMutationLoading(false);
+    setSkipLoading(false);
   };
 
   const handleStoreUpdate = async () => {
@@ -156,43 +165,121 @@ const UserProfile = () => {
             ></Breadcrumb>
           </Box>
 
-          <LoadingButton
-            loading={mutationLoading}
-            onClick={handleSkip}
-            color="primary"
-            variant="outlined"
+          <Box
             sx={{
-              height: "40px",
-              width: "300px",
-              fontWeight: "700",
-              borderRadius: "100px",
-              marginRight: "15px",
-            }}
-          >
-            Personnaliser plus tard
-          </LoadingButton>
+              display: "flex",
+              flexDirection: "row",
 
-          <LoadingButton
-            loading={mutationLoading}
-            onClick={handleStoreUpdate}
-            color="primary"
-            variant="contained"
-            disabled={
-              (currentUser.username === storeName &&
-                currentUser.username === username &&
-                storeDescription === "") ||
-              profileFile ||
-              bannerFile
-            }
-            sx={{
-              height: "40px",
-              width: "300px",
-              fontWeight: "700",
-              borderRadius: "100px",
+              px: 3,
+              backgroundColor: "#fafbfb",
+              position: {
+                xs: "fixed",
+                sm: "fixed",
+                md: "initial",
+                lg: "initial",
+              },
+              bottom: 0,
+              left: 0,
+              zIndex: 10,
+              height: 100,
+              width: "100%",
+              alignItems: "center",
+              justifyContent: {
+                xs: "center",
+                sm: "center",
+                md: "end",
+              },
             }}
           >
-            Valider les modifications
-          </LoadingButton>
+            <LoadingButton
+              loading={skipLoading}
+              onClick={handleSkip}
+              color="primary"
+              variant="outlined"
+              sx={{
+                backgroundColor: "white",
+                height: "40px",
+                width: "300px",
+                fontWeight: "700",
+                borderRadius: "100px",
+                marginRight: "15px",
+              }}
+            >
+              <Typography
+                sx={{
+                  display: {
+                    xs: "none",
+                    sm: "none",
+                    md: "block",
+                  },
+                  color: "black",
+                }}
+              >
+                Passer cette étape
+              </Typography>
+              <Typography
+                sx={{
+                  display: {
+                    xs: "block",
+                    sm: "block",
+                    md: "none",
+                  },
+                  color: "black",
+                }}
+              >
+                Passer
+              </Typography>
+            </LoadingButton>
+
+            <LoadingButton
+              loading={mutationLoading}
+              onClick={handleStoreUpdate}
+              color="primary"
+              variant="contained"
+              disabled={
+                (currentUser.username === storeName &&
+                  currentUser.username === username &&
+                  currentUser.domain ===
+                    domainData?.domain?.find(
+                      (item) => item.name === domainSelected
+                    )?.key &&
+                  storeDescription === "") ||
+                profileFile ||
+                bannerFile
+              }
+              sx={{
+                height: "40px",
+                width: "300px",
+                fontWeight: "700",
+                borderRadius: "100px",
+              }}
+            >
+              <Typography
+                sx={{
+                  display: {
+                    xs: "none",
+                    sm: "none",
+                    md: "block",
+                  },
+                  color: "white",
+                }}
+              >
+                Aperçu de ma boutique
+              </Typography>
+              <Typography
+                sx={{
+                  display: {
+                    xs: "block",
+                    sm: "block",
+                    md: "none",
+                  },
+                  color: "white",
+                }}
+              >
+                Aperçu
+              </Typography>
+            </LoadingButton>
+          </Box>
         </Box>
 
         <StoreSettingsInputs
@@ -206,6 +293,9 @@ const UserProfile = () => {
           setBannerFile={setBannerFile}
           profileFile={profileFile}
           setProfileFile={setProfileFile}
+          domains={domainData?.domain}
+          setDomainSelected={setDomainSelected}
+          domainSelected={domainSelected}
         ></StoreSettingsInputs>
       </Grid>
       <Box sx={{ marginBottom: 20 }}></Box>
