@@ -20,7 +20,9 @@ const StoreSettings = () => {
     firstOpening ? currentUser?.username : null
   );
   const [username, setUsername] = React.useState(currentUser?.username);
-  const [domainSelected, setDomainSelected] = useState("Gaming");
+  const [domainSelected, setDomainSelected] = useState(
+    firstOpening ? "Gaming" : null
+  );
   const [bannerFile, setBannerFile] = useState(null);
   const [profileFile, setProfileFile] = useState(null);
 
@@ -47,6 +49,15 @@ const StoreSettings = () => {
     fetchPolicy: "network-only",
   });
 
+  useEffect(() => {
+    if (!firstOpening && domainData) {
+      setDomainSelected(
+        domainData?.domain?.find((item) => item.key === currentUser?.domain)
+          ?.name
+      );
+    }
+  }, [domainData, currentUser, firstOpening, domainLoading]);
+
   const [updateStore, { storeError }] = useMutation(UPDATE_STORE);
   const [updateUser, { userError }] = useMutation(UPDATE_USER);
   const [loadData, setLoadData] = React.useState(false);
@@ -63,7 +74,7 @@ const StoreSettings = () => {
       }
       setLoadData(false);
     }
-  }, [data, loading]);
+  }, [data, firstOpening, loading]);
 
   if (loading || domainLoading || (!firstOpening && loadData))
     return <div>Chargement ...</div>;
@@ -124,6 +135,8 @@ const StoreSettings = () => {
         userID: currentUser?.id,
         firstOpening: false,
         username: username,
+        domain: domainData?.domain?.find((item) => item.name === domainSelected)
+          ?.key,
       },
     }).then(() => {
       window.location.href = firstOpening ? "/home" : "/store/settings";
