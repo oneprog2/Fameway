@@ -47,8 +47,10 @@ export const PageHeader = ({
             )}
           >
             <Text
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}
               weight="bold"
-              className={title?.length > 14 ? "text-xl" : "text-2xl"}
+              className={"text-xl"}
             >
               {title}
             </Text>
