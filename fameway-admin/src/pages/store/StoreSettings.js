@@ -62,7 +62,8 @@ const StoreSettings = () => {
     }
   }, [data, loading]);
 
-  if (loading || domainLoading || loadData) return <div>Chargement ...</div>;
+  if (loading || domainLoading || (!firstOpening && loadData))
+    return <div>Chargement ...</div>;
 
   const handleSkip = async () => {
     setSkipLoading(true);
@@ -73,15 +74,9 @@ const StoreSettings = () => {
         firstOpening: false,
         domain: domainData?.domain?.find((item) => item.name === domainSelected)
           ?.key,
+        username: username,
       },
     }).then(() => {
-      setCurrentUser({
-        ...currentUser,
-        username: username,
-        domain: domainData?.domain?.find((item) => item.name === domainSelected)
-          ?.key,
-      });
-
       window.location.href = "/home";
     });
 
@@ -125,14 +120,9 @@ const StoreSettings = () => {
       variables: {
         userID: currentUser?.id,
         firstOpening: false,
+        username: username,
       },
     }).then(() => {
-      setCurrentUser({
-        ...currentUser,
-        username: username,
-        domain: domainData?.domain?.find((item) => item.name === domainSelected)
-          ?.key,
-      });
       window.location.href = firstOpening ? "/home" : "/store/settings";
     });
 

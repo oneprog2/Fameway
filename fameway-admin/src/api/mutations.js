@@ -78,10 +78,15 @@ export const UPDATE_USER = gql`
     $userID: String!
     $firstOpening: Boolean
     $domain: String
+    $username: String
   ) {
     update_user_by_pk(
       pk_columns: { id: $userID }
-      _set: { firstOpening: $firstOpening, domain: $domain }
+      _set: {
+        username: $username
+        firstOpening: $firstOpening
+        domain: $domain
+      }
     ) {
       id
     }

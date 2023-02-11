@@ -25,7 +25,6 @@ const App = () => {
     variables: { email: user?.email },
   });
   const [currentUser, setCurrentUser] = useAtom(userAtom);
-  console.log(error);
   useEffect(() => {
     if (!isAuthenticated && !isLoading) {
       loginWithRedirect();
