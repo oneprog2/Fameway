@@ -9,7 +9,10 @@ interface DataProps {
   children: React.ReactNode;
 }
 
-export const CartTabButton: React.FC<DataProps> = ({ children }) => {
+export const CartTabButton: React.FC<DataProps> = ({
+  children,
+  navigation,
+}: any) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ["90%"], []);
   const [open, setOpen] = useState(false);
@@ -56,11 +59,15 @@ export const CartTabButton: React.FC<DataProps> = ({ children }) => {
           }}
           handleComponent={() => null}
         >
-          <CartScreen closeCart={() => bottomSheetRef?.current?.close()} />
+          <CartScreen
+            navigation={navigation}
+            closeCart={() => bottomSheetRef?.current?.close()}
+          />
         </BottomSheet>
       </Portal>
 
       <PortalHost name="custom_host" />
+
       <Button
         role="fameway"
         size={"none"}

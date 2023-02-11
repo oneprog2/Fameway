@@ -6,6 +6,7 @@ import {
   Text,
   QuantitySelector,
 } from "@components";
+import { useNavigation } from "@react-navigation/native";
 import { useAtom } from "jotai";
 import { useState } from "react";
 import { View } from "react-native";
@@ -99,7 +100,7 @@ function ArticleItem({ article, quantity, setQuantity }: { article: any }) {
   );
 }
 
-export function TotalAmount() {
+export function TotalAmount({ onPress }: any) {
   return (
     <View className="flex-row w-full absolute bottom-2 bg-white py-3">
       <View className="flex-1">
@@ -117,11 +118,11 @@ export function TotalAmount() {
       </View>
       <View className="flex-1">
         <Button
-          label="Checkout"
+          label="Commander"
           role="normal"
           size="lg"
+          onPress={onPress}
           roundness="full"
-          onPress={() => {}}
           iconOnly
         ></Button>
       </View>
@@ -151,7 +152,13 @@ export function Subtotal({ last }: { last?: boolean }) {
   );
 }
 
-export function CartScreen({ closeCart }: { closeCart?: () => void }) {
+export function CartScreen({
+  closeCart,
+  navigation,
+}: {
+  closeCart?: () => void;
+  navigation?: any;
+}) {
   const [cart, setCart] = useAtom(cartAtom);
   return (
     <View className="flex-1 mx-4 mt-4">
@@ -206,7 +213,12 @@ export function CartScreen({ closeCart }: { closeCart?: () => void }) {
             );
         })}
       </ScrollView>
-      <TotalAmount />
+      <TotalAmount
+        onPress={() => {
+          closeCart && closeCart();
+          navigation.navigate("Shipping");
+        }}
+      />
     </View>
   );
 }
