@@ -53,11 +53,14 @@ const StoreSettings = () => {
 
   useEffect(() => {
     setLoadData(true);
-    if (data?.store_by_pk && !firstOpening) {
-      setStoreName(data?.store_by_pk?.name);
+    if (data?.store_by_pk) {
       setStoreDescription(data?.store_by_pk?.description);
       setProfileFile(data?.store_by_pk?.profilePicture);
       setBannerFile(data?.store_by_pk?.bannerPicture);
+      if (!firstOpening) {
+        setStoreName(data?.store_by_pk?.name);
+        setLoadData(false);
+      }
       setLoadData(false);
     }
   }, [data, loading]);
@@ -85,8 +88,8 @@ const StoreSettings = () => {
 
   const handleStoreUpdate = async () => {
     setMutationLoading(true);
-    let profileUrl;
-    let bannerUrl;
+    let profileUrl = profileFile;
+    let bannerUrl = bannerFile;
 
     if (profileFile && profileFile !== data?.store_by_pk?.profilePicture) {
       await handleUpload(profileFile, currentUser?.username)
