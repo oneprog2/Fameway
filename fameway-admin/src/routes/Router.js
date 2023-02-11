@@ -24,7 +24,7 @@ const ArticleList = Loadable(
 );
 
 const FirstOpening = Loadable(
-  lazy(() => import("../pages/firstOpening/DefaultStore"))
+  lazy(() => import("../pages/store/StoreSettings"))
 );
 
 const Router = [

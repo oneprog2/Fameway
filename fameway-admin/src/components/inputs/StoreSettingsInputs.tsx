@@ -121,7 +121,7 @@ export const StoreSettingsInputs = (props: any) => {
           sx={{
             mt: 4,
             pb: 3,
-            borderBottom: "1px solid #EFEFEF",
+            borderBottom: "0.5px solid #EFEFEF",
             mb: 3,
           }}
         >
@@ -146,7 +146,52 @@ export const StoreSettingsInputs = (props: any) => {
           sx={{
             mt: 4,
             pb: 3,
-            borderBottom: "1px solid #EFEFEF",
+            borderBottom: "0.5px solid #EFEFEF",
+            mb: 3,
+          }}
+        >
+          <InputRow
+            inputName="Nom de ta boutique"
+            input={
+              <CustomTextField
+                id="default-value"
+                variant="outlined"
+                defaultValue=""
+                value={storeName}
+                onChange={(e) => setStoreName(e.target.value)}
+                placeholder="Nom de créateur..."
+                fullWidth
+                size="small"
+              />
+            }
+          />
+        </Box>
+
+        <Box
+          sx={{
+            mt: 4,
+            pb: 3,
+            borderBottom: "0.5px solid #EFEFEF",
+            mb: 3,
+          }}
+        >
+          <InputRow
+            inputName={"Description de la boutique"}
+            input={
+              <QuillEditor
+                value={storeDescription}
+                onChange={setStoreDescription}
+                placeholder="Description de l'article..."
+              />
+            }
+          />
+        </Box>
+
+        <Box
+          sx={{
+            mt: 4,
+            pb: 3,
+            borderBottom: "0.5px solid #EFEFEF",
             mb: 3,
           }}
         >
@@ -213,42 +258,6 @@ export const StoreSettingsInputs = (props: any) => {
             }
           />
         </Box>
-
-        <Box
-          sx={{
-            mt: 4,
-            pb: 3,
-            borderBottom: "1px solid #EFEFEF",
-            mb: 3,
-          }}
-        >
-          <InputRow
-            inputName="Nom de ta boutique"
-            input={
-              <CustomTextField
-                id="default-value"
-                variant="outlined"
-                defaultValue=""
-                value={storeName}
-                onChange={(e) => setStoreName(e.target.value)}
-                placeholder="Nom de créateur..."
-                fullWidth
-                size="small"
-              />
-            }
-          />
-        </Box>
-
-        <InputRow
-          inputName={"Description de la boutique"}
-          input={
-            <QuillEditor
-              value={storeDescription}
-              onChange={setStoreDescription}
-              placeholder="Description de l'article..."
-            />
-          }
-        />
       </Box>
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import Breadcrumb from "../../layouts/full-layout/breadcrumb/Breadcrumb";
 import PageContainer from "../../components/container/PageContainer";
 import { userAtom } from "../../atoms/Atoms";
@@ -7,16 +7,36 @@ import { useAtom } from "jotai";
 import { useMutation, useQuery } from "@apollo/client";
 import { DOMAIN_DATA, STORE_DATA } from "../../api/queries";
 import { handleUpload } from "../../components/aws/UploadToS3";
-import { UPDATE_STORE } from "../../api/mutations";
-import { CategoryButton } from "../../components/buttons/CategoryButton";
+import { UPDATE_STORE, UPDATE_USER } from "../../api/mutations";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { StoreSettingsInputs } from "../../components/inputs/StoreSettingsInputs";
+import { CategoryButton } from "../../components/buttons/CategoryButton";
 
 const StoreSettings = () => {
-  const [currentUser] = useAtom(userAtom);
+  const firstOpening = window.location.pathname === "/firstOpening";
+
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
+  const [storeName, setStoreName] = React.useState(
+    firstOpening ? currentUser?.username : null
+  );
+  const [username, setUsername] = React.useState(currentUser?.username);
+  const [domainSelected, setDomainSelected] = useState("Gaming");
+  const [bannerFile, setBannerFile] = useState(null);
+  const [profileFile, setProfileFile] = useState(null);
+
+  const [storeDescription, setStoreDescription] = React.useState("");
+  const [mutationLoading, setMutationLoading] = React.useState(false);
+  const [skipLoading, setSkipLoading] = React.useState(false);
+  const [category, setCategory] = useState("Personnalisation");
+
+  useEffect(() => {
+    if (currentUser?.username && firstOpening) {
+      setStoreName(currentUser?.username);
+    }
+  }, [currentUser, firstOpening]);
 
   const { data, error, loading } = useQuery(STORE_DATA, {
     variables: { storeID: currentUser?.storeID },
-    fetchPolicy: "network-only",
   });
 
   const {
@@ -27,18 +47,13 @@ const StoreSettings = () => {
     fetchPolicy: "network-only",
   });
 
-  const [storeName, setStoreName] = React.useState(undefined);
-
-  const [category, setCategory] = useState("Personnalisation");
-
-  const [username, setUsername] = React.useState(currentUser?.username);
-  const [storeDescription, setStoreDescription] = React.useState("");
-  const [mutationLoading, setMutationLoading] = React.useState(false);
+  const [updateStore, { storeError }] = useMutation(UPDATE_STORE);
+  const [updateUser, { userError }] = useMutation(UPDATE_USER);
   const [loadData, setLoadData] = React.useState(false);
 
   useEffect(() => {
     setLoadData(true);
-    if (data?.store_by_pk) {
+    if (data?.store_by_pk && !firstOpening) {
       setStoreName(data?.store_by_pk?.name);
       setStoreDescription(data?.store_by_pk?.description);
       setProfileFile(data?.store_by_pk?.profilePicture);
@@ -46,19 +61,39 @@ const StoreSettings = () => {
       setLoadData(false);
     }
   }, [data, loading]);
-  const [bannerFile, setBannerFile] = useState(null);
-  const [profileFile, setProfileFile] = useState(null);
 
-  const [updateStore, { storeError }] = useMutation(UPDATE_STORE);
+  if (loading || domainLoading || loadData) return <div>Chargement ...</div>;
 
-  if (loading || loadData) return <div>Chargement ...</div>;
+  const handleSkip = async () => {
+    setSkipLoading(true);
+
+    await updateUser({
+      variables: {
+        userID: currentUser?.id,
+        firstOpening: false,
+        domain: domainData?.domain?.find((item) => item.name === domainSelected)
+          ?.key,
+      },
+    }).then(() => {
+      setCurrentUser({
+        ...currentUser,
+        username: username,
+        domain: domainData?.domain?.find((item) => item.name === domainSelected)
+          ?.key,
+      });
+
+      window.location.href = "/home";
+    });
+
+    setSkipLoading(false);
+  };
 
   const handleStoreUpdate = async () => {
     setMutationLoading(true);
-    let profileUrl = profileFile;
-    let bannerUrl = bannerFile;
+    let profileUrl;
+    let bannerUrl;
 
-    if (profileFile && profileFile !== data?.store_by_pk?.profilePicture)
+    if (profileFile && profileFile !== data?.store_by_pk?.profilePicture) {
       await handleUpload(profileFile, currentUser?.username)
         .then((res) => {
           profileUrl = res?.location;
@@ -66,6 +101,7 @@ const StoreSettings = () => {
         .catch((err) => {
           console.log(err);
         });
+    }
     if (bannerFile && bannerFile !== data?.store_by_pk?.bannerPicture)
       await handleUpload(bannerFile, currentUser?.username)
         .then((res) => {
@@ -74,7 +110,6 @@ const StoreSettings = () => {
         .catch((err) => {
           console.log(err);
         });
-    console.log(domainData);
 
     await updateStore({
       variables: {
@@ -85,85 +120,244 @@ const StoreSettings = () => {
         profilePicture: profileUrl,
         description: storeDescription,
       },
+    });
+    await updateUser({
+      variables: {
+        userID: currentUser?.id,
+        firstOpening: false,
+      },
     }).then(() => {
-      window.location.href = "/store/settings";
+      setCurrentUser({
+        ...currentUser,
+        username: username,
+        domain: domainData?.domain?.find((item) => item.name === domainSelected)
+          ?.key,
+      });
+      window.location.href = firstOpening ? "/home" : "/store/settings";
     });
 
     setMutationLoading(false);
   };
 
-  return (
-    <PageContainer title="User Profile" description="this is User Profile page">
+  const StoreButtons = () => {
+    return (
       <Box
         sx={{
-          px: 1,
           display: "flex",
-          flexDirection: {
-            xs: "column",
-            sm: "column",
-            md: "column",
-            lg: "row",
+          flexDirection: "row",
+          px: firstOpening ? 0 : 3,
+          backgroundColor: "#fafbfb",
+          position: {
+            xs: "fixed",
+            sm: "fixed",
+            md: "initial",
+            lg: "initial",
           },
-          alignItems: {
-            xs: "start",
-            sm: "start",
-            md: "start",
-            lg: "center",
+          bottom: 0,
+          left: 0,
+          my: !firstOpening
+            ? {
+                xs: 0,
+                sm: 0,
+                md: 0,
+                lg: 10,
+              }
+            : 0,
+          mt: firstOpening ? 4 : 0,
+          zIndex: 10,
+          height: 100,
+          width: "100%",
+          alignItems: "center",
+          justifyContent: {
+            xs: "center",
+            sm: "center",
+            md: "end",
           },
-          mb: {
-            xs: "15px",
-            sm: "15px",
-            md: "15px",
-          },
+        }}
+      >
+        <LoadingButton
+          loading={skipLoading}
+          onClick={handleSkip}
+          color="primary"
+          variant="outlined"
+          sx={{
+            backgroundColor: "white",
+            height: "40px",
+            width: "300px",
+            fontWeight: "700",
+            borderRadius: "100px",
+            marginRight: "15px",
+          }}
+        >
+          {!skipLoading ? (
+            <>
+              <Typography
+                sx={{
+                  display: {
+                    xs: "none",
+                    sm: "none",
+                    md: "block",
+                  },
+                  color: "black",
+                }}
+              >
+                {firstOpening ? "Passer cette étape" : "Aperçu de la boutique"}
+              </Typography>
+              <Typography
+                sx={{
+                  display: {
+                    xs: "block",
+                    sm: "block",
+                    md: "none",
+                  },
+                  color: "black",
+                }}
+              >
+                {firstOpening ? "Passer" : "Aperçu"}
+              </Typography>
+            </>
+          ) : null}
+        </LoadingButton>
+
+        <LoadingButton
+          loading={mutationLoading}
+          onClick={handleStoreUpdate}
+          color="primary"
+          variant="contained"
+          disabled={
+            currentUser.username === storeName &&
+            currentUser.username === username &&
+            !profileFile &&
+            !bannerFile &&
+            currentUser.domain ===
+              domainData?.domain?.find((item) => item.name === domainSelected)
+                ?.key
+          }
+          sx={{
+            height: "40px",
+            width: "300px",
+            fontWeight: "700",
+            borderRadius: "100px",
+          }}
+        >
+          {!mutationLoading ? (
+            <>
+              <Typography
+                sx={{
+                  display: {
+                    xs: "none",
+                    sm: "none",
+                    md: "block",
+                  },
+                  color: "white",
+                }}
+              >
+                {firstOpening
+                  ? "Aperçu de ma boutique"
+                  : "Valider les modifications"}
+              </Typography>
+              <Typography
+                sx={{
+                  display: {
+                    xs: "block",
+                    sm: "block",
+                    md: "none",
+                  },
+                  color: "white",
+                }}
+              >
+                {firstOpening ? "Continuer" : "Valider"}
+              </Typography>
+            </>
+          ) : null}
+        </LoadingButton>
+      </Box>
+    );
+  };
+
+  return (
+    <PageContainer
+      title="Personnalise ta boutique"
+      description="Définis le nom de ta boutique, ajoute une description, une photo de couverture et de profil."
+    >
+      <Grid
+        lg={12}
+        sx={{
+          margin: "auto",
         }}
       >
         <Box
           sx={{
-            width: "100%",
+            display: "flex",
+            flexDirection: {
+              xs: "column",
+              sm: "column",
+              md: "column",
+              lg: "row",
+            },
+            alignItems: {
+              xs: "start",
+              sm: "start",
+              md: "start",
+              lg: "center",
+            },
+            // mx: "15px",
+            mb: {
+              xs: "15px",
+              sm: "15px",
+              md: "15px",
+            },
           }}
         >
-          <Breadcrumb
-            items={[
-              {
-                title: "Boutique",
-              },
-              {
-                title: "Apparence",
-              },
-            ]}
-            title={`Depuis cette page, modifie l'apparence de ta boutique.`}
-          ></Breadcrumb>
-        </Box>
-      </Box>
-      <Grid lg={12}>
-        <Grid
-          sx={{
-            px: 1,
-            mb: 6,
-            width: "100%",
-          }}
-          container
-          lg={12}
-        >
-          <CategoryButton
-            onClick={() => setCategory("Personnalisation")}
-            title="Personnalisation"
-            active={category === "Personnalisation" ? true : false}
-          />
           <Box
             sx={{
-              display: "flex",
-              flexDirection: "row",
-              marginLeft: 4,
+              width: "100%",
+              pl: 1,
             }}
           >
-            <CategoryButton
-              onClick={() => setCategory("Paramètres")}
-              title="Paramètres"
-              active={category === "Paramètres" ? true : false}
-            />
+            <Breadcrumb
+              title={
+                !firstOpening
+                  ? `Fait briller ta boutique.`
+                  : `Ici, tu peux commencer à personnaliser ta boutique.`
+              }
+              subtitle={!firstOpening ? "" : `Bienvenue `}
+              username={currentUser?.username}
+            ></Breadcrumb>
           </Box>
-        </Grid>
+          <Box>{firstOpening ? <StoreButtons /> : null}</Box>
+        </Box>
+
+        {!firstOpening ? (
+          <Grid
+            sx={{
+              px: 1,
+              mb: 6,
+              width: "100%",
+            }}
+            container
+            lg={12}
+          >
+            <CategoryButton
+              onClick={() => setCategory("Personnalisation")}
+              title="Personnalisation"
+              active={category === "Personnalisation" ? true : false}
+            />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                marginLeft: 4,
+              }}
+            >
+              <CategoryButton
+                onClick={() => setCategory("Paramètres")}
+                title="Paramètres"
+                active={category === "Paramètres" ? true : false}
+              />
+            </Box>
+          </Grid>
+        ) : null}
 
         <StoreSettingsInputs
           username={username}
@@ -176,33 +370,25 @@ const StoreSettings = () => {
           setBannerFile={setBannerFile}
           profileFile={profileFile}
           setProfileFile={setProfileFile}
+          domains={domainData?.domain}
+          setDomainSelected={setDomainSelected}
+          domainSelected={domainSelected}
         ></StoreSettingsInputs>
-
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "end",
-          }}
-        >
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={handleStoreUpdate}
-            sx={{
-              alignSelf: "self-end",
-              marginTop: 10,
-              marginBottom: 10,
-              height: "40px",
-              width: "300px",
-              fontWeight: "700",
-              borderRadius: "100px",
-            }}
-          >
-            Valider les modifications
-          </Button>
-        </Box>
       </Grid>
+
+      <StoreButtons />
+
+      <Box
+        sx={{
+          marginBottom: !firstOpening
+            ? {
+                xs: 10,
+                sm: 10,
+                md: 0,
+              }
+            : 3,
+        }}
+      ></Box>
     </PageContainer>
   );
 };
