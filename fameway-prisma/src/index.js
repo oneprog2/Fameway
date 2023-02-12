@@ -15,79 +15,68 @@ const typeDefs = `
     username: String
   }
 
-  input CheckoutSessionInput {
-    cartId: ID!
-  }
-
-  type CheckoutSession {
+  type Cart {
     id: ID!
-    url: String!
+    ownerID: String!
   }
 
   type Query {
-    allUsers: [User!]!
+    cart: Cart
   }
-  
-  type Mutation {
-    createCheckoutSession(input: CheckoutSessionInput!): CheckoutSession!
-  }
-`;
+  `;
 
 const resolvers = {
   Query: {
-    allUsers: () => {
-      return prisma.user.findMany();
+    cart: () => {
+      console.log(prisma.user);
+      console.log(prisma.cart);
+      console.log("prisma.cart");
+      return prisma.cart;
     },
   },
-  Mutation: {
-    createCheckoutSession: async (_, { input }, { prisma }) => {
-      const { cartId } = input;
-
-      const cart = await prisma.cart.findUnique({
-        where: { id: cartId },
-      });
-
-      const cartItems = await prisma.cart
-        .findUnique({
-          where: { id: cartId },
-        })
-        .items();
-
-      if (!cartItems || cartItems.length === 0) {
-        throw new GraphQLYogaError("Cart is empty");
-      }
-
-      const line_items = cartItems.map((item) => {
-        return {
-          quantity: item.quantity,
-          price_data: {
-            currency: "eur",
-            unit_amount: item.price,
-            product_data: {
-              name: item.name,
-              description: item.description || undefined,
-              images: item.image ? [item.image] : [],
-            },
-          },
-        };
-      });
-
-      const session = await stripe.checkout.sessions.create({
-        success_url: `${origin}/thankyou?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${origin}/cart?cancelled=true`,
-        line_items,
-        metadata: {
-          cartId: cart.id,
-        },
-        mode: "payment",
-      });
-
-      return {
-        id: session.id,
-        url: session.url,
-      };
-    },
-  },
+  // Mutation: {
+  //   // createCheckoutSession: async (_, { input }, { prisma }) => {
+  //   //   const { cartId } = input;
+  //   //   const cart = await prisma.cart.findUnique({
+  //   //     where: { id: cartId },
+  //   //   });
+  //   //   const cartItems = await prisma.cart
+  //   //     .findUnique({
+  //   //       where: { id: cartId },
+  //   //     })
+  //   //     .items();
+  //   //   if (!cartItems || cartItems.length === 0) {
+  //   //     throw new GraphQLYogaError("Cart is empty");
+  //   //   }
+  //   //   const line_items = cartItems.map((item) => {
+  //   //     return {
+  //   //       quantity: item.quantity,
+  //   //       price_data: {
+  //   //         currency: "eur",
+  //   //         unit_amount: item.price,
+  //   //         product_data: {
+  //   //           name: item.name,
+  //   //           description: item.description || undefined,
+  //   //           images: item.image ? [item.image] : [],
+  //   //         },
+  //   //       },
+  //   //     };
+  //   //   });
+  //   //   const session = await stripe.checkout.sessions.create({
+  //   //     success_url: `${origin}/thankyou?session_id={CHECKOUT_SESSION_ID}`,
+  //   //     cancel_url: `${origin}/cart?cancelled=true`,
+  //   //     line_items,
+  //   //     metadata: {
+  //   //       cartId: cart.id,
+  //   //     },
+  //   //     mode: "payment",
+  //   //   });
+  //   //   return {
+  //   //     id: session.id,
+  //   //     url: session.url,
+  //   //   };
+  //   // },
+  // },
 };
 
 const server = new ApolloServer({

@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("postgres://i.rifki:fElTK24zJyuV@ep-twilight-sky-891251.us-east-2.aws.neon.tech/fameway-prod")
 }
 
 model store {
