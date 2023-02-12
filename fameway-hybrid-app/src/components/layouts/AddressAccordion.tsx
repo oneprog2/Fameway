@@ -13,13 +13,17 @@ type AccordionProps = {
   children: React.ReactNode;
   subtitle: string;
   icon?: string;
+  selected?: any;
+  setSelected?: any;
 };
 
 export const AddressAccordion = ({
   title,
   children,
   subtitle,
+  selected,
   icon = "plus2",
+  setSelected,
 }: AccordionProps) => {
   const bodyScale = useSharedValue(0);
   const rotation = useSharedValue(0);
@@ -47,13 +51,34 @@ export const AddressAccordion = ({
     <>
       <Pressable
         className="w-full"
-        onPress={() => {
-          bodyScale.value = withTiming(open ? 0 : 1, timingConfig);
-          rotation.value = withTiming(open ? 0 : 180, timingConfig);
-          setOpen(!open);
-        }}
+        onPress={() => setSelected(selected === 0 ? 1 : 0)}
       >
-        <View className="flex flex-row space-between items-center p-1 pl-1.5">
+        <View
+          style={{
+            backgroundColor: selected ? "#fff" : "#eee",
+            borderColor: selected ? "#222" : "#E6E6E6",
+          }}
+          className="flex flex-row space-between items-center p-1 pl-1.5"
+        >
+          <View
+            style={{
+              borderColor: "#E6E6E6",
+              borderWidth: 1,
+              height: 25,
+              width: 25,
+              backgroundColor: selected ? "#FFD028" : "#FFF",
+              borderRadius: 200,
+            }}
+          >
+            {selected ? (
+              <CustomIcon
+                name="checkmark"
+                color={selected ? "#222" : "#222"}
+                size={24}
+              />
+            ) : null}
+          </View>
+
           <View className="flex-column flex-1">
             <Text
               position="left"
@@ -76,19 +101,21 @@ export const AddressAccordion = ({
             </Text>
           </View>
           <Animated.View style={arrowAnimationStyle}>
-            <CustomIcon name={icon} size={25} color="black" />
+            <Pressable
+              onPress={() => {
+                bodyScale.value = withTiming(open ? 0 : 1, timingConfig);
+                rotation.value = withTiming(open ? 0 : 180, timingConfig);
+                setOpen(!open);
+              }}
+            >
+              <CustomIcon name={icon} size={25} color="black" />
+            </Pressable>
           </Animated.View>
         </View>
       </Pressable>
       <Animated.View
-        className="overflow-hidden z-90 border-b-[1px]"
-        style={[
-          bodyAnimationStyle,
-          {
-            borderColor: "#E6E6E6",
-            backgroundColor: "red",
-          },
-        ]}
+        className="overflow-hidden z-90"
+        style={[bodyAnimationStyle]}
       >
         <View
           onLayout={computeHeight}

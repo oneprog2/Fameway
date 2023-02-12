@@ -30,12 +30,12 @@ const deliveryMethod = [
   {
     label: "Chez vous",
     icon: "home",
-    disabled: true,
+    disabled: false,
   },
   {
     label: "Point relais",
     icon: "pin",
-    disabled: true,
+    disabled: false,
   },
   {
     label: "Par mail",
@@ -116,7 +116,7 @@ const ShippingMethod = ({ shippingMethod, setShippingMethod }) => {
                     }}
                   >
                     {method.label === shippingMethod ? (
-                      <CustomIcon name="check" size={15} />
+                      <CustomIcon name="checkmark" size={15} />
                     ) : null}
                   </View>
                 </View>
@@ -130,40 +130,71 @@ const ShippingMethod = ({ shippingMethod, setShippingMethod }) => {
 };
 
 const ShippingAddress = () => {
+  const [selected, setSelected] = useState(0);
+
   return (
-    <View
-      style={{
-        borderColor: "#E6E6E6",
-        borderWidth: 1,
-        borderRadius: 20,
-        padding: 5,
-      }}
-      className="w-full mt-5 flex-row"
-    >
-      <AddressAccordion
-        title="Maison"
-        subtitle="86 rue des grèzes, 34070 Montpellier"
-        children={
-          <View className="px-3 py-3">
-            <TextInput
+    <View className="w-full mt-5 flex-column">
+      <View
+        style={{
+          borderColor: "#E6E6E6",
+          borderWidth: 1,
+          borderRadius: 20,
+          padding: 5,
+        }}
+      >
+        <AddressAccordion
+          selected={selected === 0}
+          setSelected={setSelected}
+          title="Maison"
+          subtitle="86 rue des grèzes, 34070 Montpellier"
+          icon="pen"
+          children={
+            <View className="px-3 py-3">
+              <TextInput placeholder="Adresse" />
+              <TextInput placeholder="Complément d'adresse" />
+              <TextInput placeholder="Ville" />
+              <TextInput placeholder="Code postal" />
+              <TextInput placeholder="Pays" />
+            </View>
+          }
+        ></AddressAccordion>
+      </View>
+
+      <View className="h-10 w-full mt-2 px-10">
+        <Button
+          role="empty"
+          size="full"
+          roundness="full"
+          iconOnly
+          startSlot={
+            <View
               style={{
-                borderColor: "#E6E6E6",
-                height: 40,
-                borderWidth: 1,
-                borderRadius: 20,
-                padding: 5,
-                width: "100%",
-                backgroundColor: "red",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
               }}
-              placeholder="Adresse"
-            />
-            <TextInput placeholder="Complément d'adresse" />
-            <TextInput placeholder="Ville" />
-            <TextInput placeholder="Code postal" />
-            <TextInput placeholder="Pays" />
-          </View>
-        }
-      ></AddressAccordion>
+            >
+              <View
+                style={{
+                  borderWidth: 1,
+                  borderColor: "#222",
+                  borderRadius: 200,
+                }}
+              >
+                <CustomIcon name="plus2" size={14} />
+              </View>
+              <Text
+                style={{
+                  marginLeft: 10,
+                  fontSize: 12,
+                }}
+              >
+                Ajouter une adresse
+              </Text>
+            </View>
+          }
+        ></Button>
+      </View>
     </View>
   );
 };
@@ -179,7 +210,10 @@ const MailEdit = () => {
       }}
       className="w-full mt-5 flex-row"
     >
-      <Accordion title="Maison" subtitle="86 rue des grèzes, 34070 Montpellier">
+      <AddressAccordion
+        title="Email de livraison"
+        subtitle="i.rifki@oneprog.fr"
+      >
         <View>
           <TextInput placeholder="Adresse" />
           <TextInput placeholder="Complément d'adresse" />
@@ -187,7 +221,7 @@ const MailEdit = () => {
           <TextInput placeholder="Code postal" />
           <TextInput placeholder="Pays" />
         </View>
-      </Accordion>
+      </AddressAccordion>
     </View>
   );
 };
@@ -265,7 +299,11 @@ export const ShippingScreen = ({ navigation }) => {
           setShippingMethod={setShippingMethod}
         />
 
-        <ShippingAddress />
+        {shippingMethod === "Chez vous" ? (
+          <ShippingAddress />
+        ) : shippingMethod === "Par mail" ? (
+          <MailEdit />
+        ) : null}
 
         <View className={"mt-5"}>
           <Text
