@@ -1,7 +1,9 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { PrismaClient } from "@prisma/client";
-
+const stripe = require("stripe")(
+  "sk_test_51KJFWxHJnxebaUHZYbEiNsZIzooHhBd1YFFJ6szXBK8rli2svGpskisJTMx6miB17J2bVP6D7kFICX2hOScmLf8600YjnWPKMR"
+);
 const prisma = new PrismaClient();
 
 const typeDefs = `
@@ -12,6 +14,7 @@ const typeDefs = `
 
   type Query {
     allUsers: [User!]!
+    createCheckoutSession: String 
   }
 `;
 
@@ -19,6 +22,26 @@ const resolvers = {
   Query: {
     allUsers: () => {
       return prisma.user.findMany();
+    },
+    createQuerySession: async (parent, args, context, info) => {
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card", "apple_pay", "google_pay"],
+        line_items: [
+          {
+            price_data: {
+              currency: "eur",
+              unit_amount: 20,
+            },
+            quantity: 1,
+          },
+        ],
+        mode: "payment",
+        success_url: "http://localhost:3000/success",
+        cancel_url: "http://localhost:3000/cancel",
+      });
+      return JSON.stringify({
+        url: session.url,
+      });
     },
   },
   Mutation: {

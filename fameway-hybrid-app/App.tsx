@@ -13,6 +13,7 @@ import {
   InMemoryCache,
   createHttpLink,
 } from "@apollo/client";
+import { StripeProvider } from "@stripe/stripe-react-native";
 
 const hasuraUri = "https://fameway.hasura.app/v1/graphql";
 
@@ -51,12 +52,18 @@ function App() {
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <ApolloProvider client={client}>
-        <PortalProvider>
-          <StatusBar style="dark" />
-          <AppNavigator />
-        </PortalProvider>
-      </ApolloProvider>
+      <StripeProvider
+        publishableKey="pk_test_51KJFWxHJnxebaUHZOwbj2uhXFetvvc9cNNmtxQ3hRXx4Kz2wukKhf611theDEpL6s9Ng5k6YkWrCjQO1pRntT7ke00mHbJuC98"
+        urlScheme="fameway://" // required for 3D Secure and bank redirects
+        merchantIdentifier="merchant.com.fameway" // required for Apple Pay
+      >
+        <ApolloProvider client={client}>
+          <PortalProvider>
+            <StatusBar style="dark" />
+            <AppNavigator />
+          </PortalProvider>
+        </ApolloProvider>
+      </StripeProvider>
     </View>
   );
 }

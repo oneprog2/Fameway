@@ -9,6 +9,11 @@
     "userInterfaceStyle": "automatic",
     "android": {
       "userInterfaceStyle": "automatic"
+    },
+    "ios": {
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": ["fameway"]
+      }
     }
   }
 }
