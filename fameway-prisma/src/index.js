@@ -1,9 +1,12 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { PrismaClient } from "@prisma/client";
-const stripe = require("stripe")(
+import Stripe from "stripe";
+
+export const stripe = new Stripe(
   "sk_test_51KJFWxHJnxebaUHZYbEiNsZIzooHhBd1YFFJ6szXBK8rli2svGpskisJTMx6miB17J2bVP6D7kFICX2hOScmLf8600YjnWPKMR"
 );
+
 const prisma = new PrismaClient();
 
 const typeDefs = `
@@ -12,9 +15,21 @@ const typeDefs = `
     username: String
   }
 
+  input CheckoutSessionInput {
+    cartId: ID!
+  }
+
+  type CheckoutSession {
+    id: ID!
+    url: String!
+  }
+
   type Query {
     allUsers: [User!]!
-    createCheckoutSession: String 
+  }
+  
+  type Mutation {
+    createCheckoutSession(input: CheckoutSessionInput!): CheckoutSession!
   }
 `;
 
@@ -23,43 +38,54 @@ const resolvers = {
     allUsers: () => {
       return prisma.user.findMany();
     },
-    createQuerySession: async (parent, args, context, info) => {
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ["card", "apple_pay", "google_pay"],
-        line_items: [
-          {
-            price_data: {
-              currency: "eur",
-              unit_amount: 20,
-            },
-            quantity: 1,
-          },
-        ],
-        mode: "payment",
-        success_url: "http://localhost:3000/success",
-        cancel_url: "http://localhost:3000/cancel",
-      });
-      return JSON.stringify({
-        url: session.url,
-      });
-    },
   },
   Mutation: {
-    insertUserAndCreateStore: (parent, args, context, info) => {
-      const { id, email, username } = args;
-      return prisma.user.create({
-        data: {
-          id: id,
-          email: email,
-          username: username,
-          store: {
-            create: {
-              id: id,
-              name: username,
+    createCheckoutSession: async (_, { input }, { prisma }) => {
+      const { cartId } = input;
+
+      const cart = await prisma.cart.findUnique({
+        where: { id: cartId },
+      });
+
+      const cartItems = await prisma.cart
+        .findUnique({
+          where: { id: cartId },
+        })
+        .items();
+
+      if (!cartItems || cartItems.length === 0) {
+        throw new GraphQLYogaError("Cart is empty");
+      }
+
+      const line_items = cartItems.map((item) => {
+        return {
+          quantity: item.quantity,
+          price_data: {
+            currency: currencyCode,
+            unit_amount: item.price,
+            product_data: {
+              name: item.name,
+              description: item.description || undefined,
+              images: item.image ? [item.image] : [],
             },
           },
-        },
+        };
       });
+
+      const session = await stripe.checkout.sessions.create({
+        success_url: `${origin}/thankyou?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${origin}/cart?cancelled=true`,
+        line_items,
+        metadata: {
+          cartId: cart.id,
+        },
+        mode: "payment",
+      });
+
+      return {
+        id: session.id,
+        url: session.url,
+      };
     },
   },
 };
