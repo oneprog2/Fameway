@@ -16,12 +16,12 @@ const typeDefs = `
   }
 
   type Cart {
-    id: ID!
-    ownerID: String!
+    id: ID
+    ownerID: String
   }
 
   type Query {
-    allCart: User!
+    allCart: Cart
   }
   `;
 
@@ -29,9 +29,10 @@ const resolvers = {
   Query: {
     allCart: () => {
       console.log(prisma.user);
+      console.log(prisma.cart);
       // console.log(prisma.cart);
       console.log("prisma.cart");
-      return prisma.user.findMany();
+      return prisma.cart.findMany();
     },
   },
   // Mutation: {
