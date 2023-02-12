@@ -2,10 +2,9 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { PrismaClient } from "@prisma/client";
 import { GraphQLError } from "graphql";
-import { env } from "process";
 import Stripe from "stripe";
 
-export const stripe = new Stripe(env.STRIPE_SECRET_KEY);
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const prisma = new PrismaClient();
 
