@@ -61,7 +61,7 @@ const resolvers = {
         return {
           quantity: item.quantity,
           price_data: {
-            currency: currencyCode,
+            currency: "eur",
             unit_amount: item.price,
             product_data: {
               name: item.name,

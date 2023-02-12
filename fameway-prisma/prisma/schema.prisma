@@ -8,26 +8,196 @@ datasource db {
 }
 
 model store {
-  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at     DateTime @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime @default(now()) @db.Timestamptz(6)
+  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  updated_at     DateTime     @default(now()) @db.Timestamptz(6)
   name           String
   bannerPicture  String?
   profilePicture String?
   description    String?
-  status         String   @default("firstOpening")
+  status         String       @default("firstOpening")
   ownerID        String
-  user           user     @relation(fields: [ownerID], references: [id], onUpdate: Restrict)
+  article        article[]
+  collection     collection[]
+  item           item[]
+  user           user         @relation(fields: [ownerID], references: [id], onDelete: Cascade, onUpdate: Restrict)
 }
 
 model user {
-  id             String    @id
-  updated_at     DateTime? @default(now()) @db.Timestamptz(6)
-  created_at     DateTime? @default(now()) @db.Timestamptz(6)
-  role           String?
-  email          String?
-  username       String?
-  profilePicture String?
-  ID             String?   @db.Uuid
-  store          store[]
+  id                      String          @id
+  updated_at              DateTime?       @default(now()) @db.Timestamptz(6)
+  created_at              DateTime?       @default(now()) @db.Timestamptz(6)
+  role                    String?
+  email                   String?
+  username                String?         @unique
+  profilePicture          String?
+  firstOpening            Boolean         @default(true)
+  firstname               String?
+  lastname                String?
+  domain                  String?         @default("GAMING")
+  cartID                  String?         @db.Uuid
+  address                 address[]
+  articleReview           articleReview[]
+  cart_cart_ownerIDTouser cart[]          @relation("cart_ownerIDTouser")
+  order                   order[]
+  store                   store[]
+  cart_user_cartIDTocart  cart?           @relation("user_cartIDTocart", fields: [cartID], references: [id], onDelete: Cascade)
+}
+
+model address {
+  id                                     Int      @id(map: "adress_pkey") @default(autoincrement())
+  created_at                             DateTime @default(now()) @db.Timestamptz(6)
+  updated_at                             DateTime @default(now()) @db.Timestamptz(6)
+  name                                   String   @default("Chez moi")
+  ownerID                                String
+  city                                   String
+  state                                  String?
+  zipcode                                String
+  addressLineOne                         String
+  addressLineTwo                         String?
+  instructions                           String?
+  phonenumber                            String?
+  isDefault                              Boolean? @default(false)
+  user                                   user     @relation(fields: [ownerID], references: [id], onDelete: Cascade, map: "adress_ownerID_fkey")
+  order_order_billingAddressIDToaddress  order[]  @relation("order_billingAddressIDToaddress")
+  order_order_shippingAddressIDToaddress order[]  @relation("order_shippingAddressIDToaddress")
+}
+
+model article {
+  id                   Int             @id @default(autoincrement())
+  created_at           DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime        @default(now()) @db.Timestamptz(6)
+  name                 String
+  description          String?
+  type                 String          @default("virtual")
+  isDrop               Boolean         @default(false)
+  status               String          @default("draft")
+  articlePictures      String[]
+  reduction            Int?
+  storeID              String          @db.Uuid
+  collectionID         String?
+  categoryID           Int?
+  productInformationID Int?
+  isSuggestion         Boolean         @default(false)
+  price                Int             @default(0)
+  category             category?       @relation(fields: [categoryID], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  store                store           @relation(fields: [storeID], references: [id], onDelete: Cascade)
+  articleReview        articleReview[]
+  collection           collection[]
+  orderArticle         orderArticle[]
+}
+
+model articleReview {
+  id         Int      @id(map: "productReview_pkey") @default(autoincrement())
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  ownerID    String
+  rating     Int?
+  comment    String?
+  articleID  Int
+  article    article  @relation(fields: [articleID], references: [id], onDelete: Cascade, map: "productReview_articleID_fkey")
+  user       user     @relation(fields: [ownerID], references: [id], onDelete: Cascade, map: "productReview_ownerID_fkey")
+}
+
+model cart {
+  updated_at              DateTime @default(now()) @db.Timestamptz(6)
+  created_at              DateTime @default(now()) @db.Timestamptz(6)
+  id                      String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ownerID                 String
+  user_cart_ownerIDTouser user     @relation("cart_ownerIDTouser", fields: [ownerID], references: [id], onDelete: Cascade)
+  item                    item[]
+  user_user_cartIDTocart  user[]   @relation("user_cartIDTocart")
+}
+
+model category {
+  name             String    @unique
+  subcategoriesIDS String[]
+  id               Int       @id @default(autoincrement())
+  created_at       DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime  @default(now()) @db.Timestamptz(6)
+  article          article[]
+}
+
+model collection {
+  updated_at   DateTime  @default(now()) @db.Timestamptz(6)
+  created_at   DateTime  @default(now()) @db.Timestamptz(6)
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  articleID    Int?
+  storeID      String    @db.Uuid
+  name         String
+  description  String?
+  startingDate DateTime? @db.Timestamptz(6)
+  endingDate   DateTime? @db.Timestamptz(6)
+  isDrop       Boolean   @default(false)
+  published    Boolean   @default(false)
+  article      article?  @relation(fields: [articleID], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  store        store     @relation(fields: [storeID], references: [id], onDelete: Cascade)
+}
+
+model domain {
+  id         String   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  name       String   @default("GAMING")
+  key        String   @id @default("GAMING")
+  icon       String?
+}
+
+model item {
+  id          String   @id(map: "items_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime @default(now()) @db.Timestamptz(6)
+  quantity    Int      @default(1)
+  price       Int
+  name        String
+  description String?
+  image       String?
+  storeID     String   @db.Uuid
+  cartID      String?  @db.Uuid
+  cart        cart?    @relation(fields: [cartID], references: [id], onDelete: Cascade)
+  store       store    @relation(fields: [storeID], references: [id], onDelete: Cascade)
+}
+
+model order {
+  id                                       Int            @id @default(autoincrement())
+  created_at                               DateTime       @default(now()) @db.Timestamptz(6)
+  updated_at                               DateTime       @default(now()) @db.Timestamptz(6)
+  ownerID                                  String
+  billingAddressID                         Int
+  shippingAddressID                        Int
+  status                                   String         @default("CREATED")
+  shippingStatus                           String         @default("preparation")
+  orderTotalPrice                          Int?
+  address_order_billingAddressIDToaddress  address        @relation("order_billingAddressIDToaddress", fields: [billingAddressID], references: [id], onUpdate: Restrict)
+  user                                     user           @relation(fields: [ownerID], references: [id], onDelete: Cascade)
+  address_order_shippingAddressIDToaddress address        @relation("order_shippingAddressIDToaddress", fields: [shippingAddressID], references: [id], onUpdate: Restrict)
+  orderStatus                              orderStatus    @relation(fields: [status], references: [status], onUpdate: Restrict)
+  orderArticle                             orderArticle[]
+}
+
+model orderArticle {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  orderID    Int
+  articleID  Int
+  quantity   Int
+  article    article  @relation(fields: [articleID], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  order      order    @relation(fields: [orderID], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model orderStatus {
+  status String  @id @default("CREATED")
+  order  order[]
+}
+
+model promotionCard {
+  updated_at  DateTime @default(now()) @db.Timestamptz(6)
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title       String
+  buttonText  String?  @default("En savoir plus")
+  pictures    String[]
+  link        String?
+  type        String   @default("MAIN_CARD")
+  description String?
 }
