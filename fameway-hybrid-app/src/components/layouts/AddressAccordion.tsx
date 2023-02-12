@@ -51,15 +51,9 @@ export const AddressAccordion = ({
     <>
       <Pressable
         className="w-full"
-        onPress={() => setSelected(selected === 0 ? 1 : 0)}
+        onPress={() => setSelected(selected === 0 ? 2 : 2)}
       >
-        <View
-          style={{
-            backgroundColor: selected ? "#fff" : "#eee",
-            borderColor: selected ? "#222" : "#E6E6E6",
-          }}
-          className="flex flex-row space-between items-center p-1 pl-1.5"
-        >
+        <View className="flex flex-row space-between items-center p-1 pl-1.5">
           <View
             style={{
               borderColor: "#E6E6E6",

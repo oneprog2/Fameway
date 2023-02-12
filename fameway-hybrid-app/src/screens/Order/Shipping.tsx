@@ -136,10 +136,11 @@ const ShippingAddress = () => {
     <View className="w-full mt-5 flex-column">
       <View
         style={{
-          borderColor: "#E6E6E6",
           borderWidth: 1,
           borderRadius: 20,
           padding: 5,
+          backgroundColor: selected === 0 ? "#fff" : "#eee",
+          borderColor: selected === 0 ? "#222" : "#E6E6E6",
         }}
       >
         <AddressAccordion
