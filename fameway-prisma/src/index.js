@@ -21,17 +21,17 @@ const typeDefs = `
   }
 
   type Query {
-    cart: Cart
+    allCart: User!
   }
   `;
 
 const resolvers = {
   Query: {
-    cart: () => {
+    allCart: () => {
       console.log(prisma.user);
-      console.log(prisma.cart);
+      // console.log(prisma.cart);
       console.log("prisma.cart");
-      return prisma.cart;
+      return prisma.user.findMany();
     },
   },
   // Mutation: {
