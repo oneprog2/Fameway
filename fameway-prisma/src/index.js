@@ -2,11 +2,10 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { PrismaClient } from "@prisma/client";
 import { GraphQLError } from "graphql";
+import { env } from "process";
 import Stripe from "stripe";
 
-export const stripe = new Stripe(
-  "sk_test_51KJFWxHJnxebaUHZYbEiNsZIzooHhBd1YFFJ6szXBK8rli2svGpskisJTMx6miB17J2bVP6D7kFICX2hOScmLf8600YjnWPKMR"
-);
+export const stripe = new Stripe(env.STRIPE_SECRET_KEY);
 
 const prisma = new PrismaClient();
 
@@ -43,9 +42,9 @@ const typeDefs = `
   type Query {
     hello: String
   }
-  
+
   type Mutation {
-    createCheckoutSession(input: CheckoutSessionInput!): CheckoutSession!
+    createCheckoutSession(input: CheckoutSessionInput!): CheckoutSession
   }
   `;
 
@@ -58,25 +57,21 @@ const resolvers = {
   Mutation: {
     createCheckoutSession: async (_, { input }) => {
       const { cartId } = input;
-
       const cart = await prisma.cart.findUnique({
         where: { id: cartId },
       });
 
       if (!cart) {
-        // throw new GraphQLError("Invalid cart");
-        return;
+        throw new GraphQLError("Invalid cart");
       }
-      console.log(cart);
       const cartItems = await prisma.cart
         .findUnique({
           where: { id: cartId },
         })
-        .items();
+        .item();
 
       if (!cartItems || cartItems.length === 0) {
-        // throw new GraphQLError("Cart is empty");
-        return;
+        throw new GraphQLError("Cart is empty");
       }
       const line_items = cartItems.map((item) => {
         return {
@@ -93,8 +88,8 @@ const resolvers = {
         };
       });
       const session = await stripe.checkout.sessions.create({
-        success_url: `${origin}/thankyou?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${origin}/cart?cancelled=true`,
+        success_url: `https://www.google.fr/`,
+        cancel_url: `https://www.google.fr/`,
         line_items,
         metadata: {
           cartId: cart.id,
