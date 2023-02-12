@@ -1,6 +1,21 @@
-import { BottomButton, PageContainer, Text } from "@components";
+import { BottomButton, PageContainer, Stepper, Text } from "@components";
+import { View } from "react-native";
 
-export const PaymentScreen = ({ navigation }) => {
+export const PaymentScreen = ({ navigation, route }) => {
+  const shippingAddress = route?.params?.shippingAddress;
+
+  const steps = [
+    {
+      label: "Livraison",
+    },
+    {
+      label: "Paiement",
+    },
+    {
+      label: "Récapitulatif",
+    },
+  ];
+
   return (
     <PageContainer
       edges={["top", "bottom", "left", "right"]}
@@ -14,6 +29,9 @@ export const PaymentScreen = ({ navigation }) => {
         ></BottomButton>
       }
     >
+      <View className="flex-1 py-6">
+        <Stepper steps={steps} activeStep={1} />
+      </View>
       <Text>ShippingScreen</Text>
     </PageContainer>
   );

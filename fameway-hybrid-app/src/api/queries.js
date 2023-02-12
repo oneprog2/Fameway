@@ -33,6 +33,22 @@ export const STORE_DATA = gql`
   }
 `;
 
+export const ADDRESSES_DATA = gql`
+  query getAddresses {
+    address {
+      id
+      name
+      addressLineOne
+      addressLineTwo
+      city
+      state
+      zipcode
+      phonenumber
+      isDefault
+    }
+  }
+`;
+
 export const PROMOTION_CARD = gql`
   query getPromotionCard {
     promotionCard {

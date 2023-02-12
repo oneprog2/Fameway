@@ -8,7 +8,6 @@ import {
   CreateAccountCard,
 } from "@components";
 import { Linking, View } from "react-native";
-import { ArticlesList, InfluencersCard } from "@components";
 import { useQuery } from "@apollo/client";
 import { PROMOTION_CARD, STORES_DATA } from "@api";
 
