@@ -4,13 +4,13 @@ import { View } from "react-native";
 export const RecapScreen = ({ navigation }) => {
   const steps = [
     {
-      label: "Livraison",
+      label: "Récap",
     },
     {
       label: "Paiement",
     },
     {
-      label: "Récapitulatif",
+      label: "Confirmation",
     },
   ];
 

@@ -6,13 +6,13 @@ export const PaymentScreen = ({ navigation, route }) => {
 
   const steps = [
     {
-      label: "Livraison",
+      label: "Récap",
     },
     {
       label: "Paiement",
     },
     {
-      label: "Récapitulatif",
+      label: "Confirmation",
     },
   ];
 
@@ -24,7 +24,7 @@ export const PaymentScreen = ({ navigation, route }) => {
       title="💳 Paiement"
       footer={
         <BottomButton
-          label={"Voir le récapitulatif"}
+          label={"Confirmer le paiement"}
           onPress={() => navigation.navigate("Recap")}
         ></BottomButton>
       }
