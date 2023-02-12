@@ -1,6 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { PrismaClient } from "@prisma/client";
+import { GraphQLError } from "graphql";
 import Stripe from "stripe";
 
 export const stripe = new Stripe(
@@ -15,69 +16,97 @@ const typeDefs = `
     username: String
   }
 
+  type Item {
+    id: ID
+    name: String
+    description: String
+    image: String
+    price: Int
+    quantity: Int
+  }
+
   type Cart {
     id: ID
     ownerID: String
+    item: [Item]
+  }
+
+  input CheckoutSessionInput {
+    cartId: ID!
+  }
+
+  type CheckoutSession {
+    id: ID!
+    url: String!
   }
 
   type Query {
-    allCart: Cart
+    hello: String
+  }
+  
+  type Mutation {
+    createCheckoutSession(input: CheckoutSessionInput!): CheckoutSession!
   }
   `;
 
 const resolvers = {
   Query: {
-    allCart: () => {
-      console.log(prisma.user);
-      console.log(prisma.cart);
-      // console.log(prisma.cart);
-      console.log("prisma.cart");
-      return prisma.cart.findMany();
+    hello() {
+      return "Hello world!";
     },
   },
-  // Mutation: {
-  //   // createCheckoutSession: async (_, { input }, { prisma }) => {
-  //   //   const { cartId } = input;
-  //   //   const cart = await prisma.cart.findUnique({
-  //   //     where: { id: cartId },
-  //   //   });
-  //   //   const cartItems = await prisma.cart
-  //   //     .findUnique({
-  //   //       where: { id: cartId },
-  //   //     })
-  //   //     .items();
-  //   //   if (!cartItems || cartItems.length === 0) {
-  //   //     throw new GraphQLYogaError("Cart is empty");
-  //   //   }
-  //   //   const line_items = cartItems.map((item) => {
-  //   //     return {
-  //   //       quantity: item.quantity,
-  //   //       price_data: {
-  //   //         currency: "eur",
-  //   //         unit_amount: item.price,
-  //   //         product_data: {
-  //   //           name: item.name,
-  //   //           description: item.description || undefined,
-  //   //           images: item.image ? [item.image] : [],
-  //   //         },
-  //   //       },
-  //   //     };
-  //   //   });
-  //   //   const session = await stripe.checkout.sessions.create({
-  //   //     success_url: `${origin}/thankyou?session_id={CHECKOUT_SESSION_ID}`,
-  //   //     cancel_url: `${origin}/cart?cancelled=true`,
-  //   //     line_items,
-  //   //     metadata: {
-  //   //       cartId: cart.id,
-  //   //     },
-  //   //     mode: "payment",
-  //   //   });
-  //   //   return {
-  //   //     id: session.id,
-  //   //     url: session.url,
-  //   //   };
-  //   // },
-  // },
+  Mutation: {
+    createCheckoutSession: async (_, { input }) => {
+      const { cartId } = input;
+
+      const cart = await prisma.cart.findUnique({
+        where: { id: cartId },
+      });
+
+      if (!cart) {
+        // throw new GraphQLError("Invalid cart");
+        return;
+      }
+      console.log(cart);
+      const cartItems = await prisma.cart
+        .findUnique({
+          where: { id: cartId },
+        })
+        .items();
+
+      if (!cartItems || cartItems.length === 0) {
+        // throw new GraphQLError("Cart is empty");
+        return;
+      }
+      const line_items = cartItems.map((item) => {
+        return {
+          quantity: item.quantity,
+          price_data: {
+            currency: "eur",
+            unit_amount: item.price,
+            product_data: {
+              name: item.name,
+              description: item.description || undefined,
+              images: item.image ? [item.image] : [],
+            },
+          },
+        };
+      });
+      const session = await stripe.checkout.sessions.create({
+        success_url: `${origin}/thankyou?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${origin}/cart?cancelled=true`,
+        line_items,
+        metadata: {
+          cartId: cart.id,
+        },
+        mode: "payment",
+      });
+      return {
+        id: session.id,
+        url: session.url,
+      };
+    },
+  },
 };
 
 const server = new ApolloServer({
