@@ -54,8 +54,7 @@ function App() {
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <StripeProvider
         publishableKey="pk_test_51KJFWxHJnxebaUHZOwbj2uhXFetvvc9cNNmtxQ3hRXx4Kz2wukKhf611theDEpL6s9Ng5k6YkWrCjQO1pRntT7ke00mHbJuC98"
-        urlScheme="fameway://" // required for 3D Secure and bank redirects
-        merchantIdentifier="merchant.com.fameway" // required for Apple Pay
+        // merchantIdentifier="merchant.com.fameway"
       >
         <ApolloProvider client={client}>
           <PortalProvider>

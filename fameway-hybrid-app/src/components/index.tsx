@@ -12,3 +12,4 @@ export * from "./headers";
 export * from "./others";
 export * from "./selects";
 export * from "./steppers";
+export * from "./stripe";

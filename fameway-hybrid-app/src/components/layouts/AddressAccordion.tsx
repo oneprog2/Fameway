@@ -56,18 +56,18 @@ export const AddressAccordion = ({
         <View className="flex flex-row space-between items-center p-1 pl-1.5">
           <View
             style={{
-              borderColor: "#E6E6E6",
+              borderColor: selected ? "#222" : "#E6E6E6",
               borderWidth: 1,
               height: 25,
               width: 25,
-              backgroundColor: selected ? "#FFD028" : "#FFF",
+              backgroundColor: selected ? "#222" : "#FFF",
               borderRadius: 200,
             }}
           >
             {selected ? (
               <CustomIcon
                 name="checkmark"
-                color={selected ? "#222" : "#222"}
+                color={selected ? "white" : "#222"}
                 size={24}
               />
             ) : null}

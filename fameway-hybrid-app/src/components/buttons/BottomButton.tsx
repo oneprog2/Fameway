@@ -4,9 +4,11 @@ import { View } from "react-native";
 export const BottomButton = ({
   onPress,
   label,
+  loading,
 }: {
   onPress: () => void;
   label: string;
+  loading: boolean;
 }) => {
   return (
     <View className="flex-row w-screen pt-3 transparent items-end px-3">
@@ -17,16 +19,10 @@ export const BottomButton = ({
           label={label}
           size="md"
           roundness="full"
+          disabled={loading}
+          loading={loading}
         />
       </View>
-      {/* <View className="px-3">
-        <Button
-          role="grey"
-          startSlot={<CustomIcon name="heart" color={"dark"} size={35} />}
-          size="lg"
-          roundness="full"
-        />
-      </View> */}
     </View>
   );
 };

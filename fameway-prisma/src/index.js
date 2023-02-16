@@ -99,6 +99,7 @@ const resolvers = {
           // },
         };
       });
+
       const session = await stripe.checkout.sessions.create({
         success_url: `https://www.google.fr/`,
         cancel_url: `https://www.google.fr/`,

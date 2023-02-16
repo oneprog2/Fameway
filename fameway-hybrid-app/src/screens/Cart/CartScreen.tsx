@@ -217,7 +217,7 @@ export function CartScreen({
         onPress={() => {
           closeCart && closeCart();
           navigation.navigate("OrderStack", {
-            screen: "Shipping",
+            screen: "Checkout",
           });
         }}
       />

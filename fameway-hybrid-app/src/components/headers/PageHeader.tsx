@@ -29,7 +29,7 @@ export const PageHeader = ({
             <Button
               role="empty"
               className="z-50"
-              onPress={() => navigation.goBack()}
+              onPress={() => (onPress ? onPress() : navigation.goBack())}
               iconOnly
               startSlot={
                 <CustomIcon name="chevron-left" color="black" size={40} />

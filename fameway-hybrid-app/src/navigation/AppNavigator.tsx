@@ -76,12 +76,9 @@ export const AppNavigator = () => {
           name="OrderStack"
           component={OrderStackNavigator}
           options={{
-            // ...TransitionPresets.SlideFromRightIOS,
             gestureEnabled: false,
           }}
         />
-        {/* ); */}
-        {/* })()} */}
       </Stack.Navigator>
     </NavigationContainer>
   );

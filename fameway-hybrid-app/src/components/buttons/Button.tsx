@@ -1,7 +1,12 @@
 import type { VariantProps } from "class-variance-authority";
 import { variants } from "nativewind";
 import React from "react";
-import { Pressable, PressableProps, Text } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  PressableProps,
+  Text,
+} from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -152,6 +157,7 @@ export function Button(props: ButtonProps) {
     onPress = () => {},
     shadow,
     animScale = 0.95,
+    loading,
     ...rest
   } = props;
 
@@ -189,13 +195,26 @@ export function Button(props: ButtonProps) {
         })}
         style={buttonStyle}
       >
-        {startSlot}
-        {label ? (
-          <Text className={buttonLabelClassName({ role, size, disabled })}>
-            {label}
-          </Text>
-        ) : null}
-        {endSlot}
+        {loading ? (
+          <ActivityIndicator color={role === "white" ? "black" : "white"} />
+        ) : (
+          <>
+            {startSlot}
+            {label ? (
+              <Text
+                {...rest}
+                className={buttonLabelClassName({
+                  role,
+                  size,
+                  disabled,
+                })}
+              >
+                {label}
+              </Text>
+            ) : null}
+            {endSlot}
+          </>
+        )}
       </Animated.View>
     </Pressable>
   );
