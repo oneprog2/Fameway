@@ -13,7 +13,7 @@ export const Carousel = ({ articlePictures, ...props }: CarouselProps) => {
   const baseOptions = {
     vertical: false,
     width: PAGE_WIDTH,
-    height: PAGE_WIDTH * 1.2,
+    height: PAGE_WIDTH * 1.3,
   } as const;
 
   return (
@@ -37,8 +37,8 @@ export const Carousel = ({ articlePictures, ...props }: CarouselProps) => {
       renderItem={({ index }) => (
         <View
           style={{
-            width: PAGE_WIDTH,
-            height: PAGE_WIDTH * 1.2,
+            width: "100%",
+            height: "100%",
           }}
         >
           <CardContainer light="off" backgroundColor="#f3f3f3" padding={0}>

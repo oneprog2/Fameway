@@ -117,7 +117,7 @@ export const ArticleDetailScreen = ({ navigation }: any) => {
 
   return (
     <PageContainer
-      edges={["top", "bottom", "left", "right"]}
+      edges={["top", "left", "right"]}
       title={article?.name}
       goBack
     >
@@ -193,9 +193,9 @@ export const ArticleDetailScreen = ({ navigation }: any) => {
           <SectionName name="Autres produits" />
         </View> */}
       </View>
-      <View className="pb-4 flex-1">
-        {/* <ArticlesList articles={DATA.articles} horizontal /> */}
-      </View>
+      {/* <View className="pb-4 flex-1"> */}
+      {/* <ArticlesList articles={DATA.articles} horizontal /> */}
+      {/* </View> */}
       <View className="p-3 flex-1">
         <CreateAccountCard backgroundColor="#f5f5f5" />
       </View>
