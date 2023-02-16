@@ -4,7 +4,9 @@ import { PrismaClient } from "@prisma/client";
 import { GraphQLError } from "graphql";
 import Stripe from "stripe";
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2020-08-27",
+});
 
 const prisma = new PrismaClient();
 
@@ -75,15 +77,21 @@ const resolvers = {
       const line_items = cartItems.map((item) => {
         return {
           quantity: item.quantity,
-          price_data: {
-            currency: "eur",
-            unit_amount: item.price,
-            product_data: {
-              name: item.name,
-              description: item.description || undefined,
-              images: item.image ? [item.image] : [],
-            },
-          },
+          // source: item.id,
+          amount: item.price,
+          currency: "eur",
+          name: item.name,
+          description: item.description || undefined,
+          images: item.image ? [item.image] : [],
+          // price_data: {
+          //   currency: "eur",
+          //   unit_amount: item.price,
+          //   product_data: {
+          //     name: item.name,
+          //     description: item.description || undefined,
+          //     images: item.image ? [item.image] : [],
+          //   },
+          // },
         };
       });
       const session = await stripe.checkout.sessions.create({
@@ -99,6 +107,24 @@ const resolvers = {
         id: session.id,
         url: session.url,
       };
+    },
+    createPaymentIntent: async (_, { input }) => {
+      try {
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount: 1099, //lowest denomination of particular currency
+          currency: "usd",
+          payment_method_types: ["card"], //by default
+        });
+
+        const clientSecret = paymentIntent.client_secret;
+
+        res.json({
+          clientSecret: clientSecret,
+        });
+      } catch (e) {
+        console.log(e.message);
+        res.json({ error: e.message });
+      }
     },
   },
 };
