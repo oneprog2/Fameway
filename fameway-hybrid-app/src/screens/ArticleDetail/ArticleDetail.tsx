@@ -120,7 +120,6 @@ export const ArticleDetailScreen = ({ navigation }: any) => {
       edges={["top", "bottom", "left", "right"]}
       title={article?.name}
       goBack
-      footer={<AddToCartButton store={article?.store} article={article} />}
     >
       <View className="p-2">
         <BreadCrumbs
@@ -136,9 +135,12 @@ export const ArticleDetailScreen = ({ navigation }: any) => {
           storeName={article?.store?.name}
           title={article?.name}
         />
-        <View className="pt-2">
-          <DonationButton />
+        <View className="pb-2 flex-1">
+          <AddToCartButton store={article?.store} article={article} />
         </View>
+        {/* <View className="pt-2">
+          <DonationButton />
+        </View> */}
         {/* <View className="pb-6 border-b-[1px] border-[#E6E6E6]">
           <View className="pt-5 pb-2 flex-row">
             <Text position="left" size="md" color="dark">
@@ -183,9 +185,9 @@ export const ArticleDetailScreen = ({ navigation }: any) => {
 
         <ArticleInformations description={article?.description} />
 
-        <View className="flex-1 pt-10">
+        {/* <View className="flex-1 pt-10">
           <DonationCard />
-        </View>
+        </View> */}
         {/* 
         <View>
           <SectionName name="Autres produits" />

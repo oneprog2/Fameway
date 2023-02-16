@@ -110,6 +110,6 @@ const styles = StyleSheet.create({
   cardContainer: {
     borderRadius: 10,
     backgroundColor: "#F0F0F0",
-    height: 40,
+    height: 100,
   },
 });

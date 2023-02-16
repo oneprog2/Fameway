@@ -13,13 +13,12 @@ export const Carousel = ({ articlePictures, ...props }: CarouselProps) => {
   const baseOptions = {
     vertical: false,
     width: PAGE_WIDTH,
-    height: PAGE_WIDTH,
+    height: PAGE_WIDTH * 1.2,
   } as const;
 
   return (
     <CarouselBase
       {...baseOptions}
-      loop
       snapEnabled={true}
       autoPlay={false}
       autoPlayInterval={1500}
@@ -31,27 +30,27 @@ export const Carousel = ({ articlePictures, ...props }: CarouselProps) => {
         parallaxScrollingScale: 0.9,
         parallaxScrollingOffset: 50,
       }}
+      style={{
+        marginTop: -10,
+      }}
       data={articlePictures}
       renderItem={({ index }) => (
-        <CardContainer
-          light="off"
-          backgroundColor="#f3f3f3"
-          padding={0}
+        <View
           style={{
-            aspectRatio: "1/1.2",
-            margin: 20,
-            alignItems: "center",
-            backgroundColor: "red",
+            width: PAGE_WIDTH,
+            height: PAGE_WIDTH * 1.2,
           }}
         >
-          <Image
-            resizeMode="cover"
-            source={{
-              uri: articlePictures[index],
-            }}
-            className="h-full w-full p-0"
-          />
-        </CardContainer>
+          <CardContainer light="off" backgroundColor="#f3f3f3" padding={0}>
+            <Image
+              resizeMode="cover"
+              source={{
+                uri: articlePictures[index],
+              }}
+              className="h-full w-full p-0"
+            />
+          </CardContainer>
+        </View>
       )}
     />
   );

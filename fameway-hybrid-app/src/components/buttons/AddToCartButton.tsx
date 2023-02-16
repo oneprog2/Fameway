@@ -7,8 +7,8 @@ export const AddToCartButton = ({ article, store }) => {
   const [cart, setCart] = useAtom(cartAtom);
 
   return (
-    <View className="flex-row w-screen pt-3 transparent items-end px-3">
-      <View className="flex-1 px-3">
+    <View className="flex-row flex-1 pt-3 transparent items-end">
+      <View className="flex-1">
         <Button
           role="normal"
           onPress={() => {
