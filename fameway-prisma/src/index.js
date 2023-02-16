@@ -109,7 +109,7 @@ const resolvers = {
         url: session.url,
       };
     },
-    createPaymentIntent: async (_, { input }) => {
+    createPaymentIntent: async () => {
       try {
         const paymentIntent = await stripe.paymentIntents.create({
           amount: 1099, //lowest denomination of particular currency
@@ -119,12 +119,10 @@ const resolvers = {
 
         const clientSecret = paymentIntent.client_secret;
 
-        res.json({
-          clientSecret: clientSecret,
-        });
+        return clientSecret;
       } catch (e) {
         console.log(e.message);
-        res.json({ error: e.message });
+        throw new Error(e.message);
       }
     },
   },
