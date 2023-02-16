@@ -46,6 +46,7 @@ const typeDefs = `
 
   type Mutation {
     createCheckoutSession(input: CheckoutSessionInput!): CheckoutSession
+    createPaymentIntent: String
   }
   `;
 
