@@ -40,13 +40,17 @@ const typeDefs = `
     url: String!
   }
 
+  type ClientSecret {
+    clientSecret: String!
+  }
+
   type Query {
     hello: String
   }
 
   type Mutation {
     createCheckoutSession(input: CheckoutSessionInput!): CheckoutSession
-    createPaymentIntent: String
+    createPaymentIntent: ClientSecret
   }
   `;
 
@@ -112,14 +116,14 @@ const resolvers = {
     createPaymentIntent: async () => {
       try {
         const paymentIntent = await stripe.paymentIntents.create({
-          amount: 1099, //lowest denomination of particular currency
+          amount: 2099, //lowest denomination of particular currency
           currency: "usd",
           payment_method_types: ["card"], //by default
         });
 
         const clientSecret = paymentIntent.client_secret;
 
-        return clientSecret;
+        return { clientSecret };
       } catch (e) {
         console.log(e.message);
         throw new Error(e.message);
