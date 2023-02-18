@@ -34,7 +34,7 @@ function SellerHeader({ first, store }: { first?: boolean; store: any }) {
         />
       </View>
       <View className="justify-center">
-        <Text size="sm">Un code promo ?</Text>
+        {/* <Text size="sm">Un code promo ?</Text> */}
       </View>
     </View>
   );
@@ -55,17 +55,17 @@ function ArticleItem({ article, quantity, setQuantity, deleteCartItem }: any) {
       </View>
       <View className="pl-5 pb-2 flex-1">
         <View className="flex-1">
-          <Text position="left" color="neutral-muted" family="DM">
+          <Text size="sm" position="left" color="neutral-muted" family="DM">
             {article?.name}
           </Text>
-          <View className="flex-row pt-2 pb-4 pr-2 justify-start">
+          <View className="flex-row pb-4  pt-1 pr-2 justify-start">
             <View>
               <Text
                 style={{
                   color: "#222",
-                  fontSize: 18,
                   fontWeight: "bold",
                 }}
+                size="sm"
                 weight="bold"
                 position="left"
               >
@@ -142,7 +142,13 @@ export function TotalAmount({ onPress, totalPrice }: any) {
     <View className="flex-row w-full absolute bottom-2 bg-white py-3 border-t-[0.5px] border-[#E6E6E6] px-4">
       <View className="flex-1">
         <View className="flex-1">
-          <Text family="DM" position="left" weight="bold" color="neutral-muted">
+          <Text
+            family="DM"
+            position="left"
+            weight="bold"
+            size="sm"
+            color="neutral-muted"
+          >
             Total
           </Text>
         </View>

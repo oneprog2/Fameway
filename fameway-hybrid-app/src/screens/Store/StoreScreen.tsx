@@ -134,7 +134,7 @@ export const StoreScreen = ({ navigation }: any) => {
       }}
       renderHeader={() => <Header store={store} collectionID={collectionID} />}
     >
-      <Tabs.Tab name={"All"}>
+      <Tabs.Tab name={"Tous"}>
         <MainPage store={store} />
       </Tabs.Tab>
 

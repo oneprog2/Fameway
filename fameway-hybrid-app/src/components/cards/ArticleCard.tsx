@@ -94,7 +94,7 @@ export const ArticleCard = ({
         </CardContainer>
       </View>
 
-      <View>
+      <View className="items-center">
         {name ? (
           <Text
             adjustsFontSizeToFit={true}
@@ -122,8 +122,8 @@ export const ArticleCard = ({
         ) : null}
         {price ? (
           <Text
-            className="pt-1 text-grey"
-            weight={description ? "bold" : "light"}
+            className="pt-1 "
+            weight={description ? "bold" : "regular"}
             size={description ? "md" : "sm"}
             family="DM"
             position={position}
