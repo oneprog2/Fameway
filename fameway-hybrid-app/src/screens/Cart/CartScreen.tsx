@@ -306,10 +306,12 @@ export function CartScreen({
         </View>
       )}
       <TotalAmount
-        // totalPrice={cartItems?.reduce(
-        //   (acc, item) => acc + item?.article?.price * item?.quantity,
-        //   0
-        // )}
+        totalPrice={
+          cartItems?.reduce(
+            (acc, item) => acc + item?.article?.price * item?.quantity,
+            0
+          ) + " €"
+        }
         onPress={() => {
           closeCart && closeCart();
           navigation.navigate("OrderStack", {
