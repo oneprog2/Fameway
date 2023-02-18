@@ -20,11 +20,7 @@ var _ = require("lodash");
 
 function SellerHeader({ first, store }: { first?: boolean; store: any }) {
   return (
-    <View
-      className={`w-full flex-row  ${
-        first ? "pt-2" : "pt-4 border-t-[1px] border-[#E6E6E6]"
-      }`}
-    >
+    <View className={`w-full flex-row  ${first ? "pt-2" : "pt-4"}`}>
       <View className="flex-1">
         <Avatar
           size={34}
@@ -307,7 +303,7 @@ export function CartScreen({
             showsVerticalScrollIndicator={false}
             sections={groupedArticlesArray}
             renderSectionFooter={({ section }) => (
-              <View className="mb-6 mt-2">
+              <View className="mt-2 pb-4 mb-2 border-b-[1px] border-[#E6E6E6]">
                 <Subtotal />
               </View>
             )}
