@@ -243,7 +243,7 @@ export function CartScreen({
 
   return (
     <View className="flex-1">
-      <View className="flex-row px-4 py-2">
+      <View className="flex-row px-4 py-2 pt-4">
         <View className="flex-1 justify-center">
           <View className="flex-row">
             <CustomIcon size={30} name="shopping-bag-converted"></CustomIcon>
@@ -259,8 +259,10 @@ export function CartScreen({
             </Text>
           </View>
         </View>
-        <View className="align-end p-2">
+
+        <View className="align-end">
           <Button
+            size="sm"
             onPress={closeCart}
             roundness="full"
             iconOnly
