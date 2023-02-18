@@ -22,7 +22,6 @@ export const StripePaiement = ({
   navigation,
   setLoading,
 }: any) => {
-  const [email, setEmail] = useState("i.rifki@oneprog.fr");
   const [cardDetails, setCardDetails] = useState();
   const { confirmPayment, loading } = useConfirmPayment();
   const [createPaymentIntent] = useMutation(CREATE_PAYMENT_INTENT);
@@ -87,7 +86,6 @@ export const StripePaiement = ({
       navigation.navigate("SuccessPaiement");
     }
   };
-  console.log(cardDetails);
 
   return (
     <CardField
@@ -97,6 +95,7 @@ export const StripePaiement = ({
       }}
       cardStyle={{
         borderRadius: 10,
+        fontSize: 12,
       }}
       style={styles.cardContainer}
       onCardChange={(cardDetails) => {
@@ -108,8 +107,9 @@ export const StripePaiement = ({
 
 const styles = StyleSheet.create({
   cardContainer: {
+    fontSize: 10,
     borderRadius: 10,
     backgroundColor: "#F0F0F0",
-    height: 100,
+    height: 32,
   },
 });

@@ -12,6 +12,7 @@ import {
 import { ADDRESSES_DATA, INSERT_ADDRESS } from "@api";
 import { useRef, useState } from "react";
 import { View, TextInput, Image } from "react-native";
+import { Switch } from "react-native-switch";
 
 const deliveryMethod = [
   {
@@ -125,7 +126,7 @@ const paiementMethods = [
             marginRight: 3,
             resizeMode: "contain",
           }}
-          source={require("../../assets/images/visa.png")}
+          source={require("../../assets/images/klarna.png")}
         ></Image>
         <Image
           style={{
@@ -133,7 +134,7 @@ const paiementMethods = [
             height: 45,
             resizeMode: "contain",
           }}
-          source={require("../../assets/images/mastercard.png")}
+          source={require("../../assets/images/alma.png")}
         ></Image>
       </View>
     ),
@@ -352,6 +353,7 @@ export const CheckoutScreen = ({ navigation }) => {
   const [paiementMethod, setPaiementMethod] = useState(paiementMethods[0].key);
   const [startPaiement, setStartPaiement] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [registerCard, setRegisterCard] = useState(false);
 
   const [
     addAdress,
@@ -390,7 +392,7 @@ export const CheckoutScreen = ({ navigation }) => {
       footer={
         <BottomButton
           loading={loading}
-          label={"Valider ma commande"}
+          label={"Confirmer et payer"}
           onPress={() => {
             setStartPaiement(true);
             setLoading(true);
@@ -463,23 +465,26 @@ export const CheckoutScreen = ({ navigation }) => {
           style={{
             marginTop: 14,
             width: "100%",
-            borderColor: "#222222",
-            borderWidth: 1,
+            borderColor: "#999999",
+            borderWidth: "1px",
             borderRadius: 20,
-            padding: 20,
-            paddingHorizontal: 10,
+            padding: 17,
+            paddingTop: 20,
+            paddingBottom: 26,
           }}
         >
-          <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: 17,
-              textAlign: "left",
-              marginBottom: 5,
-            }}
-          >
-            Reglement par carte
-          </Text>
+          <View>
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 16,
+                textAlign: "left",
+                marginBottom: 15,
+              }}
+            >
+              Règlement par carte
+            </Text>
+          </View>
 
           <View
             style={{
@@ -489,24 +494,43 @@ export const CheckoutScreen = ({ navigation }) => {
             <Text
               style={{
                 fontWeight: "regular",
-                fontSize: 12,
+                fontSize: 14,
                 textAlign: "left",
-                marginBottom: 5,
+                marginBottom: 10,
               }}
             >
-              Numéro de carte
+              Numéros de carte
             </Text>
             <StripePaiement
               navigation={navigation}
               setLoading={setLoading}
               billingDetails={{
-                name: "Rifki Idrissi",
+                name: "Rifki Illiasse",
                 email: "",
               }}
               startPaiement={startPaiement}
               setStartPaiement={setStartPaiement}
               paiementMethod={paiementMethod}
             />
+            <View className="flex-row align-center  items-center ml-1 mt-6">
+              <Switch
+                value={registerCard}
+                onValueChange={setRegisterCard}
+                circleSize={14}
+                barHeight={14}
+                circleBorderWidth={0}
+                backgroundActive="green"
+                backgroundInactive="#E6E6E6"
+                circleActiveColor="white"
+                circleInActiveColor="white"
+                renderActiveText={false}
+                renderInActiveText={false}
+                changeValueImmediately
+              />
+              <View className="ml-2">
+                <Text size="sm">Enregistrer ma carte</Text>
+              </View>
+            </View>
           </View>
         </View>
 
@@ -516,7 +540,7 @@ export const CheckoutScreen = ({ navigation }) => {
               fontWeight: "bold",
             }}
           >
-            📦 Colis
+            🔥 Récapitulatif
           </Text>
         </View>
       </View>
