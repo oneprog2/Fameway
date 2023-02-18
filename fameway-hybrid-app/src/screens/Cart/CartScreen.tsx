@@ -8,14 +8,15 @@ import {
 } from "@components";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { View, SectionList } from "react-native";
+import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { useMutation, useQuery } from "@apollo/client";
 
 import { CART_DATA, DELETE_CART_ITEM, UPDATE_CART_ITEM } from "@api";
 import { useRecoilState } from "recoil";
 import { currentUserState } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
+var _ = require("lodash");
 
 function SellerHeader({ first, store }: { first?: boolean; store: any }) {
   return (
@@ -176,11 +177,7 @@ export function TotalAmount({ onPress, totalPrice }: any) {
 
 export function Subtotal({ last }: { last?: boolean }) {
   return (
-    <View
-      className={`flex-row w-full mt-3 ${
-        last ? "border-b-[1px] border-[#E6E6E6] pb-3" : ""
-      }`}
-    >
+    <View className={`flex-row w-full mt-3 ${last ? "pb-3" : ""}`}>
       <View className="flex-1">
         <Text family="DM" position="left" weight="light" color="neutral-muted">
           Sub-total
@@ -220,6 +217,31 @@ export function CartScreen({
   }, [data]);
 
   const cartItems = data?.cart[0]?.cartItems || {};
+
+  const groupedByStore =
+    cartItems &&
+    cartItems.length > 0 &&
+    cartItems?.reduce((acc: any, item: any) => {
+      const storeName = item?.article?.store?.name;
+      if (!acc[storeName]) {
+        acc[storeName] = [];
+      }
+      acc[storeName].push({
+        articles: item?.article,
+        quantity: item?.quantity,
+        store: item?.article?.store,
+      });
+      return acc;
+    }, {});
+
+  const groupedArticlesArray =
+    groupedByStore &&
+    Object.keys(groupedByStore).map((key) => {
+      return {
+        storeName: key,
+        data: groupedByStore[key],
+      };
+    });
 
   const [deleteCartItem] = useMutation(DELETE_CART_ITEM, {
     onCompleted: () => {
@@ -272,52 +294,47 @@ export function CartScreen({
         </View>
       </View>
 
-      {cartItems && cartItems?.length > 0 ? (
-        <ScrollView
-          onScroll={(e) => {
-            setOffset(e.nativeEvent.contentOffset.y);
-          }}
-          style={{
-            borderTopColor: "#E2E2E2",
-            borderTopWidth: offset > 0 ? 1 : 0,
-          }}
-          className="mb-20"
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        >
-          {cartItems?.map((item, index) => {
-            if (item?.article)
-              return (
-                <View key={index} className="mx-4 mb-2">
-                  <SellerHeader
-                    store={item?.article?.store}
-                    first={index === 0}
-                  />
-                  <ArticleItem
-                    article={item?.article}
-                    quantity={item?.quantity ? item?.quantity : 1}
-                    deleteCartItem={() => {
-                      deleteCartItem({
-                        variables: {
-                          cartItemID: item?.id,
-                        },
-                      });
-                    }}
-                    setQuantity={(quantity) => {
-                      updateCartItem({
-                        variables: {
-                          cartItemID: item?.id,
-                          quantity,
-                        },
-                      });
-                    }}
-                  />
-                  {/* <Subtotal last={index === cart.length - 1} /> */}
-                </View>
-              );
-          })}
-          <View className="mb-4"></View>
-        </ScrollView>
+      {groupedArticlesArray?.length > 0 ? (
+        <View className="mx-4 mb-2 flex-1">
+          <SectionList
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            sections={groupedArticlesArray}
+            renderSectionFooter={({ section }) => (
+              <View className="mb-4 mt-4">
+                <Subtotal />
+              </View>
+            )}
+            ListFooterComponent={<View className="mb-32"></View>}
+            keyExtractor={(item, index) => item + index}
+            renderItem={({ item }) => (
+              <ArticleItem
+                article={item?.articles}
+                quantity={item?.quantity ? item?.quantity : 1}
+                deleteCartItem={() => {
+                  deleteCartItem({
+                    variables: {
+                      cartItemID: item?.id,
+                    },
+                  });
+                }}
+                setQuantity={(quantity) => {
+                  updateCartItem({
+                    variables: {
+                      cartItemID: item?.id,
+                      quantity,
+                    },
+                  });
+                }}
+              />
+            )}
+            stickySectionHeadersEnabled={false}
+            renderSectionHeader={({ section }) => {
+              const store = section?.data[0]?.store;
+              return <SellerHeader store={store} />;
+            }}
+          />
+        </View>
       ) : (
         <View className="flex-1 justify-center items-center mb-20">
           <Text
@@ -327,7 +344,7 @@ export function CartScreen({
             size="xl"
             color="black"
           >
-            Ton panier est vide
+            Votre panier est vide
           </Text>
         </View>
       )}
