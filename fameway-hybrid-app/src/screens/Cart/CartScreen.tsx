@@ -140,7 +140,7 @@ function ArticleItem({ article, quantity, setQuantity, deleteCartItem }: any) {
 
 export function TotalAmount({ onPress, totalPrice }: any) {
   return (
-    <View className="flex-row w-full absolute bottom-2 bg-white py-3 border-t-[0.5px] border-[#E6E6E6] px-4">
+    <View className="flex-row w-full absolute bottom-2 bg-white rounded-xl py-3 border-t-[0.5px] border-[#E6E6E6] px-4">
       <View className="flex-1">
         <View className="flex-1">
           <Text
@@ -179,13 +179,19 @@ export function Subtotal({ last }: { last?: boolean }) {
   return (
     <View className={`flex-row w-full mt-3 ${last ? "pb-3" : ""}`}>
       <View className="flex-1">
-        <Text family="DM" position="left" weight="light" color="neutral-muted">
-          Sub-total
+        <Text
+          size="md"
+          family="DM"
+          position="left"
+          weight="light"
+          color="neutral-muted"
+        >
+          Sous total
         </Text>
       </View>
 
       <View>
-        <Text family="DM" size="lg" position="left" weight="bold">
+        <Text family="DM" size="md" position="left" weight="bold">
           90 €
         </Text>
       </View>
@@ -295,17 +301,17 @@ export function CartScreen({
       </View>
 
       {groupedArticlesArray?.length > 0 ? (
-        <View className="mx-4 mb-2 flex-1">
+        <View className="mx-4 mb-10 flex-1">
           <SectionList
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
             sections={groupedArticlesArray}
             renderSectionFooter={({ section }) => (
-              <View className="mb-4 mt-4">
+              <View className="mb-6 mt-2">
                 <Subtotal />
               </View>
             )}
-            ListFooterComponent={<View className="mb-32"></View>}
+            ListFooterComponent={<View className="mb-20"></View>}
             keyExtractor={(item, index) => item + index}
             renderItem={({ item }) => (
               <ArticleItem

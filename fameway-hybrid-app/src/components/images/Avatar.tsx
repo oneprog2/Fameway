@@ -14,16 +14,14 @@ export type AvatarProps = {
 export const Avatar = ({ influencer, textColor, size = 44 }: AvatarProps) => {
   return (
     <View className="flex-row items-center">
-      {influencer && influencer.image ? (
-        <Image
-          style={{ width: size, height: size }}
-          resizeMode="contain"
-          className={"rounded-full bg-neutral-100"}
-          source={influencer.image}
-        />
-      ) : null}
+      <Image
+        style={{ width: size, height: size }}
+        resizeMode="contain"
+        className={"rounded-full bg-[#222]"}
+        source={{ uri: influencer.image }}
+      />
       <Text
-        className={influencer && influencer.image ? "pl-3" : "pl-0"}
+        className={"pl-2"}
         color={textColor}
         size="lg"
         weight="bold"

@@ -69,6 +69,7 @@ export const CartTabButton: React.FC<DataProps> = ({
           }}
           style={{
             zIndex: 2000,
+            overflow: "hidden",
             marginHorizontal: 10,
             shadowColor: "#000000",
             shadowOffset: { width: 0, height: 5 },
