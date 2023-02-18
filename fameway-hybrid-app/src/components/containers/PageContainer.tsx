@@ -37,8 +37,20 @@ export function PageContainer({
 
   return (
     <SafeAreaView edges={edges} className="flex-1 bg-white">
-      <PageHeader icon={icon} title={title} goBack={goBack} onPress={onPress} />
-      <Animated.View className="h-[1px] bg-neutral-12" style={borderStyle} />
+      {title || icon || goBack ? (
+        <>
+          <PageHeader
+            icon={icon}
+            title={title}
+            goBack={goBack}
+            onPress={onPress}
+          />
+          <Animated.View
+            className="h-[1px] bg-neutral-12"
+            style={borderStyle}
+          />
+        </>
+      ) : null}
       <Animated.ScrollView
         className="flex-1"
         onScroll={scrollHandler}

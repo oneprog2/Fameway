@@ -33,7 +33,7 @@ const MainPage = (store: any) => {
       />
     </View> */}
 
-      <View className="p-3 pb-10">
+      <View className="p-3 pt-4 pb-10">
         <CreateAccountCard backgroundColor="#f5f5f5" />
       </View>
     </Tabs.ScrollView>

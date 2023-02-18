@@ -203,7 +203,7 @@ export function LoginScreen({ navigation }) {
                 />
               </View>
             }
-            label="Log in with Google"
+            label="Se connecter avec Google"
           />
         </View>
         <Button
@@ -219,7 +219,7 @@ export function LoginScreen({ navigation }) {
               />
             </View>
           }
-          label="Log in with Apple"
+          label="Se connecter avec Apple"
           // onPress={async () => {
           //   try {
           //     const credential = await AppleAuthentication.signInAsync({

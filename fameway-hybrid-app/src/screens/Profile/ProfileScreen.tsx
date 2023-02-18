@@ -117,13 +117,13 @@ export function ProfileScreen({ navigation }) {
 
   return (
     <PageContainer>
-      <View className="flex-1 flex flex-col px-4">
-        <View className="pb-20 items-center">
-          <View className="flex-row items-center">
-            <View className="h-12 w-12">
+      <View className="flex-1 flex flex-col px-4 mt-14">
+        <View className="mb-20 items-center">
+          <View className="flex-row items-center mr-4">
+            <View className="h-20 w-20">
               <FamewayIcon />
             </View>
-            <Text family="Oblivian" weight="regular" size="4xl">
+            <Text family="Oblivian" weight="regular" size="5xl">
               Fameway
             </Text>
           </View>
@@ -136,53 +136,31 @@ export function ProfileScreen({ navigation }) {
           placeholderTextColor="black"
           placeholder="Email"
         />
-        {/* <View className="pb-6 pt-2">
-        <Input
-          placeholderTextColor="#a0a0a0"
-          secureTextEntry={hidePassword}
-          role="normal"
-          size="sm"
-          placeholder="Password"
-          endSlot={
-            <Button
-              role="empty"
-              onPress={() => setHidePassword(!hidePassword)}
-              startSlot={
-                <CustomIcon
-                  size={20}
-                  color="white"
-                  name={hidePassword ? "eye-off" : "eye"}
-                />
-              }
-            />
-          }
-        />
-      </View> */}
-        <View className="pt-4">
-          <Button role="normal" size="lg" roundness={"full"} label="Log in" />
+
+        <View className="pb-2 pt-2">
+          <Input
+            size="sm"
+            role="normal"
+            secureTextEntry={hidePassword}
+            startSlot={<CustomIcon size={20} color="black" name="lock" />}
+            placeholderTextColor="black"
+            placeholder="Mot de passe"
+          />
         </View>
         <View className="pt-4">
           <Button
             role="normal"
-            size="lg"
-            disabled
+            size="md"
             roundness={"full"}
-            label="Create an account"
+            label="Me connecter"
           />
         </View>
-        {/* <View className="pb-3 pt-4">
-          <Button
-            className="text-white underline"
-            role="empty"
-            label="Forgot password?"
-          />
-        </View> */}
         <View>
-          <View className="flex-row items-center py-10">
+          <View className="flex-row items-center py-6">
             <View className="flex-1 h-[1px] bg-neutral-12" />
             <View>
               <Text className="mx-4 align-center" color="neutral-8">
-                or continue with
+                Ou
               </Text>
             </View>
             <View className="flex-1 h-[1px] bg-neutral-12" />
@@ -192,7 +170,7 @@ export function ProfileScreen({ navigation }) {
           <Button
             onPress={() => navigation.navigate("SignUp")}
             role="outline"
-            size="lg"
+            size="md"
             roundness={"full"}
             startSlot={
               <View className="w-5 h-5">
@@ -203,12 +181,12 @@ export function ProfileScreen({ navigation }) {
                 />
               </View>
             }
-            label="Log in with Google"
+            label="Continuer avec Google"
           />
         </View>
         <Button
           roundness={"full"}
-          size="lg"
+          size="md"
           role="outline"
           startSlot={
             <View className="w-5 h-5">
@@ -219,7 +197,7 @@ export function ProfileScreen({ navigation }) {
               />
             </View>
           }
-          label="Log in with Apple"
+          label="Continuer avec Apple"
           // onPress={async () => {
           //   try {
           //     const credential = await AppleAuthentication.signInAsync({
@@ -235,12 +213,20 @@ export function ProfileScreen({ navigation }) {
           //   }
           // }}
         />
-        <View className="pt-6">
+        <View className="h-10 mt-10">
           <Button
             onPress={() => navigation.navigate("SignUp")}
-            className="text-primary-10"
+            className="text-[14px]"
             role="empty"
-            label="Don’t have an account? Sign up"
+            size="full"
+            startSlot={
+              <View className="flex-1 flex-row items-center justify-center">
+                <Text size="md">Tu n'as pas encore de compte ? </Text>
+                <Text size="md" weight="bold">
+                  {" Inscris-toi"}
+                </Text>
+              </View>
+            }
           />
         </View>
       </View>
