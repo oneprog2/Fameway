@@ -18,6 +18,9 @@ export const StoreHeader = ({ store }: StoreHeaderProps) => {
         <Image
           resizeMode="cover"
           className="h-full w-full rounded-2xl"
+          style={{
+            backgroundColor: store?.bannerPicture ? "transparent" : "#222222",
+          }}
           source={{ uri: store?.bannerPicture }}
         />
       </View>

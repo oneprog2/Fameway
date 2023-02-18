@@ -98,3 +98,28 @@ export const ARTICLE_DATA = gql`
     }
   }
 `;
+
+export const CART_DATA = gql`
+  query GetCart($userId: String) {
+    cart(where: { ownerID: { _eq: $userId }, wishlist: { _eq: false } }) {
+      id
+      name
+      ownerID
+      cartItems {
+        id
+        quantity
+        article {
+          id
+          name
+          price
+          articlePictures
+          store {
+            id
+            name
+            profilePicture
+          }
+        }
+      }
+    }
+  }
+`;

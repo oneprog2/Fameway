@@ -5,6 +5,14 @@
       "backgroundColor": "#222222",
       "resizeMode": "contain"
     },
+    "plugins": [
+      [
+        "react-native-auth0",
+        {
+          "domain": "https://auth.fameway.co/"
+        }
+      ]
+    ],
     "scheme": "fameway",
     "userInterfaceStyle": "automatic",
     "android": {

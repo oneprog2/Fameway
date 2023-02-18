@@ -28,19 +28,27 @@ export const ArticleCard = ({
   collectionCard,
   onPress,
   horizontal,
-  position = "left",
+  position = "right",
   backgroundColor = "#f4f4f4",
 }: ArticleCardProps) => {
   return (
-    <View className="w-full h-full flex-1 items-center ">
+    <View
+      className="flex-1 border-1"
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+      }}
+    >
       <View
-        className={
-          size === "flex"
-            ? "flex-1 w-full h-full"
-            : horizontal
-            ? "h-48 w-44 pl-4"
-            : "h-48 w-full px-4"
-        }
+        style={{
+          width: "100%",
+          height: "100%",
+          flex: 1,
+          marginBottom: 8,
+        }}
       >
         <CardContainer
           backgroundColor={backgroundColor}
@@ -55,7 +63,10 @@ export const ArticleCard = ({
               resizeMode="cover"
               resizeMethod="resize"
               source={{ uri: image }}
-              className={"h-full w-full"}
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
             ></Image>
           </TouchableOpacity>
 
@@ -83,17 +94,10 @@ export const ArticleCard = ({
         </CardContainer>
       </View>
 
-      <View
-        className={
-          size === "flex"
-            ? "flex-1 w-full h-full justify-center"
-            : horizontal
-            ? "w-44 px-4 pt-1"
-            : "w-full px-5 pt-1 pb-4"
-        }
-      >
+      <View>
         {name ? (
           <Text
+            adjustsFontSizeToFit={true}
             numberOfLines={collectionCard ? 2 : 1}
             weight="bold"
             size={description ? "md" : "xs"}
@@ -105,6 +109,7 @@ export const ArticleCard = ({
         ) : null}
         {description ? (
           <Text
+            adjustsFontSizeToFit={true}
             numberOfLines={collectionCard ? 0 : 1}
             className="pt-1"
             weight="regular"

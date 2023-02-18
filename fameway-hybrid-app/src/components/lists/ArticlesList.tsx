@@ -26,32 +26,43 @@ export const ArticlesList = ({
   disabled,
 }: ArticleListProps) => {
   const navigation = useNavigation();
+  const gap = 8;
 
   return (
     <FlatList
       scrollEnabled={!disabled}
       horizontal={horizontal}
-      numColumns={horizontal ? 1 : 2}
+      numColumns={2}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       data={articles}
       ListFooterComponent={() => <View className={horizontal ? "pl-4" : ""} />}
       renderItem={({ item, index }: { item: Article; index: number }) => {
         return (
-          <ArticleCard
-            onPress={() =>
-              navigation.navigate("ArticleDetail", { articleID: item.id })
-            }
-            tag={item.tag}
-            wishlistButton
-            horizontal={horizontal}
-            backgroundColor="#f4f4f4"
-            key={item.id}
-            name={item.name}
-            description={item.description}
-            price={item.price + "€"}
-            image={item?.articlePictures?.[0]}
-          />
+          <View
+            style={{
+              flex: 0.5,
+              width: "100%",
+              paddingTop: "83.33%",
+              marginHorizontal: 8,
+              marginBottom: 20,
+            }}
+          >
+            <ArticleCard
+              onPress={() =>
+                navigation.navigate("ArticleDetail", { articleID: item.id })
+              }
+              tag={item.tag}
+              wishlistButton
+              horizontal={horizontal}
+              backgroundColor="#f4f4f4"
+              key={item.id}
+              name={item.name}
+              description={item.description}
+              price={item.price + "€"}
+              image={item?.articlePictures?.[0]}
+            />
+          </View>
         );
       }}
     />

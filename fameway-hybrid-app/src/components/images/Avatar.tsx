@@ -23,13 +23,13 @@ export const Avatar = ({ influencer, textColor, size = 44 }: AvatarProps) => {
         />
       ) : null}
       <Text
-        className="pl-3"
+        className={influencer && influencer.image ? "pl-3" : "pl-0"}
         color={textColor}
-        size="xl"
+        size="lg"
         weight="bold"
         family="DM"
       >
-        {influencer?.name}
+        {influencer?.name?.charAt(0).toUpperCase() + influencer?.name?.slice(1)}
       </Text>
     </View>
   );

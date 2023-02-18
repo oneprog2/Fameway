@@ -7,11 +7,15 @@ import {
   QuantitySelector,
 } from "@components";
 import { useNavigation } from "@react-navigation/native";
-import { useAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { cartAtom } from "../../atoms/Atoms";
+import { useMutation, useQuery } from "@apollo/client";
+
+import { CART_DATA, DELETE_CART_ITEM, UPDATE_CART_ITEM } from "@api";
+import { useRecoilState } from "recoil";
+import { currentUserState } from "../../atoms/Atoms";
+import { useAtom } from "jotai";
 
 function SellerHeader({ first, store }: { first?: boolean; store: any }) {
   return (
@@ -36,27 +40,36 @@ function SellerHeader({ first, store }: { first?: boolean; store: any }) {
   );
 }
 
-function ArticleItem({ article, quantity, setQuantity }: { article: any }) {
+function ArticleItem({ article, quantity, setQuantity, deleteCartItem }: any) {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   return (
     <View className="flex-row mt-5">
-      <View className="w-24 h-32">
-        <ArticleCard size={"flex"} image={article?.articlePictures[0]} />
+      <View
+        style={{
+          height: 100,
+          width: 80,
+        }}
+      >
+        <ArticleCard size="flex" image={article?.articlePictures[0]} />
       </View>
-      <View className="flex-1 pl-5 pb-2">
-        <View className="flex-1 pr-1">
+      <View className="pl-5 pb-2 flex-1">
+        <View className="flex-1">
           <Text position="left" color="neutral-muted" family="DM">
             {article?.name}
           </Text>
-          <View className="flex-row pt-2">
-            <View className="flex-1">
-              <Text position="left">42</Text>
-            </View>
-
+          <View className="flex-row pt-2 pb-4 pr-2 justify-start">
             <View>
-              <Text weight="bold" position="left">
-                {article?.price}
+              <Text
+                style={{
+                  color: "#222",
+                  fontSize: 18,
+                  fontWeight: "bold",
+                }}
+                weight="bold"
+                position="left"
+              >
+                {article?.price} €
               </Text>
             </View>
           </View>
@@ -75,14 +88,38 @@ function ArticleItem({ article, quantity, setQuantity }: { article: any }) {
                 ></Button>
               </View>
             ) : (
-              <Button
-                onPress={() => setDeleteConfirmation(false)}
-                size="sm"
-                roundness="full"
-                label="Supprimer"
-                role="critical"
-                startSlot={<CustomIcon color="white" size={18} name="trash" />}
-              ></Button>
+              <View
+                style={{
+                  flexDirection: "row",
+                }}
+              >
+                <Button
+                  onPress={() => {
+                    deleteCartItem(article?.id);
+                    setDeleteConfirmation(false);
+                  }}
+                  size="sm"
+                  roundness="full"
+                  label="Supprimer"
+                  role="critical"
+                  startSlot={
+                    <CustomIcon color="white" size={18} name="trash" />
+                  }
+                ></Button>
+                <Button
+                  onPress={() => {
+                    setDeleteConfirmation(false);
+                  }}
+                  size="sm"
+                  roundness="full"
+                  label="Annuler"
+                  role="grey"
+                  style={{
+                    marginLeft: 10,
+                  }}
+                  startSlot={<CustomIcon color="#222" size={18} name="close" />}
+                ></Button>
+              </View>
             )}
           </View>
           {!deleteConfirmation ? (
@@ -100,7 +137,7 @@ function ArticleItem({ article, quantity, setQuantity }: { article: any }) {
   );
 }
 
-export function TotalAmount({ onPress }: any) {
+export function TotalAmount({ onPress, totalPrice }: any) {
   return (
     <View className="flex-row w-full absolute bottom-2 bg-white py-3">
       <View className="flex-1">
@@ -112,7 +149,7 @@ export function TotalAmount({ onPress }: any) {
 
         <View className="flex-1">
           <Text family="DM" size="xl" position="left" weight="bold">
-            500.00 €
+            {totalPrice}
           </Text>
         </View>
       </View>
@@ -159,9 +196,29 @@ export function CartScreen({
   closeCart?: () => void;
   navigation?: any;
 }) {
-  const [cart, setCart] = useAtom(cartAtom);
+  const [user, setUser] = useRecoilState(currentUserState);
+  console.log(user?.id);
+
+  const { data, loading, error, refetch } = useQuery(CART_DATA, {
+    variables: { userId: user?.id },
+  });
+
+  const cartItems = data?.cart[0]?.cartItems || {};
+
+  const [deleteCartItem] = useMutation(DELETE_CART_ITEM, {
+    onCompleted: () => {
+      refetch();
+    },
+  });
+
+  const [updateCartItem] = useMutation(UPDATE_CART_ITEM, {
+    onCompleted: () => {
+      refetch();
+    },
+  });
+
   return (
-    <View className="flex-1 mx-4 mt-4">
+    <View className="flex-1 mx-4 mt-5">
       <View className="flex-row">
         <View className="flex-1 justify-center">
           <View className="flex-row">
@@ -189,31 +246,62 @@ export function CartScreen({
         </View>
       </View>
 
-      <ScrollView
-        className="mb-20"
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        {cart?.map((item, index) => {
-          if (item?.article)
-            return (
-              <View key={index}>
-                <SellerHeader store={item?.store} first={index === 0} />
-                <ArticleItem
-                  article={item?.article}
-                  quantity={item?.quantity}
-                  setQuantity={(quantity) => {
-                    const newCart = [...cart];
-                    newCart[index].quantity = quantity;
-                    setCart(newCart);
-                  }}
-                />
-                <Subtotal last={index === cart.length - 1} />
-              </View>
-            );
-        })}
-      </ScrollView>
+      {cartItems && cartItems?.length > 0 ? (
+        <ScrollView
+          className="mb-20"
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
+          {cartItems?.map((item, index) => {
+            if (item?.article)
+              return (
+                <View key={index}>
+                  <SellerHeader
+                    store={item?.article?.store}
+                    first={index === 0}
+                  />
+                  <ArticleItem
+                    article={item?.article}
+                    quantity={item?.quantity ? item?.quantity : 1}
+                    deleteCartItem={() => {
+                      deleteCartItem({
+                        variables: {
+                          cartItemID: item?.id,
+                        },
+                      });
+                    }}
+                    setQuantity={(quantity) => {
+                      updateCartItem({
+                        variables: {
+                          cartItemID: item?.id,
+                          quantity,
+                        },
+                      });
+                    }}
+                  />
+                  {/* <Subtotal last={index === cart.length - 1} /> */}
+                </View>
+              );
+          })}
+        </ScrollView>
+      ) : (
+        <View className="flex-1 justify-center items-center mb-20">
+          <Text
+            position="center"
+            weight="bold"
+            family="DM"
+            size="xl"
+            color="black"
+          >
+            Votre panier est vide
+          </Text>
+        </View>
+      )}
       <TotalAmount
+        // totalPrice={cartItems?.reduce(
+        //   (acc, item) => acc + item?.article?.price * item?.quantity,
+        //   0
+        // )}
         onPress={() => {
           closeCart && closeCart();
           navigation.navigate("OrderStack", {

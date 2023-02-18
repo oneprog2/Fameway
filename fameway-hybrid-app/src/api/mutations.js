@@ -31,3 +31,50 @@ export const INSERT_ADDRESS = gql`
     }
   }
 `;
+
+export const CREATE_CART = gql`
+  mutation CreateCart($ownerID: String!) {
+    insert_cart_one(object: { ownerID: $ownerID }) {
+      id
+    }
+  }
+`;
+
+export const CREATE_CART_ITEM = gql`
+  mutation CreateCartItem(
+    $cartID: uuid!
+    $articleID: uuid!
+    $quantity: Int!
+    $price: numeric!
+  ) {
+    insert_cartItem_one(
+      object: {
+        cartID: $cartID
+        articleID: $articleID
+        quantity: $quantity
+        price: $price
+      }
+    ) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_CART_ITEM = gql`
+  mutation UpdateCartItem($cartItemID: uuid!, $quantity: Int!) {
+    update_cartItem_by_pk(
+      pk_columns: { id: $cartItemID }
+      _set: { quantity: $quantity }
+    ) {
+      id
+    }
+  }
+`;
+
+export const DELETE_CART_ITEM = gql`
+  mutation DeleteCartItem($cartItemID: uuid!) {
+    delete_cartItem_by_pk(id: $cartItemID) {
+      id
+    }
+  }
+`;

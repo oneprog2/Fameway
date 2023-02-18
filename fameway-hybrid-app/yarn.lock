@@ -6535,6 +6535,11 @@ gzip-size@5.1.1:
     duplexer "^0.1.1"
     pify "^4.0.1"
 
+hamt_plus@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/hamt_plus/-/hamt_plus-1.0.2.tgz#e21c252968c7e33b20f6a1b094cd85787a265601"
+  integrity sha512-t2JXKaehnMb9paaYA7J0BX8QQAY8lwfQ9Gjf4pg/mk4krt+cmwmU652HOoWonf+7+EQV97ARPMhhVgU1ra2GhA==
+
 handle-thing@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-2.0.1.tgz#857f79ce359580c340d43081cc648970d0bb234e"
@@ -10323,10 +10328,10 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-native-auth0@^2.16.0:
-  version "2.16.0"
-  resolved "https://registry.yarnpkg.com/react-native-auth0/-/react-native-auth0-2.16.0.tgz#6bca5d19ef1383897a89578b04a89427f3c78055"
-  integrity sha512-JB+otA4+3BndJIgXKnJz7iU93YRUNwVusjCg7RhYmDAwrSOzXaj2AlG5SRloONLXGFK/GBzvkb1fbE1f1Bznaw==
+react-native-auth0@^2.17.1:
+  version "2.17.1"
+  resolved "https://registry.yarnpkg.com/react-native-auth0/-/react-native-auth0-2.17.1.tgz#08a91200dd620e5b1e6a3ae8b344063755dd152a"
+  integrity sha512-H1rdjZQax9X0/MieYc6NvNonHeQ9TZNeFAs0dTTOLl50gDryH9wawDRvG6OJ6zwvwUXLCDKTa86IdwRe7ROv7w==
   dependencies:
     "@expo/config-plugins" "^4.1.5"
     base-64 "^0.1.0"
@@ -10564,6 +10569,13 @@ recast@^0.20.4:
     esprima "~4.0.0"
     source-map "~0.6.1"
     tslib "^2.0.1"
+
+recoil@^0.7.6:
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/recoil/-/recoil-0.7.6.tgz#75297ecd70bbfeeb72e861aa6141a86bb6dfcd5e"
+  integrity sha512-hsBEw7jFdpBCY/tu2GweiyaqHKxVj6EqF2/SfrglbKvJHhpN57SANWvPW+gE90i3Awi+A5gssOd3u+vWlT+g7g==
+  dependencies:
+    hamt_plus "1.0.2"
 
 recursive-readdir@2.2.2:
   version "2.2.2"

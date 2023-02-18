@@ -14,6 +14,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { StripeProvider } from "@stripe/stripe-react-native";
+import { RecoilRoot } from "recoil";
 
 const hasuraUri = "https://fameway.hasura.app/v1/graphql";
 
@@ -52,17 +53,19 @@ function App() {
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <StripeProvider
-        publishableKey="pk_test_51KJFWxHJnxebaUHZOwbj2uhXFetvvc9cNNmtxQ3hRXx4Kz2wukKhf611theDEpL6s9Ng5k6YkWrCjQO1pRntT7ke00mHbJuC98"
-        // merchantIdentifier="merchant.com.fameway"
-      >
-        <ApolloProvider client={client}>
-          <PortalProvider>
-            <StatusBar style="dark" />
-            <AppNavigator />
-          </PortalProvider>
-        </ApolloProvider>
-      </StripeProvider>
+      <RecoilRoot>
+        <StripeProvider
+          publishableKey="pk_test_51KJFWxHJnxebaUHZOwbj2uhXFetvvc9cNNmtxQ3hRXx4Kz2wukKhf611theDEpL6s9Ng5k6YkWrCjQO1pRntT7ke00mHbJuC98"
+          // merchantIdentifier="merchant.com.fameway"
+        >
+          <ApolloProvider client={client}>
+            <PortalProvider>
+              <StatusBar style="dark" />
+              <AppNavigator />
+            </PortalProvider>
+          </ApolloProvider>
+        </StripeProvider>
+      </RecoilRoot>
     </View>
   );
 }
