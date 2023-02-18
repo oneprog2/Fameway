@@ -41,20 +41,8 @@ export const CREATE_CART = gql`
 `;
 
 export const CREATE_CART_ITEM = gql`
-  mutation CreateCartItem(
-    $cartID: uuid!
-    $articleID: uuid!
-    $quantity: Int!
-    $price: numeric!
-  ) {
-    insert_cartItem_one(
-      object: {
-        cartID: $cartID
-        articleID: $articleID
-        quantity: $quantity
-        price: $price
-      }
-    ) {
+  mutation CreateCartItem($cartID: uuid!, $articleID: Int!) {
+    insert_cartItem_one(object: { cartID: $cartID, articleID: $articleID }) {
       id
     }
   }

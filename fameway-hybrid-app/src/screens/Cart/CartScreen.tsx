@@ -197,11 +197,19 @@ export function CartScreen({
   navigation?: any;
 }) {
   const [user, setUser] = useRecoilState(currentUserState);
-  console.log(user?.id);
 
   const { data, loading, error, refetch } = useQuery(CART_DATA, {
     variables: { userId: user?.id },
+    fetchPolicy: "network-only",
   });
+
+  useEffect(() => {
+    if (data)
+      setUser({
+        ...user,
+        cartID: data?.cart[0].id,
+      });
+  }, [data]);
 
   const cartItems = data?.cart[0]?.cartItems || {};
 

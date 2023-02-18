@@ -1,10 +1,14 @@
 import { Button, CustomIcon } from "@components";
 import { View } from "react-native";
 import { useAtom } from "jotai";
-import { cartAtom } from "../../atoms/Atoms";
+import { cartAtom, currentUserState } from "../../atoms/Atoms";
+import { useMutation } from "@apollo/client";
+import { CREATE_CART_ITEM } from "@api";
+import { useRecoilState } from "recoil";
 
 export const AddToCartButton = ({ article, store }) => {
-  const [cart, setCart] = useAtom(cartAtom);
+  const [createCartItem] = useMutation(CREATE_CART_ITEM);
+  const [user, setUser] = useRecoilState(currentUserState);
 
   return (
     <View className="flex-row flex-1 pt-3 items-end">
@@ -12,14 +16,12 @@ export const AddToCartButton = ({ article, store }) => {
         <Button
           role="normal"
           onPress={() => {
-            const articleInCart = cart.find(
-              (item) => item?.article?.id === article.id
-            );
-            if (articleInCart) {
-              articleInCart.quantity += 1;
-            } else {
-              setCart((cart) => [...cart, { article, store, quantity: 1 }]);
-            }
+            createCartItem({
+              variables: {
+                articleID: article?.id,
+                cartID: user?.cartID,
+              },
+            });
           }}
           label="Ajouter au panier"
           size="lg"

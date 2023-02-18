@@ -26,7 +26,6 @@ export const ArticlesList = ({
   disabled,
 }: ArticleListProps) => {
   const navigation = useNavigation();
-  const gap = 8;
 
   return (
     <FlatList

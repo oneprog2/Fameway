@@ -13,5 +13,6 @@ export const currentUserState = atom({
     verifiedEmail: true,
     name: "John Doe",
     nickname: "johndoe",
+    cartID: "",
   },
 });
