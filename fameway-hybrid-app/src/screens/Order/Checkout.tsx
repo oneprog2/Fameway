@@ -348,7 +348,7 @@ const MailEdit = () => {
 
 export const CheckoutScreen = ({ navigation }) => {
   const [shippingAdress, setShippingAdress] = useState("");
-  const [shippingMethod, setShippingMethod] = useState(deliveryMethod[2].label);
+  const [shippingMethod, setShippingMethod] = useState(deliveryMethod[2].key);
   const [paiementMethod, setPaiementMethod] = useState(paiementMethods[0].key);
   const [startPaiement, setStartPaiement] = useState(false);
   const [loading, setLoading] = useState(false);

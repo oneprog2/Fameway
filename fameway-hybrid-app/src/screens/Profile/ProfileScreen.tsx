@@ -147,6 +147,22 @@ export function ProfileScreen({ navigation }) {
             placeholder="Mot de passe"
           />
         </View>
+        <View className="h-8 w-full items-end">
+          <View className="w-24">
+            <Button
+              role="empty"
+              size="full"
+              startSlot={
+                <View className="pb-2 pt-2 pr-2">
+                  <Text position="right" size="xs">
+                    Un petit oubli ?
+                  </Text>
+                </View>
+              }
+            ></Button>
+          </View>
+        </View>
+
         <View className="pt-4">
           <Button
             role="normal"
@@ -155,6 +171,7 @@ export function ProfileScreen({ navigation }) {
             label="Me connecter"
           />
         </View>
+
         <View>
           <View className="flex-row items-center py-6">
             <View className="flex-1 h-[1px] bg-neutral-12" />

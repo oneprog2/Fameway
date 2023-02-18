@@ -155,12 +155,13 @@ export function TotalAmount({ onPress, totalPrice }: any) {
 
         <View className="flex-1">
           <Text family="DM" size="xl" position="left" weight="bold">
-            {totalPrice}
+            {totalPrice} €
           </Text>
         </View>
       </View>
       <View className="flex-1">
         <Button
+          disabled={totalPrice === 0 || !totalPrice}
           label="Commander"
           role="normal"
           size="lg"
@@ -231,6 +232,14 @@ export function CartScreen({
       refetch();
     },
   });
+
+  const totalPrice =
+    (cartItems?.length > 0 &&
+      cartItems?.reduce(
+        (acc: number, item: any) => acc + item?.quantity * item?.article?.price,
+        0
+      )) ||
+    0;
 
   return (
     <View className="flex-1">
@@ -316,18 +325,13 @@ export function CartScreen({
             size="xl"
             color="black"
           >
-            Votre panier est vide
+            Ton panier est vide
           </Text>
         </View>
       )}
+
       <TotalAmount
-        totalPrice={
-          cartItems?.length > 0 &&
-          cartItems?.reduce(
-            (acc, item) => acc + item?.article?.price * item?.quantity,
-            0
-          ) + " €"
-        }
+        totalPrice={totalPrice}
         onPress={() => {
           closeCart && closeCart();
           navigation.navigate("OrderStack", {
