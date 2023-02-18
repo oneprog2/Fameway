@@ -16,28 +16,52 @@ import { CART_DATA, DELETE_CART_ITEM, UPDATE_CART_ITEM } from "@api";
 import { useRecoilState } from "recoil";
 import { currentUserState } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
+import clsx from "clsx";
 var _ = require("lodash");
 
-function SellerHeader({ first, store }: { first?: boolean; store: any }) {
+function SellerHeader({
+  first,
+  store,
+  onPress,
+}: {
+  first?: boolean;
+  store: any;
+  onPress: any;
+}) {
   return (
-    <View className={`w-full flex-row  ${first ? "pt-2" : "pt-4"}`}>
-      <View className="flex-1">
-        <Avatar
-          size={34}
-          influencer={{
-            image: store?.profilePicture,
-            name: store?.name,
-          }}
-        />
-      </View>
-      <View className="justify-center">
-        {/* <Text size="sm">Un code promo ?</Text> */}
-      </View>
+    <View className={`w-36 h-10 flex-row `}>
+      <Button
+        onPress={onPress}
+        role="empty"
+        size="full"
+        startSlot={
+          <>
+            <View className="flex-1">
+              <Avatar
+                size={34}
+                influencer={{
+                  image: store?.profilePicture,
+                  name: store?.name,
+                }}
+              />
+            </View>
+            <View className="justify-center">
+              {/* <Text size="sm">Un code promo ?</Text> */}
+            </View>
+          </>
+        }
+      ></Button>
     </View>
   );
 }
 
-function ArticleItem({ article, quantity, setQuantity, deleteCartItem }: any) {
+function ArticleItem({
+  article,
+  quantity,
+  setQuantity,
+  deleteCartItem,
+  onPress,
+}: any) {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   return (
@@ -48,7 +72,11 @@ function ArticleItem({ article, quantity, setQuantity, deleteCartItem }: any) {
           width: 80,
         }}
       >
-        <ArticleCard size="flex" image={article?.articlePictures[0]} />
+        <ArticleCard
+          onPress={onPress}
+          size="flex"
+          image={article?.articlePictures[0]}
+        />
       </View>
       <View className="pl-5 pb-2 flex-1">
         <View className="flex-1">
@@ -232,6 +260,7 @@ export function CartScreen({
         articles: item?.article,
         quantity: item?.quantity,
         store: item?.article?.store,
+        cartItemID: item?.id,
       });
       return acc;
     }, {});
@@ -241,6 +270,7 @@ export function CartScreen({
     Object.keys(groupedByStore).map((key) => {
       return {
         storeName: key,
+        cartItemID: groupedByStore[key][0]?.cartItemID,
         data: groupedByStore[key],
       };
     });
@@ -297,13 +327,18 @@ export function CartScreen({
       </View>
 
       {groupedArticlesArray?.length > 0 ? (
-        <View className="mx-4 mb-10 flex-1">
+        <View className="mx-4 mb-10 mt-2 flex-1">
           <SectionList
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
             sections={groupedArticlesArray}
             renderSectionFooter={({ section }) => (
-              <View className="mt-2 pb-4 mb-2 border-b-[1px] border-[#E6E6E6]">
+              <View
+                className={clsx(
+                  "mt-2 pb-4 mb-2",
+                  "border-b-[1px] border-[#E6E6E6]"
+                )}
+              >
                 <Subtotal />
               </View>
             )}
@@ -311,19 +346,28 @@ export function CartScreen({
             keyExtractor={(item, index) => item + index}
             renderItem={({ item }) => (
               <ArticleItem
+                onPress={() => {
+                  navigation.navigate("HomeStack", {
+                    screen: "ArticleDetail",
+                    params: {
+                      articleID: item?.articles?.id,
+                    },
+                  });
+                  closeCart && closeCart();
+                }}
                 article={item?.articles}
                 quantity={item?.quantity ? item?.quantity : 1}
                 deleteCartItem={() => {
                   deleteCartItem({
                     variables: {
-                      cartItemID: item?.id,
+                      cartItemID: item?.cartItemID,
                     },
                   });
                 }}
                 setQuantity={(quantity) => {
                   updateCartItem({
                     variables: {
-                      cartItemID: item?.id,
+                      cartItemID: item?.cartItemID,
                       quantity,
                     },
                   });
@@ -333,7 +377,15 @@ export function CartScreen({
             stickySectionHeadersEnabled={false}
             renderSectionHeader={({ section }) => {
               const store = section?.data[0]?.store;
-              return <SellerHeader store={store} />;
+              return (
+                <SellerHeader
+                  store={store}
+                  onPress={() => {
+                    navigation.navigate("Store", { storeID: store.id });
+                    closeCart && closeCart();
+                  }}
+                />
+              );
             }}
           />
         </View>
