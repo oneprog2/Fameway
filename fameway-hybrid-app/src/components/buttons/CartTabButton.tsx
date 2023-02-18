@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Button } from "@components";
 import { Portal, PortalHost } from "@gorhom/portal";
 import BottomSheet from "@gorhom/bottom-sheet";
@@ -39,6 +39,23 @@ export const CartTabButton: React.FC<DataProps> = ({
       ]}
     >
       <Portal>
+        {open ? (
+          <Pressable
+            onPress={() => {
+              bottomSheetRef?.current?.close();
+              setOpen(!open);
+            }}
+            style={{
+              position: "absolute",
+              height: "100%",
+              width: "100%",
+              marginBottom: 20,
+              backgroundColor: "#222",
+              opacity: 0.4,
+              zIndex: 0,
+            }}
+          ></Pressable>
+        ) : null}
         <BottomSheet
           enablePanDownToClose
           detached={true}
@@ -51,6 +68,7 @@ export const CartTabButton: React.FC<DataProps> = ({
             else setOpen(true);
           }}
           style={{
+            zIndex: 2000,
             marginHorizontal: 10,
             shadowColor: "#000000",
             shadowOffset: { width: 0, height: 5 },

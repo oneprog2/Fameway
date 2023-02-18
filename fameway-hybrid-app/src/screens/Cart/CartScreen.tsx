@@ -139,7 +139,7 @@ function ArticleItem({ article, quantity, setQuantity, deleteCartItem }: any) {
 
 export function TotalAmount({ onPress, totalPrice }: any) {
   return (
-    <View className="flex-row w-full absolute bottom-2 bg-white py-3">
+    <View className="flex-row w-full absolute bottom-2 bg-white py-3 border-t-[0.5px] border-[#E6E6E6] px-4">
       <View className="flex-1">
         <View className="flex-1">
           <Text family="DM" position="left" weight="bold" color="neutral-muted">
@@ -197,6 +197,7 @@ export function CartScreen({
   navigation?: any;
 }) {
   const [user, setUser] = useRecoilState(currentUserState);
+  const [offset, setOffset] = useState(0);
 
   const { data, loading, error, refetch } = useQuery(CART_DATA, {
     variables: { userId: user?.id },
@@ -226,8 +227,8 @@ export function CartScreen({
   });
 
   return (
-    <View className="flex-1 mx-4 mt-5">
-      <View className="flex-row">
+    <View className="flex-1">
+      <View className="flex-row px-4 py-2">
         <View className="flex-1 justify-center">
           <View className="flex-row">
             <CustomIcon size={30} name="shopping-bag-converted"></CustomIcon>
@@ -239,7 +240,7 @@ export function CartScreen({
               size="xxl"
               color="black"
             >
-              Cart
+              Panier
             </Text>
           </View>
         </View>
@@ -256,6 +257,13 @@ export function CartScreen({
 
       {cartItems && cartItems?.length > 0 ? (
         <ScrollView
+          onScroll={(e) => {
+            setOffset(e.nativeEvent.contentOffset.y);
+          }}
+          style={{
+            borderTopColor: "#E2E2E2",
+            borderTopWidth: offset > 0 ? 1 : 0,
+          }}
           className="mb-20"
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
@@ -263,7 +271,7 @@ export function CartScreen({
           {cartItems?.map((item, index) => {
             if (item?.article)
               return (
-                <View key={index}>
+                <View key={index} className="mx-4 mb-2">
                   <SellerHeader
                     store={item?.article?.store}
                     first={index === 0}
@@ -291,6 +299,7 @@ export function CartScreen({
                 </View>
               );
           })}
+          <View className="mb-4"></View>
         </ScrollView>
       ) : (
         <View className="flex-1 justify-center items-center mb-20">
@@ -307,6 +316,7 @@ export function CartScreen({
       )}
       <TotalAmount
         totalPrice={
+          cartItems?.length > 0 &&
           cartItems?.reduce(
             (acc, item) => acc + item?.article?.price * item?.quantity,
             0

@@ -6,6 +6,7 @@ import {
   WishlistScreen,
   ArticleDetailScreen,
   StoreScreen,
+  CartScreen,
 } from "@screens";
 import { CartTabButton, CustomIcon, TabBarIcon } from "@components";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -62,7 +63,7 @@ export const CustomerStackNavigator = () => {
       />
       <Tab.Screen
         name="Cart"
-        component={HomeScreen}
+        component={CartScreen}
         listeners={{
           tabPress: (e) => {},
         }}
