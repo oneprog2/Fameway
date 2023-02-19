@@ -1,14 +1,13 @@
 import { Button, CustomIcon } from "@components";
 import { View } from "react-native";
 import { useAtom } from "jotai";
-import { cartAtom, currentUserState } from "../../atoms/Atoms";
+import { currentUserState } from "../../atoms/Atoms";
 import { useMutation } from "@apollo/client";
 import { CREATE_CART_ITEM } from "@api";
-import { useRecoilState } from "recoil";
 
 export const AddToCartButton = ({ article, store }) => {
   const [createCartItem] = useMutation(CREATE_CART_ITEM);
-  const [user, setUser] = useRecoilState(currentUserState);
+  const [user, setUser] = useAtom(currentUserState);
 
   return (
     <View className="flex-row flex-1 pt-3 items-end">

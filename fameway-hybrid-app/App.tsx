@@ -7,15 +7,9 @@ import { StatusBar } from "expo-status-bar";
 import "./styles.css";
 import "react-native-gesture-handler";
 import { PortalProvider } from "@gorhom/portal";
-import {
-  ApolloProvider,
-  ApolloClient,
-  InMemoryCache,
-  createHttpLink,
-} from "@apollo/client";
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { AuthProvider } from "./src/contexts/AuthContext";
 import { StripeProvider } from "@stripe/stripe-react-native";
-import { RecoilRoot } from "recoil";
 import { useAuth0, Auth0Provider } from "react-native-auth0";
 
 const hasuraUri = "https://fameway.hasura.app/v1/graphql";
@@ -55,21 +49,19 @@ function App() {
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <RecoilRoot>
-        <AuthProvider>
-          <StripeProvider
-            publishableKey="pk_test_51KJFWxHJnxebaUHZOwbj2uhXFetvvc9cNNmtxQ3hRXx4Kz2wukKhf611theDEpL6s9Ng5k6YkWrCjQO1pRntT7ke00mHbJuC98"
-            // merchantIdentifier="merchant.com.fameway"
-          >
-            <ApolloProvider client={client}>
-              <PortalProvider>
-                <StatusBar style="dark" />
-                <AppNavigator />
-              </PortalProvider>
-            </ApolloProvider>
-          </StripeProvider>
-        </AuthProvider>
-      </RecoilRoot>
+      <AuthProvider>
+        <StripeProvider
+          publishableKey="pk_test_51KJFWxHJnxebaUHZOwbj2uhXFetvvc9cNNmtxQ3hRXx4Kz2wukKhf611theDEpL6s9Ng5k6YkWrCjQO1pRntT7ke00mHbJuC98"
+          // merchantIdentifier="merchant.com.fameway"
+        >
+          <ApolloProvider client={client}>
+            <PortalProvider>
+              <StatusBar style="dark" />
+              <AppNavigator />
+            </PortalProvider>
+          </ApolloProvider>
+        </StripeProvider>
+      </AuthProvider>
     </View>
   );
 }

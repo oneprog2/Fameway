@@ -245,7 +245,7 @@ export function CartScreen({
   }, [data]);
 
   const cartItems = data?.cart[0]?.cartItems || {};
-  console.log(user);
+
   const groupedByStore =
     cartItems &&
     cartItems.length > 0 &&

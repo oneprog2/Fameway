@@ -348,6 +348,36 @@ const MailEdit = () => {
   );
 };
 
+export const groupCartItems = ({ cartItems }: any) => {
+  const groupedByStore =
+    cartItems &&
+    cartItems.length > 0 &&
+    cartItems?.reduce((acc: any, item: any) => {
+      const storeName = item?.article?.store?.name;
+      if (!acc[storeName]) {
+        acc[storeName] = [];
+      }
+      acc[storeName].push({
+        articles: item?.article,
+        quantity: item?.quantity,
+        store: item?.article?.store,
+        cartItemID: item?.id,
+      });
+      return acc;
+    }, {});
+
+  return (
+    groupedByStore &&
+    Object.keys(groupedByStore).map((key) => {
+      return {
+        storeName: key,
+        cartItemID: groupedByStore[key][0]?.cartItemID,
+        data: groupedByStore[key],
+      };
+    })
+  );
+};
+
 export const CheckoutScreen = ({ navigation }) => {
   const [shippingAdress, setShippingAdress] = useState("");
   const [shippingMethod, setShippingMethod] = useState(deliveryMethod[2].key);
@@ -405,6 +435,13 @@ export const CheckoutScreen = ({ navigation }) => {
   });
 
   if (adressesLoading) return <Text>Loading...</Text>;
+
+  const groupedArticles = groupCartItems({
+    cartItems: cartData?.cart[0]?.cartItems || {},
+  });
+  console.log("groupedArticles");
+  console.log(groupedArticles);
+  console.log("groupedArticles");
 
   return (
     <PageContainer
@@ -487,10 +524,11 @@ export const CheckoutScreen = ({ navigation }) => {
           style={{
             marginTop: 14,
             width: "100%",
-            borderColor: "#999999",
+            borderColor: "#222",
             borderRadius: 20,
             padding: 17,
             paddingTop: 20,
+            borderWidth: 1,
             paddingBottom: 26,
           }}
         >
@@ -514,7 +552,6 @@ export const CheckoutScreen = ({ navigation }) => {
           >
             <Text
               style={{
-                fontWeight: "regular",
                 fontSize: 14,
                 textAlign: "left",
                 marginBottom: 10,
