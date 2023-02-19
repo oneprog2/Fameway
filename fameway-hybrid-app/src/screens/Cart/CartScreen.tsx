@@ -398,13 +398,13 @@ export function CartScreen({
             size="xl"
             color="black"
           >
-            Votre panier est vide
+            Ton panier est vide
           </Text>
         </View>
       )}
 
       <TotalAmount
-        totalPrice={totalPrice}
+        totalPrice={200}
         onPress={() => {
           closeCart && closeCart();
           navigation.navigate("OrderStack", {

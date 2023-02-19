@@ -88,7 +88,12 @@ export const StoreScreen = ({ navigation }: any) => {
       borderBottomWidth: 0,
     },
     headerTitle: () => (
-      <Text size="xxl" weight="bold">
+      <Text
+        adjustsFontSizeToFit={true}
+        numberOfLines={1}
+        size="xxl"
+        weight="bold"
+      >
         {store?.name}
       </Text>
     ),

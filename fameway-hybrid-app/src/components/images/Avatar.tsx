@@ -21,7 +21,9 @@ export const Avatar = ({ influencer, textColor, size = 44 }: AvatarProps) => {
         source={{ uri: influencer.image }}
       />
       <Text
+        numberOfLines={1}
         className={"pl-2"}
+        adjustsFontSizeToFit={true}
         color={textColor}
         size="lg"
         weight="bold"

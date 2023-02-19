@@ -37,15 +37,22 @@ export const StoreHeader = ({ store }: StoreHeaderProps) => {
           />
         </View>
 
-        <View className="ml-4 pr-2 flex-row flex-1" pointerEvents="box-none">
+        <View
+          className="ml-4 pr-2 flex-row flex-wrap flex-1"
+          pointerEvents="box-none"
+        >
           <View className="flex-1 justify-center" pointerEvents="none">
-            <Text position={"left"} size="xl" weight="bold">
+            <Text
+              position={"left"}
+              size="xl"
+              weight="bold"
+              adjustsFontSizeToFit={true}
+              numberOfLines={2}
+            >
               {store?.name}
             </Text>
-            <Text position={"left"} size="sm" weight="light">
-              @{store?.name}
-            </Text>
           </View>
+
           <View className="flex-1  justify-center" pointerEvents="box-none">
             <Button
               roundness={"full"}
