@@ -34,7 +34,7 @@ export function AuthProvider({ children }: any) {
     setUser({});
   };
 
-  const signin = ({ email, password }) => {
+  const signin = async ({ email, password }) => {
     if (!EmailValidator.validate(email)) {
       console.log("Illegal email");
       return {
@@ -60,7 +60,7 @@ export function AuthProvider({ children }: any) {
       scope: params.scope,
     };
 
-    fetch(`https://${params.domain}/oauth/token`, {
+    await fetch(`https://${params.domain}/oauth/token`, {
       method: "POST",
       headers: {
         Accept: "application/json",

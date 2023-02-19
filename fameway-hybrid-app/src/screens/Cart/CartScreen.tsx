@@ -397,9 +397,14 @@ export function CartScreen({
         totalPrice={200}
         onPress={() => {
           closeCart && closeCart();
-          navigation.navigate("OrderStack", {
-            screen: "Checkout",
-          });
+          if (!user?.sub) {
+            navigation.navigate("OrderStack", {
+              screen: "SignIn",
+            });
+          } else
+            navigation.navigate("OrderStack", {
+              screen: "Checkout",
+            });
         }}
       />
     </View>

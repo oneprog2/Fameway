@@ -1,4 +1,4 @@
-import { CheckoutScreen, SuccessPaiementScreen } from "@screens";
+import { CheckoutScreen, Login, SuccessPaiementScreen } from "@screens";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const OrderStack = createNativeStackNavigator();
@@ -13,6 +13,8 @@ export const OrderStackNavigator = () => {
         name="SuccessPaiement"
         component={SuccessPaiementScreen}
       />
+
+      <OrderStack.Screen name="SignIn" component={Login} />
     </OrderStack.Navigator>
   );
 };
