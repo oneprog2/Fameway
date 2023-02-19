@@ -20,7 +20,12 @@ const App = () => {
   const { isLoading, loginWithRedirect, isAuthenticated } = useAuth0();
   const [notReady, setNotReady] = useState(true);
 
-  const { user } = useAuth0();
+  const { user, getIdTokenClaims } = useAuth0();
+
+  getIdTokenClaims().then((res) => {
+    console.log(res);
+  });
+
   const { data, error } = useQuery(CURRENT_USER, {
     variables: { email: user?.email },
   });

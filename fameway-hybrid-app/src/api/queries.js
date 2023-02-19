@@ -14,6 +14,19 @@ export const CURRENT_USER = gql`
   }
 `;
 
+export const USER_DATA = gql`
+  query GetUserData($id: string!) {
+    user_by_pk(id: $id) {
+      id
+      username
+      email
+      firstname
+      lastname
+      phonenumber
+    }
+  }
+`;
+
 export const STORE_DATA = gql`
   query getStore($storeID: uuid!) {
     store_by_pk(id: $storeID) {

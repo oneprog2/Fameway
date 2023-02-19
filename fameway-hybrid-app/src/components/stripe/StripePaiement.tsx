@@ -2,17 +2,10 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet, TextInput, Button, Alert } from "react-native";
 import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
 import { gql, useMutation } from "@apollo/client";
+import { CREATE_PAYMENT_INTENT } from "@api";
 
 //ADD localhost address of your server
 const API_URL = "http://localhost:3000";
-
-const CREATE_PAYMENT_INTENT = gql`
-  mutation createPaymentIntent {
-    createPaymentIntent {
-      clientSecret
-    }
-  }
-`;
 
 export const StripePaiement = ({
   startPaiement,
@@ -27,7 +20,11 @@ export const StripePaiement = ({
   const [createPaymentIntent] = useMutation(CREATE_PAYMENT_INTENT);
 
   const fetchPaymentIntentClientSecret = async () => {
-    return await createPaymentIntent().then((res) => {
+    return await createPaymentIntent({
+      variables: {
+        paiementMethod: paiementMethod,
+      },
+    }).then((res) => {
       return {
         clientSecret: res.data.createPaymentIntent.clientSecret,
         error: res.errors,
@@ -91,7 +88,7 @@ export const StripePaiement = ({
     <CardField
       postalCodeEnabled={false}
       placeholder={{
-        number: "4242 4242 4242 4242",
+        number: "1234 1234 1234 1234",
       }}
       cardStyle={{
         borderRadius: 10,

@@ -9,10 +9,12 @@ import {
   StripePaiement,
 } from "@components";
 
-import { ADDRESSES_DATA, INSERT_ADDRESS } from "@api";
+import { ADDRESSES_DATA, CART_DATA, INSERT_ADDRESS, USER_DATA } from "@api";
 import { useRef, useState } from "react";
 import { View, TextInput, Image } from "react-native";
 import { Switch } from "react-native-switch";
+import { useAtom } from "jotai";
+import { userAtom } from "../../atoms/Atoms";
 
 const deliveryMethod = [
   {
@@ -299,7 +301,6 @@ const ShippingAddress = () => {
             <View
               style={{
                 flexDirection: "row",
-                justifyContent: "row",
                 alignItems: "center",
               }}
             >
@@ -354,6 +355,17 @@ export const CheckoutScreen = ({ navigation }) => {
   const [startPaiement, setStartPaiement] = useState(false);
   const [loading, setLoading] = useState(false);
   const [registerCard, setRegisterCard] = useState(false);
+  const [user, setUser] = useAtom(userAtom);
+
+  const {
+    data: cartData,
+    error: cartError,
+    loading: cartLoading,
+  } = useQuery(CART_DATA, {
+    variables: {
+      ownerID: user?.sub,
+    },
+  });
 
   const [
     addAdress,
@@ -382,6 +394,16 @@ export const CheckoutScreen = ({ navigation }) => {
     loading: adressesLoading,
   } = useQuery(ADDRESSES_DATA);
 
+  const {
+    data: userData,
+    error: userError,
+    loading: userLoading,
+  } = useQuery(USER_DATA, {
+    variables: {
+      id: user?.sub,
+    },
+  });
+
   if (adressesLoading) return <Text>Loading...</Text>;
 
   return (
@@ -404,8 +426,8 @@ export const CheckoutScreen = ({ navigation }) => {
         style={{
           marginHorizontal: 20,
           marginTop: 24,
-          justifyContent: "start",
-          alignItems: "start",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
         }}
       >
         <Text
@@ -466,7 +488,6 @@ export const CheckoutScreen = ({ navigation }) => {
             marginTop: 14,
             width: "100%",
             borderColor: "#999999",
-            borderWidth: "1px",
             borderRadius: 20,
             padding: 17,
             paddingTop: 20,
@@ -505,8 +526,12 @@ export const CheckoutScreen = ({ navigation }) => {
               navigation={navigation}
               setLoading={setLoading}
               billingDetails={{
-                name: "Rifki Illiasse",
-                email: "",
+                name: userData?.user?.name,
+                email: userData?.user?.email,
+                phone: userData?.user?.phonenumber,
+                firstname: userData?.user?.firstname,
+                lastname: userData?.user?.lastname,
+                adress: shippingAdress,
               }}
               startPaiement={startPaiement}
               setStartPaiement={setStartPaiement}

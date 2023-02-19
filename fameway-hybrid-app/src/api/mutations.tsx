@@ -66,3 +66,31 @@ export const DELETE_CART_ITEM = gql`
     }
   }
 `;
+
+export type payment_intent_billing_details_input = {
+  name: string;
+  firstname: string;
+  lastname: string;
+  address: {
+    line1: string;
+    line2: string;
+    city: string;
+    state: string;
+    postal_code: string;
+    country: string;
+  };
+  email: string;
+  phone: string;
+};
+
+export const CREATE_PAYMENT_INTENT = gql`
+  mutation createPaymentIntent(
+    $amount: Int!
+    $payment_method_types: [String!]!
+    $billing_details: payment_intent_billing_details_input!
+  ) {
+    createPaymentIntent {
+      clientSecret
+    }
+  }
+`;
