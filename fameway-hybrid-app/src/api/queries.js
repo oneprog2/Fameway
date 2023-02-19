@@ -1,28 +1,14 @@
 import { gql } from "@apollo/client";
 
-export const CURRENT_USER = gql`
-  query GetCurrentUser($email: String!) {
-    user(where: { email: { _eq: $email } }) {
-      username
-      id
-      firstOpening
-      stores {
-        id
-        name
-      }
-    }
-  }
-`;
-
 export const USER_DATA = gql`
-  query GetUserData($id: string!) {
+  query GetUserData($id: String!) {
     user_by_pk(id: $id) {
       id
       username
       email
-      firstname
-      lastname
-      phonenumber
+      carts(where: { wishlist: { _eq: false } }) {
+        id
+      }
     }
   }
 `;
@@ -113,8 +99,8 @@ export const ARTICLE_DATA = gql`
 `;
 
 export const CART_DATA = gql`
-  query GetCart($userId: String, $wishlist: Boolean) {
-    cart(where: { ownerID: { _eq: $userId }, wishlist: { _eq: $wishlist } }) {
+  query GetCart($ownerID: String, $wishlist: Boolean) {
+    cart(where: { ownerID: { _eq: $ownerID }, wishlist: { _eq: $wishlist } }) {
       id
       name
       ownerID

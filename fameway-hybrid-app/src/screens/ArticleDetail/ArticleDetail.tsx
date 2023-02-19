@@ -113,6 +113,7 @@ export const ArticleDetailScreen = ({ navigation }: any) => {
       articleID: articleID,
     },
   });
+
   const article = articleData?.article_by_pk;
 
   return (

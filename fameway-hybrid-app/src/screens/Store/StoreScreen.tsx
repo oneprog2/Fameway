@@ -75,6 +75,7 @@ export const StoreScreen = ({ navigation }: any) => {
     variables: {
       storeID: storeID,
     },
+    fetchPolicy: "cache-and-network",
   });
   const store = storeData?.store_by_pk;
 

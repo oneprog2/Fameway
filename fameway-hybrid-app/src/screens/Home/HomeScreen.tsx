@@ -16,7 +16,9 @@ export const HomeScreen = ({ navigation }) => {
     data: storeData,
     error: storeError,
     loading: storeLoading,
-  } = useQuery(STORES_DATA);
+  } = useQuery(STORES_DATA, {
+    fetchPolicy: "cache-and-network",
+  });
 
   const {
     data: mainCardData,

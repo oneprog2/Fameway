@@ -7,6 +7,8 @@ import EmailValidator from "email-validator";
 import params from "../../auth0-params.json";
 import { useAtom } from "jotai";
 import { userAtom } from "../atoms/Atoms";
+import { useQuery } from "@apollo/client";
+import { USER_DATA } from "@api";
 
 const AuthContext = createContext<any>({});
 
@@ -16,6 +18,21 @@ export function AuthProvider({ children }: any) {
   useEffect(() => {
     syncAuth();
   }, []);
+
+  const { data, loading, error } = useQuery(USER_DATA, {
+    variables: {
+      id: user?.sub,
+    },
+  });
+
+  useEffect(() => {
+    if (data) {
+      setUser({
+        ...user,
+        cartID: data?.user_by_pk?.carts?.[0].id,
+      });
+    }
+  }, [data]);
 
   const syncAuth = async () => {
     const idToken = await AsyncStorage.getItem("idToken");
@@ -69,13 +86,17 @@ export function AuthProvider({ children }: any) {
       body: JSON.stringify(bodyParams),
     })
       .then((response) => response.json())
-      .then((responseJson) => {
+      .then(async (responseJson) => {
         if (responseJson.error) {
           console.log("fail to login");
           return;
         }
         const { id_token, access_token, expires_in } = responseJson;
-        console.log(id_token);
+
+        await AsyncStorage.setItem("idToken", id_token);
+        await AsyncStorage.setItem("accessToken", access_token);
+        await AsyncStorage.setItem("expiresIn", expires_in.toString());
+
         setUser(jwtDecode(id_token));
 
         return {

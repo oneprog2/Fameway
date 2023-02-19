@@ -49,19 +49,19 @@ function App() {
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <AuthProvider>
-        <StripeProvider
-          publishableKey="pk_test_51KJFWxHJnxebaUHZOwbj2uhXFetvvc9cNNmtxQ3hRXx4Kz2wukKhf611theDEpL6s9Ng5k6YkWrCjQO1pRntT7ke00mHbJuC98"
-          // merchantIdentifier="merchant.com.fameway"
-        >
-          <ApolloProvider client={client}>
+      <ApolloProvider client={client}>
+        <AuthProvider>
+          <StripeProvider
+            publishableKey="pk_test_51KJFWxHJnxebaUHZOwbj2uhXFetvvc9cNNmtxQ3hRXx4Kz2wukKhf611theDEpL6s9Ng5k6YkWrCjQO1pRntT7ke00mHbJuC98"
+            // merchantIdentifier="merchant.com.fameway"
+          >
             <PortalProvider>
               <StatusBar style="dark" />
               <AppNavigator />
             </PortalProvider>
-          </ApolloProvider>
-        </StripeProvider>
-      </AuthProvider>
+          </StripeProvider>
+        </AuthProvider>
+      </ApolloProvider>
     </View>
   );
 }

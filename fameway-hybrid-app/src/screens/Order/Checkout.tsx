@@ -396,6 +396,7 @@ export const CheckoutScreen = ({ navigation }) => {
       ownerID: user?.sub,
     },
   });
+  console.log(cartData);
 
   const [
     addAdress,

@@ -231,16 +231,21 @@ export function CartScreen({
   const [offset, setOffset] = useState(0);
 
   const { data, loading, error, refetch } = useQuery(CART_DATA, {
-    variables: { userId: user?.id },
+    variables: { ownerID: user?.sub, wishlist: false },
     fetchPolicy: "network-only",
   });
-  console.log(error);
+
+  console.log("data", error);
 
   useEffect(() => {
-    if (data)
+    refetch();
+  }, []);
+
+  useEffect(() => {
+    if (data && data?.cart?.[0])
       setUser({
         ...user,
-        cartID: data?.cart[0].id,
+        cartID: data?.cart?.[0].id,
       });
   }, [data]);
 

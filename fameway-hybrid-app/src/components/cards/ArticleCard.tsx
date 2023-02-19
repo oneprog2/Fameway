@@ -1,6 +1,8 @@
 import { CardContainer, Text, Button, CustomIcon } from "@components";
+import { useAtom } from "jotai";
 import { View, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { userAtom } from "src/atoms/Atoms";
 
 export type ArticleCardProps = {
   name?: string;
@@ -31,6 +33,12 @@ export const ArticleCard = ({
   position = "right",
   backgroundColor = "#f4f4f4",
 }: ArticleCardProps) => {
+  // const [user, setUser] = useAtom(userAtom);
+
+  const addItemToWishlist = () => {
+    console.log("added to wishlist");
+  };
+
   return (
     <View
       className="flex-1 border-1"
@@ -83,6 +91,7 @@ export const ArticleCard = ({
           ) : null}
           {wishlistButton ? (
             <Button
+              onPress={() => console.log("pressed")}
               size="sm"
               roundness="full"
               role="white"
