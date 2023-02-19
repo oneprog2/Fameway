@@ -100,15 +100,17 @@ export const ARTICLE_DATA = gql`
 `;
 
 export const CART_DATA = gql`
-  query GetCart($userId: String) {
-    cart(where: { ownerID: { _eq: $userId }, wishlist: { _eq: false } }) {
+  query GetCart($userId: String, $wishlist: Boolean) {
+    cart(where: { ownerID: { _eq: $userId }, wishlist: { _eq: $wishlist } }) {
       id
       name
       ownerID
+      created_at
       cartItems {
         id
         quantity
         article {
+          created_at
           id
           name
           price

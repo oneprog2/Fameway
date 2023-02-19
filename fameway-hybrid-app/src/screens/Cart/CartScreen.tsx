@@ -29,7 +29,7 @@ function SellerHeader({
   onPress: any;
 }) {
   return (
-    <View className={`w-36 h-10 flex-row `}>
+    <View className={`h-10 flex-row `}>
       <Button
         onPress={onPress}
         role="empty"
@@ -237,6 +237,7 @@ export function CartScreen({
     variables: { userId: user?.id },
     fetchPolicy: "network-only",
   });
+  console.log(error);
 
   useEffect(() => {
     if (data)
@@ -286,14 +287,6 @@ export function CartScreen({
       refetch();
     },
   });
-
-  const totalPrice =
-    (cartItems?.length > 0 &&
-      cartItems?.reduce(
-        (acc: number, item: any) => acc + item?.quantity * item?.article?.price,
-        0
-      )) ||
-    0;
 
   return (
     <View className="flex-1">
