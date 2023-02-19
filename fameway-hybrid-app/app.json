@@ -9,18 +9,27 @@
       [
         "react-native-auth0",
         {
-          "domain": "https://auth.fameway.co/"
+          "domain": "dev-lzkir111o3ip75a0.us.auth0.com"
         }
       ]
     ],
     "scheme": "fameway",
     "userInterfaceStyle": "automatic",
     "android": {
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "package": "co.oneprog.fameway"
     },
     "ios": {
       "infoPlist": {
-        "LSApplicationQueriesSchemes": ["fameway"]
+        "LSApplicationQueriesSchemes": [
+          "fameway"
+        ]
+      },
+      "bundleIdentifier": "co.oneprog.fameway"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "48dbd8bb-4294-4135-b011-2def7aae6cee"
       }
     }
   }

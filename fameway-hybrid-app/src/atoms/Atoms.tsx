@@ -1,9 +1,11 @@
-import { atom } from "recoil";
+import { atom } from "jotai";
 
 export const cartState = atom({
   key: "cartState",
   default: [{}],
 });
+
+export const userAtom = atom({});
 
 export const currentUserState = atom({
   key: "currentUser",

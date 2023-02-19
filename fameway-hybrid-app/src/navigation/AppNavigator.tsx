@@ -8,11 +8,7 @@ import { PresentationScreen, ArticleDetailScreen, StoreScreen } from "@screens";
 import { useColorScheme } from "react-native";
 import { useGetOnboardingStatus } from "@hooks";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import {
-  AuthStackNavigator,
-  OrderStackNavigator,
-  CustomerStackNavigator,
-} from "@navigation";
+import { OrderStackNavigator, CustomerStackNavigator } from "@navigation";
 import { useState } from "react";
 import * as Linking from "expo-linking";
 
@@ -50,8 +46,8 @@ export const AppNavigator = () => {
   return (
     <NavigationContainer
       ref={navigationRef}
-      theme={scheme === "dark" ? DarkTheme : DefaultTheme}
       linking={linking}
+      theme={scheme === "dark" ? DarkTheme : DefaultTheme}
     >
       <Stack.Navigator
         screenOptions={{

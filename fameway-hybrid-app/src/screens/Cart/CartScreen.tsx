@@ -6,17 +6,14 @@ import {
   Text,
   QuantitySelector,
 } from "@components";
-import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { View, SectionList } from "react-native";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { useMutation, useQuery } from "@apollo/client";
 
 import { CART_DATA, DELETE_CART_ITEM, UPDATE_CART_ITEM } from "@api";
-import { useRecoilState } from "recoil";
-import { currentUserState } from "../../atoms/Atoms";
 import { useAtom } from "jotai";
 import clsx from "clsx";
+import { userAtom } from "../../atoms/Atoms";
 var _ = require("lodash");
 
 function SellerHeader({
@@ -230,7 +227,7 @@ export function CartScreen({
   closeCart?: () => void;
   navigation?: any;
 }) {
-  const [user, setUser] = useRecoilState(currentUserState);
+  const [user, setUser] = useAtom(userAtom);
   const [offset, setOffset] = useState(0);
 
   const { data, loading, error, refetch } = useQuery(CART_DATA, {
@@ -248,7 +245,7 @@ export function CartScreen({
   }, [data]);
 
   const cartItems = data?.cart[0]?.cartItems || {};
-
+  console.log(user);
   const groupedByStore =
     cartItems &&
     cartItems.length > 0 &&

@@ -24,6 +24,7 @@
       "@themes": ["src/themes/index"],
       "@styles": ["src/styles/index"],
       "@navigation": ["src/navigation/index"],
+      "@contexts": ["src/contexts/index"],
       "@api": ["src/api/index"]
     }
   },

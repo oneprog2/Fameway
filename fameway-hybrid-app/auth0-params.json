@@ -1,0 +1,8 @@
+{
+  "domain": "dev-lzkir111o3ip75a0.us.auth0.com",
+  "clientId": "fvFanDY5XxF2Op7kITivNKSox5mv6e6M",
+  "callbackUrl": "",
+  "realm": "Username-Password-Authentication",
+  "apiAudience": "fameway-admin",
+  "scope": "openid role email update:email update:password"
+}

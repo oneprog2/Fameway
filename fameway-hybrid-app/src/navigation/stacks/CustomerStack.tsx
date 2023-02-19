@@ -7,6 +7,7 @@ import {
   ArticleDetailScreen,
   StoreScreen,
   CartScreen,
+  SignUpScreen,
 } from "@screens";
 import { CartTabButton, CustomIcon, TabBarIcon } from "@components";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -21,6 +22,17 @@ export const HomeStackNavigator = () => {
       <HomeStack.Screen name="Dashboard" component={HomeScreen} />
       <HomeStack.Screen name="ArticleDetail" component={ArticleDetailScreen} />
       <HomeStack.Screen name="Store" component={StoreScreen} />
+    </HomeStack.Navigator>
+  );
+};
+
+const ProfileStack = createNativeStackNavigator();
+
+export const ProfileStackNavigator = () => {
+  return (
+    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+      <HomeStack.Screen name="Profile" component={ProfileScreen} />
+      <HomeStack.Screen name="SignUp" component={SignUpScreen} />
     </HomeStack.Navigator>
   );
 };
@@ -104,7 +116,7 @@ export const CustomerStackNavigator = () => {
           ),
         }}
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileStackNavigator}
       />
     </Tab.Navigator>
   );
